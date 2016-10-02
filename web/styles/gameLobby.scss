@@ -1,0 +1,41 @@
+$item-height: 200px;
+
+.player-slot {
+  //border: 5px solid black;
+  height: $item-height;
+  border-radius: 20px;
+  margin: 10px;
+  text-align: center;
+  .player-slot-content {
+    i {
+      font-size: 100px;
+      margin: 20px;
+    }
+
+    .fa-question-circle-o {
+      animation-name: example;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+    }
+  }
+}
+
+
+/* Standard syntax */
+@keyframes example {
+  0% {
+    color: grey;
+  }
+  50% {
+    color: lightgray;
+  }
+  100% {
+    color: grey;
+  }
+}
+
+//@-webkit-keyframes myfirst {
+//  0%   {background-color:white}
+//  50%  {background-color:black}
+//  100% {background-color:white}
+//}

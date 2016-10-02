@@ -1,0 +1,79 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+// bower:scss
+@import "../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+// endbower
+@import "login";
+@import "mainLobby";
+@import "gameLobby";
+
+$cell-size :30px;
+$cell-base-color :red;
+$cell-wrapper-color :darkred;
+$wrapper-text-color :white;
+$cell-spacing: 3px;
+$transition-time: 0.2s;
+$wrapper-inner-size : 20px;
+
+.cell {
+  transition: background $transition-time,box-shadow $transition-time;
+  background: $cell-base-color;
+  width: $cell-size;
+  height: $cell-size;
+
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    background: lighten($cell-base-color,30%);
+  }
+  &.black{
+    background: darken($cell-base-color,30%);
+  }
+  &.white{
+    background: lighten($cell-base-color,40%);
+  }
+  &.selected {
+    box-shadow:  inset 2px 2px 8px rgba(0,0,0,0.8);
+  }
+}
+
+.wrapper {
+  cursor: pointer;
+  color : $wrapper-text-color;
+  background: $cell-wrapper-color;
+
+  &:active {
+    box-shadow:  inset 2px 2px 8px rgba(0,0,0,0.8);
+  }
+
+  .wrapper-inner-content {
+    width: $wrapper-inner-size;
+    height: $wrapper-inner-size;
+    text-align: center;
+    margin: auto;
+  }
+
+  &.left-wrapper {
+    .wrapper-inner-content {
+      display: inline-block;
+      float: left;
+      height: $cell-size;;
+    }
+  }
+  &.top-wrapper {
+    .wrapper-inner-content {
+      width: $cell-size;
+    }
+  }
+
+}
+
+.gridTable {
+  background: black;
+  border-collapse: separate;
+  border-spacing: $cell-spacing $cell-spacing;
+  th{
+
+
+  }
+}

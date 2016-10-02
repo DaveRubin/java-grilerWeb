@@ -1,0 +1,24 @@
+<div class="screen login-screen">
+  <div class="jumbotron">
+
+    <div class="inner-panel" ng-if="!lobbyService.loading">
+      <h3>Login</h3>
+      <input placeholder="Enter your name" ng-model="login.name">
+      <button class="btn btn-info"
+              ng-disabled="login.name  == ''" ng-click="logIn()">login
+      </button>
+      <div ng-if="login.name">
+        you will be logged in as <span>"{{login.name}}"</span>
+      </div>
+      <p ng-if="login.fail" class="text-danger">{{login.failMessage}}</p>
+    </div>
+
+    <div class="loading-panel" ng-if="lobbyService.loading">
+      Logging in...
+      <div>
+        <i class="fa fa-spinner fa-spin"></i>
+      </div>
+    </div>
+
+  </div>
+</div>

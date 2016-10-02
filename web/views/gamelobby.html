@@ -1,0 +1,29 @@
+<h1>
+  {{gameLogbbyData.room.name}} <span class="small">({{gameLogbbyData.room.players.length}}/{{gameLogbbyData.room.size}})</span>
+</h1>
+<p>game will autostart when all player slots are filled</p>
+<div class="container">
+
+  <div class="row">
+    <div ng-repeat="playerI in getIndices()" class="col-xs-6 col-md-4">
+      <div class=" panel panel-default player-slot">
+        <div ng-if="playerI < gameLogbbyData.room.players.length" class="player player-slot-content ">
+          <div>
+            <i ng-if="gameLogbbyData.room.players[playerI].type == 'human'" class="fa fa-user"></i>
+            <i ng-if="gameLogbbyData.room.players[playerI].type != 'human'" class="fa fa-tv"></i>
+          </div>
+          <p>{{gameLogbbyData.room.players[playerI].name}}</p>
+        </div>
+
+        <div ng-if="playerI >=gameLogbbyData.room.players.length" class="empty player-slot-content ">
+
+          <i class="fa fa-question-circle-o"></i>
+          <p>Waiting for player</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<p>{{gameLogbbyData.game.players}}</p>
