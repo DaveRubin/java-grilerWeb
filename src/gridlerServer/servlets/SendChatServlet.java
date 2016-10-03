@@ -29,7 +29,7 @@ public class SendChatServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        GameManager chatManager = ServletUtils.getChatManager(getServletContext());
+        GameManager chatManager = ServletUtils.getGamesManager(getServletContext());
         String username = SessionUtils.getUsername(request);
         if (username == null) {
             response.sendRedirect("app/index.html");
@@ -38,7 +38,7 @@ public class SendChatServlet extends HttpServlet {
         String userChatString = request.getParameter(Constants.CHAT_PARAMETER);
         if (userChatString != null && !userChatString.isEmpty()) {
             logServerMessage("Adding gridlerServer string from " + username + ": " + userChatString);
-            chatManager.addChatString(userChatString, username);
+            //chatManager.addChatString(userChatString, username);
         }
     }
 

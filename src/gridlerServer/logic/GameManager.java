@@ -1,12 +1,16 @@
 package gridlerServer.logic;
 
 import core.controllers.Game;
+import core.controllers.player.ComputerPlayer;
+import core.controllers.player.Player;
+import core.model.GameSettings;
+import gridlerServer.models.GameLobbyItem;
+import gridlerServer.models.PlayerDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author blecherl
  */
 public class GameManager {
@@ -22,18 +26,24 @@ public class GameManager {
     }
 
     public List<Game> getGames() {
-      return games;
+        return games;
     }
 
-    public void addChatString(String chatString, String username) {
-        //games.add(new ChatEntry(chatString, username));
-    }
+    public ArrayList<GameLobbyItem> getGameItemRooms() {
+        ArrayList<GameLobbyItem> gameLobbyItems = new ArrayList<>();
 
-    public List<Object> getChatEntries(int fromIndex){
-//        if (fromIndex < 0 || fromIndex >= chatDataList.size()) {
-//            fromIndex = 0;
-//        }
-//        return chatDataList.subList(fromIndex, chatDataList.size());
-        return null;
+        for (Game game : games) {
+
+            GameSettings settings = game.getSettings();
+            ArrayList<PlayerDefinition> def = new ArrayList<>();
+
+            for (Player player : game.getPlayers()) {
+                String type = player instanceof ComputerPlayer ? "AI" : "Human";
+                def.add(new PlayerDefinition(player.name, type));
+            }
+
+            gameLobbyItems.add(new GameLobbyItem(settings.gametitle, settings.totalPlayers, def, game.createdBy, settings.dimensions));
+        }
+        return gameLobbyItems;
     }
 }

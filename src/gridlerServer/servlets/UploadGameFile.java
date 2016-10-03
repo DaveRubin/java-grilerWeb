@@ -2,7 +2,9 @@ package gridlerServer.servlets;
 
 import com.google.gson.Gson;
 import core.controllers.Game;
+import gridlerServer.logic.GameManager;
 import gridlerServer.models.*;
+import gridlerServer.utils.ServletUtils;
 import gridlerServer.utils.SessionUtils;
 
 import javax.servlet.ServletException;
@@ -49,7 +51,8 @@ public class UploadGameFile extends HttpServlet {
             }
 
             Game game = new Game(createdBy);
-
+            GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
+            gameManager.addGame(game);
             game.loadGame(tmp);
             message = "Game loaded successfully by " + createdBy;
 

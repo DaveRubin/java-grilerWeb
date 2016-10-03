@@ -1,5 +1,6 @@
 package gridlerServer.servlets;
 
+import gridlerServer.logic.GameManager;
 import gridlerServer.logic.UserManager;
 import gridlerServer.models.GameLobbyItem;
 import gridlerServer.models.MainLobbyResponse;
@@ -28,20 +29,25 @@ public class MainLobbyServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
             MainLobbyResponse mlRespons = new MainLobbyResponse();
+            //get users
             UserManager userManager = ServletUtils.getUserManager(getServletContext());
             mlRespons.users = userManager.getUsers();
 
-            //TODO - add actual games to list
-            int games = 5;
+            //get games
+            GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
+            mlRespons.games = gameManager.getGameItemRooms();
 
-            for (int i = 0; i < games; i++) {
-                ArrayList<PlayerDefinition> players = new ArrayList<>();
-
-                for (int j = 0; j < i+1; j++) {
-                    players.add(new PlayerDefinition("Player " + Integer.toString(j),"human"));
-                }
-                mlRespons.games.add(new GameLobbyItem("room " +Integer.toString(i) ,i+2,players,players.get(0).name ,new Point(i+3,i+3)));
-            }
+//            //TODO - add actual games to list
+//            int games = 5;
+//
+//            for (int i = 0; i < games; i++) {
+//                ArrayList<PlayerDefinition> players = new ArrayList<>();
+//
+//                for (int j = 0; j < i+1; j++) {
+//                    players.add(new PlayerDefinition("Player " + Integer.toString(j),"human"));
+//                }
+//                mlRespons.games.add(new GameLobbyItem("room " +Integer.toString(i) ,i+2,players,players.get(0).name ,new Point(i+3,i+3)));
+//            }
 
             String json = gson.toJson(mlRespons);
             out.println(json);

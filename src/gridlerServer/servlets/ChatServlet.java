@@ -24,7 +24,7 @@ public class ChatServlet extends HttpServlet {
             throws ServletException, IOException {
         
         response.setContentType("application/json");
-        GameManager chatManager = ServletUtils.getChatManager(getServletContext());
+        GameManager chatManager = ServletUtils.getGamesManager(getServletContext());
         String username = SessionUtils.getUsername(request);
         if (username == null) {
             response.sendRedirect("app/index.html");

@@ -24,7 +24,7 @@ public class ServletUtils {
 	return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
     }
 
-    public static GameManager getChatManager(ServletContext servletContext) {
+    public static GameManager getGamesManager(ServletContext servletContext) {
 	if (servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME) == null) {
 	    servletContext.setAttribute(CHAT_MANAGER_ATTRIBUTE_NAME, new GameManager());
 	}
