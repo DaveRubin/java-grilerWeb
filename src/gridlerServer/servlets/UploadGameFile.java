@@ -2,15 +2,9 @@ package gridlerServer.servlets;
 
 import com.google.gson.Gson;
 import core.controllers.Game;
-import gridlerServer.logic.UserManager;
-import gridlerServer.models.GameLobbyItem;
-import gridlerServer.models.GameUploadResponse;
-import gridlerServer.models.MainLobbyResponse;
-import gridlerServer.models.PlayerDefinition;
-import gridlerServer.utils.ServletUtils;
-import org.w3c.dom.Document;
+import gridlerServer.models.*;
+import gridlerServer.utils.SessionUtils;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -18,13 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.awt.*;
 import java.io.*;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.logging.Level;
 
 @WebServlet(name = "UploadGameFileServlet", urlPatterns = {"/uploadGameFile"})
 @MultipartConfig
@@ -53,9 +41,17 @@ public class UploadGameFile extends HttpServlet {
                 outputStream.write(bytes, 0, read);
             }
 
-            Game game = new Game();
+            String createdBy = "None";
+
+            User userFromSession = SessionUtils.getCurrentSessionUser(request);
+            if (userFromSession != null) {
+                createdBy = userFromSession.name;
+            }
+
+            Game game = new Game(createdBy);
+
             game.loadGame(tmp);
-            message = "Game loaded successfully";
+            message = "Game loaded successfully by " + createdBy;
 
         }
         catch (Exception exception) {

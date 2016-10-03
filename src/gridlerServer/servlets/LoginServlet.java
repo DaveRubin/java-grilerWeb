@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
         ConnectionResponse connectionResponse = new ConnectionResponse();
         response.setContentType("application/json");
         //String usernameFromSession = SessionUtils.getUsername(request);
-        User userFromSession = SessionUtils.getUserFromSession(request);
+        User userFromSession = SessionUtils.getUserFromSessionOnLogin(request);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
 
         if (userFromSession == null) {
@@ -61,7 +61,8 @@ public class LoginServlet extends HttpServlet {
 
 //                    request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
 //                    getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-                } else {
+                }
+                else {
                     //add the new user to the users list
                     userManager.addUser(userFromParameters);
                     //set the username in a session so it will be available on each request

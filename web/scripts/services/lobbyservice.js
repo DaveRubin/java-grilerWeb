@@ -42,10 +42,10 @@ angular.module('gridlerWebClientApp')
                     that.loading = false;
                     var data = response.data;
                     if (data.error) {
-                        deferred.reject(data.text);
+                        deferred.reject(data);
                     }
                     else {
-                        deferred.resolve(data.text);
+                        deferred.resolve(data);
                         $rootScope.$emit(that.EVENT_ON_LOGIN);
                     }
                 });

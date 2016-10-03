@@ -36,7 +36,7 @@ public class SessionUtils {
         return user;
     }
 
-    public static User getUserFromSession(HttpServletRequest request) {
+    public static User getUserFromSessionOnLogin(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         User user = null;
         Object nameObject = session != null ? session.getAttribute(Constants.USER_NAME) : null;
@@ -46,6 +46,23 @@ public class SessionUtils {
             user = new User();
             user.name = nameObject.toString();
             user.type = typeObject.toString();
+        }
+
+        return user;
+    }
+
+    /**
+     * Get user from current session if exists
+     * @param request
+     * @return
+     */
+    public static User getCurrentSessionUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        User user = null;
+        Object userObject = session != null ? session.getAttribute(Constants.USER_NAME) : null;
+
+        if (userObject != null) {
+            user = (User) userObject;
         }
 
         return user;

@@ -12,20 +12,22 @@ angular.module('gridlerWebClientApp')
       templateUrl: 'views/loginscreen.html',
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
+        scope.loggedInUser = null;
+
         scope.login = {
           name:"",
           fail:false,
           failMessage:''
         };
 
-        function onSuccess(message) {
-          console.log(message);
-          scope.user()
+        function onSuccess(response) {
+          console.log(response.text);
+          scope.loggedInUser = response.user;
         }
 
-        function onFail(message) {
+        function onFail(response) {
           scope.login.fail = true;
-          scope.login.failMessage = message;
+          scope.login.failMessage = response.text;
         }
 
         scope.logIn = function() {
