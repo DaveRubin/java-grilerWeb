@@ -71,7 +71,7 @@ angular.module('gridlerWebClientApp')
                 var deferred = $q.defer();
                 that.loading = true;
                 $http.get("/getLobbyData").then(function (response) {
-                    console.log(response);
+                    
                     that.loading = false;
                     var data = response.data;
                     if (data.error) {

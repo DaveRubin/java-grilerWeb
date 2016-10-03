@@ -12,7 +12,13 @@ $cell-wrapper-color :darkred;
 $wrapper-text-color :white;
 $cell-spacing: 3px;
 $transition-time: 0.2s;
+
 $wrapper-inner-size : 20px;
+
+.no-animate {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
 
 .cell {
   transition: background $transition-time,box-shadow $transition-time;

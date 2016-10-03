@@ -5851,6 +5851,10 @@ button.close {
     color: lightgray; }
   100% {
     color: grey; } }
+.no-animate {
+  -webkit-transition: none !important;
+  transition: none !important; }
+
 .cell {
   transition: background 0.2s, box-shadow 0.2s;
   background: red;

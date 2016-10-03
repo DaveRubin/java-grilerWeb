@@ -9,12 +9,12 @@
             </div>
         </div>
 
-        <div ng-if="!lobbyService.loading" class="col-xs-9 rooms">
+        <div class="col-xs-9 rooms">
             <div class="rooms-container">
                 <div class="rooms-container-inner">
                     <div ng-click="roomSelected($index)"
                          ng-class="isSelected($index)? 'selected':'not-selected'"
-                         class="room-item panel panel-info"
+                         class="no-animate room-item panel panel-info"
                          ng-repeat="room in rooms">
 
                         <span class="room-name">{{room.name}} </span>
@@ -25,20 +25,15 @@
                 </div>
             </div>
         </div>
-
-        <div ng-if="lobbyService.loading" class="col-xs-12 fetching-room">
-            <div class="text-center">
-                <p>{{loadMessage}}</p>
-                <i class="fa fa-spinner fa-spin"></i>
-            </div>
-        </div>
     </div>
+    <!--Selected room info-->
     <div class="row">
-        <div ng-if="!lobbyService.loading" class="col-xs-12 selected-room">
+        <div class="col-xs-12 selected-room">
             <h1 class="text-center text-danger">Room info</h1>
             <h3 ng-if="selectedRoom == null" class="text-center text-danger">No room selected</h3>
             <div ng-if="selectedRoom != null">
-                <h3 class="text-center">{{selectedRoom.name}}</h3>
+                <h3 class="text-center">{{selectedRoom.name}}
+                    <span class="small">(created by :{{selectedRoom.createdBy}})</span></h3>
                 <h4>Active players:</h4>
                 <ul>
                     <li ng-repeat="player in selectedRoom.players">
@@ -51,8 +46,10 @@
             </div>
         </div>
     </div>
+
+    <!--Upload file section-->
     <div class="row">
-        <input type= "file" file-model="gameFile"/>
+        <input type="file" file-model="gameFile"/>
         <button ng-click="uploadFile()">upload</button>
         <!--<input type="file" ng-click="selectFile()">Select file</input>-->
     </div>

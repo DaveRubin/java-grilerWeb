@@ -7,7 +7,7 @@
  * # mainLobby
  */
 angular.module('gridlerWebClientApp')
-    .directive('mainLobby', function () {
+    .directive('mainLobby', ["$interval",function ($interval) {
         return {
             templateUrl: 'views/mainlobby.html',
             restrict: 'E',
@@ -20,7 +20,6 @@ angular.module('gridlerWebClientApp')
                 scope.loadMessage = null;
 
                 function onDataFetched(data) {
-                    console.log(data);
                     scope.rooms = data.games;
                     scope.users = data.users;
                 }
@@ -29,7 +28,7 @@ angular.module('gridlerWebClientApp')
                 }
 
                 scope.getData = function () {
-                    scope.loadMessage = "Fetching data";
+                    //scope.loadMessage = "Fetching data";
                     scope.lobbyService.getData().then(onDataFetched, onError)
                 };
 
@@ -64,10 +63,9 @@ angular.module('gridlerWebClientApp')
                     console.log('file is ');
                     console.dir(file);
                     scope.lobbyService.uploadFile(file);
-
                 };
-
-                scope.getData();
+                //scope.getData();
+                $interval(scope.getData,100);
             }
         };
-    });
+    }]);
