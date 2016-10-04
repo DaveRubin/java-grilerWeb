@@ -1,6 +1,20 @@
 <h4>Main Lobby</h4>
 <div class="container">
+
+    <!--Upload file section-->
     <div class="row">
+        <div>
+
+        </div>
+        <div class="col-xs-6">
+            <input type="file" file-model="gameFile"/>
+            <button class="btn btn-primary" ng-click="uploadFile()">upload</button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <!--Users-->
         <div class="col-xs-3">
             <div class="user-item" ng-repeat="user in users">
                 <i ng-if="users.type == 'Human'" class="fa fa-user"></i>
@@ -9,6 +23,7 @@
             </div>
         </div>
 
+        <!--Games-->
         <div class="col-xs-9 rooms">
             <div class="rooms-container">
                 <div class="rooms-container-inner">
@@ -26,12 +41,12 @@
             </div>
         </div>
     </div>
+
     <!--Selected room info-->
-    <div class="row">
+    <div class="row" ng-if="selectedRoom != null">
         <div class="col-xs-12 selected-room">
             <h1 class="text-center text-danger">Room info</h1>
-            <h3 ng-if="selectedRoom == null" class="text-center text-danger">No room selected</h3>
-            <div ng-if="selectedRoom != null">
+            <div>
                 <h3 class="text-center">{{selectedRoom.name}}
                     <span class="small">(created by :{{selectedRoom.createdBy}})</span></h3>
                 <h4>Active players:</h4>
@@ -41,17 +56,11 @@
                     </li>
                 </ul>
                 <button ng-click="joinRoom(selectedRoom)"
-                        class="btn btn-info">Join room
+                        class="btn btn-primary">Join room
                 </button>
             </div>
         </div>
     </div>
 
-    <!--Upload file section-->
-    <div class="row">
-        <input type="file" file-model="gameFile"/>
-        <button ng-click="uploadFile()">upload</button>
-        <!--<input type="file" ng-click="selectFile()">Select file</input>-->
-    </div>
 </div>
 
