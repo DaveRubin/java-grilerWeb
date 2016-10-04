@@ -10,8 +10,8 @@
 angular.module('gridlerWebClientApp')
   .controller('MainCtrl', function ($scope,$rootScope,LobbyService) {
 
-    var phase = 0;
-    var phases = ['loginScreen','mainLobby','gameLobby','gameRoom'];
+    var phase = 2;
+    var phases = ['loginScreen','mainLobby','gameRoom'];
     $scope.lobbyService = LobbyService;
     $scope.gameLogbbyData = {};
     $scope.gameLogbbyData.room =

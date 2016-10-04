@@ -110,29 +110,15 @@ angular.module('gridlerWebClientApp')
                 }).then(function (response) {
                     console.log(response);
                     that.loading = false;
-                    // var data = response.data;
-                    // if (data.error) {
-                    //     deferred.reject(data);
-                    // }
-                    // else {
-                    //     deferred.resolve(data);
-                    //     $rootScope.$emit(that.EVENT_ON_LOGIN);
-                    // }
-                });
-
-
-                setTimeout(function () {
-                    deferred.notify('About to greet ' + name + '.');
-                    that.loading = false;
-                    if (true) {
-                        console.log(room);
-                        //$rootScope.$emit(that.EVENT_JOIN_GAME, {room: room});
-                        //deferred.resolve(room);
+                    var data = response.data;
+                    if (data.error) {
+                        deferred.reject(data);
                     }
                     else {
-                        //deferred.reject('en error occurred');
+                        $rootScope.$emit(that.EVENT_JOIN_GAME, {room: room});
+                        deferred.resolve(room);
                     }
-                }, timoutDuration);
+                });
 
                 return deferred.promise;
             }

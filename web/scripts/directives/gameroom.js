@@ -13,6 +13,7 @@ angular.module('gridlerWebClientApp')
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
         
+        scope.gamePlayers = GameData.players;
         scope.columnSlices = GameData.columnSlices;
         scope.rowSlices = GameData.rowSlices;
         scope.grid = CreateGrid(GameData);
@@ -76,7 +77,12 @@ angular.module('gridlerWebClientApp')
           }
 
           return resultGrid;
-        };
+        }
+
+        function GetCurrentGame() {
+          var gameDescription  = new Room("Test",4,[new Player("P1","Human"),new Player("P2","Human"),new Player("P3","AI")],"P1",[])
+          gameDescription
+        }
       }
     };
   });

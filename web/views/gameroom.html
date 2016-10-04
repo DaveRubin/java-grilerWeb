@@ -1,44 +1,52 @@
 <p>This is the gameRoom view.</p>
 
-<div class="actions">
-  <button ng-click="ColorSelection('black')">Black</button>
-  <button ng-click="ColorSelection('white')">White</button>
-  <button ng-click="ColorSelection('')">None</button>
-</div>
-<div>
-  <table class="gridTable">
 
-    <tr >
-      <th class="top-wrapper wrapper">
+<div class="row main">
+    <div class="col-xs-4 players">
+        <div ng-repeat="player in currentGame.players">
 
-      </th>
-
-      <th class="top-wrapper wrapper"
-          ng-repeat="columnSlice in columnSlices track by $index"
-          ng-click="selectColumn($index)">
-
-        <div class="wrapper-inner-content"
-             ng-repeat="slice in columnSlice track by $index">
-          {{slice}}
         </div>
-      </th>
-    </tr>
-
-    <tr ng-repeat="row in grid  track by $index">
-
-      <th class="left-wrapper wrapper" ng-click="selectRow($index)">
-
-        <div class="wrapper-inner-content"
-             ng-repeat="slice in rowSlices[$index] track by $index">
-          {{slice}}
+    </div>
+    <div class="col-xs-8 grid">
+        <div class="actions">
+            <button ng-click="ColorSelection('black')">Black</button>
+            <button ng-click="ColorSelection('white')">White</button>
+            <button ng-click="ColorSelection('')">None</button>
         </div>
-      </th>
+        <table class="gridTable">
 
-      <th ng-repeat="cell in row  track by $index"
-          ng-click="onCellClicked(cell)"
-          ng-class="cell.selected? 'selected':'notselected'"
-          class="cell {{cell.color}}">
-      </th>
-    </tr>
-  </table>
+            <tr >
+                <th class="top-wrapper wrapper">
+
+                </th>
+
+                <th class="top-wrapper wrapper"
+                    ng-repeat="columnSlice in columnSlices track by $index"
+                    ng-click="selectColumn($index)">
+
+                    <div class="wrapper-inner-content"
+                         ng-repeat="slice in columnSlice track by $index">
+                        {{slice}}
+                    </div>
+                </th>
+            </tr>
+
+            <tr ng-repeat="row in grid  track by $index">
+
+                <th class="left-wrapper wrapper" ng-click="selectRow($index)">
+
+                    <div class="wrapper-inner-content"
+                         ng-repeat="slice in rowSlices[$index] track by $index">
+                        {{slice}}
+                    </div>
+                </th>
+
+                <th ng-repeat="cell in row  track by $index"
+                    ng-click="onCellClicked(cell)"
+                    ng-class="cell.selected? 'selected':'notselected'"
+                    class="cell {{cell.color}}">
+                </th>
+            </tr>
+        </table>
+    </div>
 </div>

@@ -19,10 +19,12 @@ angular.module('gridlerWebClientApp')
                 scope.selectedRoom = null;
                 scope.loadMessage = null;
 
+                var serviceInterval;
+
                 function onDataFetched(data) {
                     scope.rooms = data.games;
                     scope.users = data.users;
-                    
+
                     if (scope.selectedIndex >=0) {
                         scope.selectedRoom = scope.rooms[scope.selectedIndex];
                     }
@@ -42,6 +44,7 @@ angular.module('gridlerWebClientApp')
                 };
 
                 function onRoomJoinSuccessfull(room) {
+                    serviceInterval = null;
                 }
 
                 function onRoomJoinFail() {
@@ -69,7 +72,7 @@ angular.module('gridlerWebClientApp')
                     scope.lobbyService.uploadFile(file);
                 };
                 //scope.getData();
-                $interval(scope.getData,100);
+                serviceInterval = $interval(scope.getData,100);
             }
         };
     }]);
