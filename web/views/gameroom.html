@@ -1,12 +1,15 @@
-<p>This is the gameRoom view.</p>
-
-
 <div class="row main">
+    <!--Players panel-->
     <div class="col-xs-4 players">
-        <div ng-repeat="player in currentGame.players">
-
+        <div ng-repeat="player in gamePlayers">
+            name: {{player.name}}
+            <span ng-if="player.name == loggedInUser.name">
+                (ME!!!)
+            </span>
         </div>
     </div>
+
+    <!-- Grid panel -->
     <div class="col-xs-8 grid">
         <div class="actions">
             <button ng-click="ColorSelection('black')">Black</button>

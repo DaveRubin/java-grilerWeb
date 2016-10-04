@@ -12,8 +12,12 @@ angular.module('gridlerWebClientApp')
       templateUrl: 'views/gameroom.html',
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
-        
+        //TODO - remove this after usage
+
+
         scope.gamePlayers = GameData.players;
+        scope.loggedInUser = GameData.players[1];
+        console.log(scope.gamePlayers );
         scope.columnSlices = GameData.columnSlices;
         scope.rowSlices = GameData.rowSlices;
         scope.grid = CreateGrid(GameData);
