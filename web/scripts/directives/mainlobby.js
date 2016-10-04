@@ -22,6 +22,10 @@ angular.module('gridlerWebClientApp')
                 function onDataFetched(data) {
                     scope.rooms = data.games;
                     scope.users = data.users;
+                    
+                    if (scope.selectedIndex >=0) {
+                        scope.selectedRoom = scope.rooms[scope.selectedIndex];
+                    }
                 }
 
                 function onError() {

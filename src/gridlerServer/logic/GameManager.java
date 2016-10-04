@@ -9,6 +9,7 @@ import gridlerServer.models.PlayerDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static gridlerServer.Constants.AI_TYPE;
 import static gridlerServer.Constants.HUMAN_TYPE;
@@ -48,5 +49,17 @@ public class GameManager {
             gameLobbyItems.add(new GameLobbyItem(settings.gametitle, settings.totalPlayers, def, game.createdBy, settings.dimensions));
         }
         return gameLobbyItems;
+    }
+
+    public Game getGame(String roomName, String roomCreatedBy) {
+        for (Game game : games) {
+            GameSettings settings = game.getSettings();
+            if (Objects.equals(game.createdBy, roomCreatedBy) &&
+                    Objects.equals(settings.gametitle, roomName)) {
+                return game;
+            }
+        }
+
+        return null;
     }
 }

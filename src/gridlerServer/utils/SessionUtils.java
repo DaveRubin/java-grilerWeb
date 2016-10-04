@@ -23,6 +23,7 @@ public class SessionUtils {
     }
 
     public static User getUserFromRequest(HttpServletRequest request) {
+
         User user = null;
         Object nameObject = request.getParameter(Constants.USER_NAME);
         Object typeObject = request.getParameter(Constants.USER_TYPE);

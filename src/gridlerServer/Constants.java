@@ -7,11 +7,10 @@ package gridlerServer;
 public class Constants {
     public static final String USER_NAME = "userName";
     public static final String USER_TYPE = "userType";
-    public static final String USER_NAME_ERROR = "username_error";
 
-    public static final String CHAT_PARAMETER = "userstring";
-    public static final String CHAT_VERSION_PARAMETER = "chatversion";
-    
+    public static final String ROOM_NAME = "roomName";
+    public static final String ROOM_CREATED_BY = "roomCreatedBy";
+
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
 
     public static final String HUMAN_TYPE = "Human";

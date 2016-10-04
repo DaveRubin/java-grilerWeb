@@ -53,14 +53,10 @@ public class LoginServlet extends HttpServlet {
                 connectionResponse.error = true;
             } else {
                 if (userManager.isUserExists(userFromParameters)) {
+
                     String errorMessage = "Username " + userFromParameters.name+ " already exists. Please enter a different username.";
                     connectionResponse.text = errorMessage;
                     connectionResponse.error = true;
-                    //username already exists, forward the request back to index.jsp
-                    //with a parameter that indicates that an error should be displayed
-
-//                    request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
-//                    getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
                 }
                 else {
                     //add the new user to the users list

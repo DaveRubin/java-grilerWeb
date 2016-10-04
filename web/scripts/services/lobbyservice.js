@@ -30,7 +30,7 @@ angular.module('gridlerWebClientApp')
                 var deferred = $q.defer();
                 that.loading = true;
                 $http({
-                    url: "http://localhost:8080/login",
+                    url: "/login",
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {
@@ -49,16 +49,6 @@ angular.module('gridlerWebClientApp')
                         $rootScope.$emit(that.EVENT_ON_LOGIN);
                     }
                 });
-                // setTimeout(function () {
-                //   deferred.notify('About to greet ' + name + '.');
-                //   that.loading = false;
-                //
-                //   if (true) {
-                //   }
-                //   else {
-                //     deferred.reject('Greeting ' + name + ' is not allowed.');
-                //   }
-                // }, timoutDuration);
 
                 return deferred.promise;
             };
@@ -71,7 +61,7 @@ angular.module('gridlerWebClientApp')
                 var deferred = $q.defer();
                 that.loading = true;
                 $http.get("/getLobbyData").then(function (response) {
-                    
+
                     that.loading = false;
                     var data = response.data;
                     if (data.error) {
@@ -109,15 +99,38 @@ angular.module('gridlerWebClientApp')
             this.joinRoom = function (room) {
                 var deferred = $q.defer();
                 that.loading = true;
+                $http({
+                    url: "/joinRoom",
+                    header: "Access-Control-Allow-Origin",
+                    method: "GET",
+                    params: {
+                        roomName: room.name,
+                        roomCreatedBy: room.createdBy
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    that.loading = false;
+                    // var data = response.data;
+                    // if (data.error) {
+                    //     deferred.reject(data);
+                    // }
+                    // else {
+                    //     deferred.resolve(data);
+                    //     $rootScope.$emit(that.EVENT_ON_LOGIN);
+                    // }
+                });
+
+
                 setTimeout(function () {
                     deferred.notify('About to greet ' + name + '.');
                     that.loading = false;
                     if (true) {
-                        $rootScope.$emit(that.EVENT_JOIN_GAME, {room: room});
-                        deferred.resolve(room);
+                        console.log(room);
+                        //$rootScope.$emit(that.EVENT_JOIN_GAME, {room: room});
+                        //deferred.resolve(room);
                     }
                     else {
-                        deferred.reject('en error occurred');
+                        //deferred.reject('en error occurred');
                     }
                 }, timoutDuration);
 
