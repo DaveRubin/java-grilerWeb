@@ -9,8 +9,8 @@
       <div class=" panel panel-default player-slot">
         <div ng-if="playerI < gameLogbbyData.room.players.length" class="player player-slot-content ">
           <div>
-            <i ng-if="gameLogbbyData.room.players[playerI].type == 'human'" class="fa fa-user"></i>
-            <i ng-if="gameLogbbyData.room.players[playerI].type != 'human'" class="fa fa-tv"></i>
+            <i ng-if="gameLogbbyData.room.players[playerI].type == 'Human'" class="fa fa-user"></i>
+            <i ng-if="gameLogbbyData.room.players[playerI].type != 'Human'" class="fa fa-tv"></i>
           </div>
           <p>{{gameLogbbyData.room.players[playerI].name}}</p>
         </div>

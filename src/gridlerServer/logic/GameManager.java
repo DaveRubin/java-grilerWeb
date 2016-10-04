@@ -10,6 +10,9 @@ import gridlerServer.models.PlayerDefinition;
 import java.util.ArrayList;
 import java.util.List;
 
+import static gridlerServer.Constants.AI_TYPE;
+import static gridlerServer.Constants.HUMAN_TYPE;
+
 /**
  * @author blecherl
  */
@@ -38,7 +41,7 @@ public class GameManager {
             ArrayList<PlayerDefinition> def = new ArrayList<>();
 
             for (Player player : game.getPlayers()) {
-                String type = player instanceof ComputerPlayer ? "AI" : "Human";
+                String type = player instanceof ComputerPlayer ? AI_TYPE : HUMAN_TYPE;
                 def.add(new PlayerDefinition(player.name, type));
             }
 
