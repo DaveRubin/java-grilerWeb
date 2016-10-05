@@ -1,16 +1,56 @@
+
+<div>
+    <button ng-click="addPlayer()" class="btn btn-danger">
+        Add Player
+    </button>
+    <button ng-click="nextPlayerTurn()" class="btn btn-danger">
+        Next
+    </button>
+</div>
+<div class="row room details">
+    <div class="col-xs-12">
+        <p>room name : {{currentGameData.gameTitle}}</p>
+        <p>{{currentGameData.players.length}}/{{currentGameData.size}}</p>
+        <p>Current turn : {{currentPlayer}}</p>
+    </div>
+</div>
+
 <div class="row main">
     <!--Players panel-->
     <div class="col-xs-4 players">
-        <div ng-repeat="player in gamePlayers">
-            name: {{player.name}}
-            <span ng-if="player.name == loggedInUser.name">
+        <div ng-repeat="i in getTimes(currentGameData.size) track by $index">
+
+            <!-- For logged in players -->
+            <div    ng-class="currentGameData.players[$index].name == currentPlayer ? 'currently-playing':'waiting'"
+                    ng-if="$index < currentGameData.players.length">
+
+                {{currentGameData.players[$index].name}}
+                <span ng-if="playerIsMe($index)">
                 (ME!!!)
-            </span>
+                </span>
+            </div>
+
+            <!-- For empty player slot-->
+            <div ng-if="$index >= currentGameData.players.length">
+                ((Empty))
+            </div>
         </div>
     </div>
 
     <!-- Grid panel -->
     <div class="col-xs-8 grid">
+            {{isGameFull() }}
+            {{isMyTurn()}}
+        <div class="blocker" ng-if="!isGameFull() || isGameFull() &&!isMyTurn()" >
+            <div  class="inner-content">
+                <span ng-if="isGameFull()">Wait for your turn</span>
+                <span ng-if="!isGameFull()">Waiting for game to be full</span>
+                <div>
+                    <i class="fa fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </div>
+
         <div class="actions">
             <button ng-click="ColorSelection('black')">Black</button>
             <button ng-click="ColorSelection('white')">White</button>
@@ -24,7 +64,7 @@
                 </th>
 
                 <th class="top-wrapper wrapper"
-                    ng-repeat="columnSlice in columnSlices track by $index"
+                    ng-repeat="columnSlice in currentGameData.columnSlices track by $index"
                     ng-click="selectColumn($index)">
 
                     <div class="wrapper-inner-content"
@@ -39,7 +79,7 @@
                 <th class="left-wrapper wrapper" ng-click="selectRow($index)">
 
                     <div class="wrapper-inner-content"
-                         ng-repeat="slice in rowSlices[$index] track by $index">
+                         ng-repeat="slice in currentGameData.rowSlices[$index] track by $index">
                         {{slice}}
                     </div>
                 </th>
