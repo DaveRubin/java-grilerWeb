@@ -45,6 +45,7 @@ angular.module('gridlerWebClientApp')
 
                 function onRoomJoinSuccessfull(room) {
                     serviceInterval = null;
+                    scope.joinedRoom = room;
                 }
 
                 function onRoomJoinFail() {

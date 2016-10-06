@@ -7,27 +7,19 @@
  * # gameRoom
  */
 angular.module('gridlerWebClientApp')
-    .directive('gameRoom', function () {
+    .directive('gameRoom', ['GameService',function (GameService) {
         return {
             templateUrl: 'views/gameroom.html',
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
-                //TODO - remove this after usage
-                scope.currentGameData = GameData;
-
-
-                //scope.gamePlayers = GameData.players;
-                scope.loggedInUser = GameData.players[1];
-                //scope.columnSlices = GameData.columnSlices;
-                //scope.rowSlices = GameData.rowSlices;
-                scope.grid = CreateGrid(GameData);
+                
+                GameService.setCurrentGame(scope.joinedRoom);
+                GameService.getGameSettings().then(onGameSettingsFetched, onFail);
 
                 scope.onCellClicked = function (cell) {
                     console.log(cell);
                     cell.selected = !cell.selected;
                 };
-
-                scope.currentPlayer = GameData.players[0].name;
                 //TODO  - remove this var
                 var index = 0;
 
@@ -75,6 +67,63 @@ angular.module('gridlerWebClientApp')
                     return new Array(n);
                 };
 
+                scope.addPlayer = function () {
+                    scope.currentGameData.players.push(new Player("New Player", "AI"));
+                };
+
+                scope.nextPlayerTurn = function () {
+                    index++;
+                    index = index % scope.currentGameData.players.length;
+                    scope.currentPlayer = GameData.players[index].name;
+                };
+
+                /**
+                 * return tru if the player in the given index is the logged in user
+                 * @param i
+                 * @returns {boolean}
+                 */
+                scope.currentPlayerIsMe = function (i) {
+                    return scope.currentGameData.players[i].name == scope.loggedInUser.name
+                };
+
+                /**
+                 * Return true if current player is logged in
+                 */
+                scope.isMyTurn = function () {
+                    return scope.currentPlayer == scope.loggedInUser.name;
+                };
+
+                /**
+                 * return true if game is full
+                 * @returns {boolean}
+                 */
+                scope.isGameFull = function(){
+                    return scope.currentGameData.players.length >= scope.currentGameData.size;
+                };
+
+
+
+                function onGameSettingsFetched(gameSettings) {
+                    scope.gameSettings = gameSettings;
+                    initBoard();
+                }
+
+                function initBoard() {
+                    scope.currentGameData = GameData;
+
+                    //scope.gamePlayers = GameData.players;
+                    scope.loggedInUser = GameData.players[1];
+                    //scope.columnSlices = GameData.columnSlices;
+                    //scope.rowSlices = GameData.rowSlices;
+                    scope.grid = CreateGrid(GameData);
+                    scope.currentPlayer = GameData.players[0].name;
+
+                }
+
+                function onFail() {
+
+                }
+
 
                 function CreateGrid(GameData) {
                     var resultGrid = [];
@@ -90,31 +139,6 @@ angular.module('gridlerWebClientApp')
 
                     return resultGrid;
                 }
-
-                scope.addPlayer = function () {
-                    scope.currentGameData.players.push(new Player("New Player", "AI"));
-                };
-
-                scope.nextPlayerTurn = function () {
-                    index++;
-                    index = index % scope.currentGameData.players.length;
-                    scope.currentPlayer = GameData.players[index].name;
-                };
-
-                scope.playerIsMe = function (i) {
-                    return scope.currentGameData.players[i].name == scope.loggedInUser.name
-                };
-
-                /**
-                 * Return true if current player is logged in
-                 */
-                scope.isMyTurn = function () {
-                    return scope.currentPlayer == scope.loggedInUser.name;
-                };
-
-                scope.isGameFull = function(){
-                    return scope.currentGameData.players.length >= scope.currentGameData.size;
-                }
             }
         };
-    });
+    }]);

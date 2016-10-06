@@ -115,8 +115,8 @@ angular.module('gridlerWebClientApp')
                         deferred.reject(data);
                     }
                     else {
-                        $rootScope.$emit(that.EVENT_JOIN_GAME, {room: room});
                         deferred.resolve(room);
+                        $rootScope.$emit(that.EVENT_JOIN_GAME, {room: room});
                     }
                 });
 

@@ -25,7 +25,7 @@
                     ng-if="$index < currentGameData.players.length">
 
                 {{currentGameData.players[$index].name}}
-                <span ng-if="playerIsMe($index)">
+                <span ng-if="currentPlayerIsMe($index)">
                 (ME!!!)
                 </span>
             </div>
@@ -39,8 +39,6 @@
 
     <!-- Grid panel -->
     <div class="col-xs-8 grid">
-            {{isGameFull() }}
-            {{isMyTurn()}}
         <div class="blocker" ng-if="!isGameFull() || isGameFull() &&!isMyTurn()" >
             <div  class="inner-content">
                 <span ng-if="isGameFull()">Wait for your turn</span>

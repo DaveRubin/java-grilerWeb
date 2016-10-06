@@ -27,6 +27,7 @@ angular.module('gridlerWebClientApp')
 
     $rootScope.$on($scope.lobbyService.EVENT_JOIN_GAME, function (event, args) {
       console.log("joined game" + args.room.name);
+        //TODO - remove gameLobbyData
       $scope.gameLogbbyData.room = args.room;
       phase = 2;
     });
