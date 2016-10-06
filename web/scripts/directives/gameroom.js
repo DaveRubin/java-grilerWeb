@@ -12,7 +12,11 @@ angular.module('gridlerWebClientApp')
             templateUrl: 'views/gameroom.html',
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
-                
+
+                scope.gameStateLoaded = false;
+                scope.gameSettingsLoaded = false;
+                scope.loggedInUser = new Player("P2","Human");
+
                 GameService.setCurrentGame(scope.joinedRoom);
                 GameService.getGameSettings().then(onGameSettingsFetched, onFail);
 
@@ -20,6 +24,7 @@ angular.module('gridlerWebClientApp')
                     console.log(cell);
                     cell.selected = !cell.selected;
                 };
+
                 //TODO  - remove this var
                 var index = 0;
 
@@ -68,13 +73,13 @@ angular.module('gridlerWebClientApp')
                 };
 
                 scope.addPlayer = function () {
-                    scope.currentGameData.players.push(new Player("New Player", "AI"));
+                    scope.gamePlayers.push(new Player("New Player", "AI"));
                 };
 
                 scope.nextPlayerTurn = function () {
                     index++;
-                    index = index % scope.currentGameData.players.length;
-                    scope.currentPlayer = GameData.players[index].name;
+                    index = index % scope.gamePlayers.length;
+                    scope.currentPlayer = scope.gamePlayers[index].name;
                 };
 
                 /**
@@ -83,7 +88,7 @@ angular.module('gridlerWebClientApp')
                  * @returns {boolean}
                  */
                 scope.currentPlayerIsMe = function (i) {
-                    return scope.currentGameData.players[i].name == scope.loggedInUser.name
+                    return scope.gamePlayers[i].name == scope.loggedInUser.name
                 };
 
                 /**
@@ -98,26 +103,28 @@ angular.module('gridlerWebClientApp')
                  * @returns {boolean}
                  */
                 scope.isGameFull = function(){
-                    return scope.currentGameData.players.length >= scope.currentGameData.size;
+                    return scope.gamePlayers.length >= scope.gameSettings.size;
                 };
 
 
 
                 function onGameSettingsFetched(gameSettings) {
+                    scope.gameSettingsLoaded = true;
                     scope.gameSettings = gameSettings;
-                    initBoard();
+                    scope.grid = CreateGrid(scope.gameSettings);
+
+                    scope.gamePlayers = [];
+                    scope.currentPlayer = null;
+                    
+                    //start interval for general game state
+                    GameService.getGeneralGameState().then(onGeneralGameStateFetched);
                 }
 
-                function initBoard() {
-                    scope.currentGameData = GameData;
-
-                    //scope.gamePlayers = GameData.players;
-                    scope.loggedInUser = GameData.players[1];
-                    //scope.columnSlices = GameData.columnSlices;
-                    //scope.rowSlices = GameData.rowSlices;
-                    scope.grid = CreateGrid(GameData);
-                    scope.currentPlayer = GameData.players[0].name;
-
+                function onGeneralGameStateFetched(generalGameState) {
+                    console.log(generalGameState);
+                    scope.gameStateLoaded = true;
+                    scope.gamePlayers = generalGameState.players;
+                    scope.currentPlayer = generalGameState.currentPlayer;
                 }
 
                 function onFail() {
@@ -125,12 +132,12 @@ angular.module('gridlerWebClientApp')
                 }
 
 
-                function CreateGrid(GameData) {
+                function CreateGrid(settings) {
                     var resultGrid = [];
 
-                    for (var y = 0; y < GameData.dimensions[1]; y++) {
+                    for (var y = 0; y < settings.dimensions[1]; y++) {
                         var row = [];
-                        for (var x = 0; x < GameData.dimensions[0]; x++) {
+                        for (var x = 0; x < settings.dimensions[0]; x++) {
                             var cell = new Cell(x, y);
                             row.push(cell);
                         }

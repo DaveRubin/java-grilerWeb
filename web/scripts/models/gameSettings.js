@@ -9,7 +9,7 @@ var GameSettings = function () {
 
         this.gameTitle = "Test Game";
         this.players = [new Player("P1", "Human"), new Player("P2", "Human"), new Player("P3", "AI")];
-        this.size = 4;
+        this.size = 3;
         this.dimensions = [6, 6];
         this.solution = [
             [0, 0], [1, 1], [2, 2], [3, 3]

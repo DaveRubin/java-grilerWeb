@@ -53,8 +53,41 @@ angular.module('gridlerWebClientApp')
          * @returns {GeneralGameState}
          */
         this.getGeneralGameState = function () {
-            var restult = new GeneralGameState();
-            return restult;
+            var result = new GeneralGameState();
+            var deferred = $q.defer();
+            if (false) {
+
+                $http({
+                    url: "/joinRoom",
+                    header: "Access-Control-Allow-Origin",
+                    method: "GET",
+                    params: {
+                        roomName: room.name,
+                        roomCreatedBy: room.createdBy
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    var data = response.data;
+                    if (data.error) {
+                        deferred.reject(data);
+                    }
+                    else {
+                        deferred.resolve(data);
+                    }
+                });
+            }
+            else {
+                setTimeout(function () {
+                    var result = new GeneralGameState();
+                    result.players = [new Player("P1", "Human"), new Player("P2", "Human"), new Player("P3", "AI")];
+                    result.currentPlayer = result.players[0].name;
+                    deferred.resolve(result);
+                }, 500);
+            }
+
+            return deferred.promise;
+
+            return result;
         };
 
         /**
