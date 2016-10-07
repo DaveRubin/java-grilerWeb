@@ -22,6 +22,8 @@ angular.module('gridlerWebClientApp')
 
                 scope.gameStateLoaded = false;
                 scope.gameSettingsLoaded = false;
+                scope.gamePlayers = [];
+                scope.currentPlayer = null;
                 //scope.loggedInUser = new Player("P1","Human");
 
                 GameService.setCurrentGame(scope.joinedRoom);
@@ -130,6 +132,7 @@ angular.module('gridlerWebClientApp')
                  * @returns {boolean}
                  */
                 scope.isGameFull = function(){
+                    console.log(scope.gamePlayers);
                     return scope.gamePlayers.length >= scope.gameSettings.totalPlayers;
                 };
 
@@ -143,9 +146,6 @@ angular.module('gridlerWebClientApp')
                     scope.gameSettingsLoaded = true;
                     scope.gameSettings = gameSettings;
                     scope.grid = CreateGrid(scope.gameSettings);
-
-                    scope.gamePlayers = [];
-                    scope.currentPlayer = null;
                     
                     //start interval for general game state
                     updateInterval = $interval(GetGameState,INTERVAL_DURATION);
@@ -158,7 +158,8 @@ angular.module('gridlerWebClientApp')
 
                 function onGeneralGameStateFetched(generalGameState) {
                     scope.gameStateLoaded = true;
-                    scope.gamePlayers = generalGameState.players;
+                    console.log(generalGameState);
+                    scope.gamePlayers = generalGameState.gamePlayers;
                     scope.currentPlayer = generalGameState.currentPlayer;
                 }
 

@@ -93,18 +93,18 @@ angular.module('gridlerWebClientApp')
          */
         this.getGeneralGameState = function () {
             var deferred = $q.defer();
-            if (false) {
+
+            if (true) {
 
                 $http({
                     url: "/getGeneralGameState",
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {
-                        roomName: room.name,
-                        roomCreatedBy: room.createdBy
+                        roomName: currentGame.name,
+                        roomCreatedBy: currentGame.createdBy
                     }
                 }).then(function (response) {
-                    console.log(response);
                     var data = response.data;
                     if (data.error) {
                         deferred.reject(data);
