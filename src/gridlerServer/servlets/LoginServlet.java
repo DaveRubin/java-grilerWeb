@@ -4,6 +4,7 @@ import gridlerServer.Constants;
 import gridlerServer.logic.UserManager;
 import gridlerServer.models.ConnectionResponse;
 import gridlerServer.models.User;
+import gridlerServer.utils.ResponseUtils;
 import gridlerServer.utils.ServletUtils;
 import gridlerServer.utils.SessionUtils;
 import com.google.gson.Gson;
@@ -84,12 +85,7 @@ public class LoginServlet extends HttpServlet {
             System.out.println(connectionResponse.text);
         }
 
-        try (PrintWriter out = response.getWriter()) {
-            Gson gson = new Gson();
-            String jsonResponse = gson.toJson(connectionResponse);
-            out.print(jsonResponse);
-            out.flush();
-        }
+        ResponseUtils.writeOutJsonObject(response,connectionResponse);
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -5,6 +5,7 @@ import gridlerServer.logic.UserManager;
 import gridlerServer.models.GameLobbyItem;
 import gridlerServer.models.MainLobbyResponse;
 import gridlerServer.models.PlayerDefinition;
+import gridlerServer.utils.ResponseUtils;
 import gridlerServer.utils.ServletUtils;
 import com.google.gson.Gson;
 
@@ -26,21 +27,16 @@ public class MainLobbyServlet extends HttpServlet {
 
         //returning JSON objects, not HTML
         response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
-            Gson gson = new Gson();
-            MainLobbyResponse mlRespons = new MainLobbyResponse();
-            //get users
-            UserManager userManager = ServletUtils.getUserManager(getServletContext());
-            mlRespons.users = userManager.getUsers();
+        MainLobbyResponse mlRespons = new MainLobbyResponse();
+        //get users
+        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        mlRespons.users = userManager.getUsers();
 
-            //get games
-            GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
-            mlRespons.games = gameManager.getGameItemRooms();
+        //get games
+        GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
+        mlRespons.games = gameManager.getGameItemRooms();
 
-            String json = gson.toJson(mlRespons);
-            out.println(json);
-            out.flush();
-        }
+        ResponseUtils.writeOutJsonObject(response,mlRespons);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

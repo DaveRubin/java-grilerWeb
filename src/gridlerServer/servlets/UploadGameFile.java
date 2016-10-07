@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import core.controllers.Game;
 import gridlerServer.logic.GameManager;
 import gridlerServer.models.*;
+import gridlerServer.utils.ResponseUtils;
 import gridlerServer.utils.ServletUtils;
 import gridlerServer.utils.SessionUtils;
 
@@ -64,20 +65,15 @@ public class UploadGameFile extends HttpServlet {
         }
         finally {
 
-            Gson gson = new Gson();
             GameUploadResponse gur = new GameUploadResponse(message,hasError);
-            String json = gson.toJson(gur);
-            writer.println(json);
-            writer.flush();
+
+            ResponseUtils.writeOutJsonObject(response,gur);
 
             if (outputStream != null) {
                 outputStream.close();
             }
             if (filecontent != null) {
                 filecontent.close();
-            }
-            if (writer != null) {
-                writer.close();
             }
         }
 

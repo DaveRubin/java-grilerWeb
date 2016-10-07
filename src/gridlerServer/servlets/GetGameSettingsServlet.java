@@ -7,8 +7,6 @@ import core.controllers.player.HumanPlayer;
 import core.controllers.player.Player;
 import gridlerServer.Constants;
 import gridlerServer.logic.GameManager;
-import gridlerServer.logic.UserManager;
-import gridlerServer.models.MainLobbyResponse;
 import gridlerServer.models.SimpleResponse;
 import gridlerServer.models.User;
 import gridlerServer.utils.ResponseUtils;
@@ -28,58 +26,12 @@ import java.util.Objects;
  * Should get a RoomDescription object in "room"
  */
 @WebServlet(name = "JoinRoomServlet", urlPatterns = {"/joinRoom"})
-public class JoinRoomServlet extends HttpServlet {
+public class GetGameSettingsServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SimpleResponse r = new SimpleResponse();
-        boolean isError = false;
-        String message = "";
 
-        //returning JSON objects, not HTML
-        response.setContentType("application/json");
-
-        String roomName = request.getParameter(Constants.ROOM_NAME);
-        String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
-
-        if (roomName == null || roomCreatedBy == null) {
-            isError = true;
-            message =  "missing one or more of the parameters ('roomName'/'roomCreatedBy')";
-        }
-        else {
-            //first find room
-            GameManager gamesManager = ServletUtils.getGamesManager(getServletContext());
-            Game game = gamesManager.getGame(roomName,roomCreatedBy);
-
-            if (game == null) {
-                isError = true;
-                message = "Room "+ roomName+ " wan't found";
-            }
-            else {
-                //if room found check if user can enter the room
-                User userFromSession = SessionUtils.getCurrentSessionUser(request);
-                if (userFromSession == null) {
-                    isError = true;
-                    message = "You must be logged in in order to join a room";
-                }
-                else {
-                    if (userIsInGame(userFromSession,game)) {
-                        isError = true;
-                        message = "You are trying to enter twice to the same game";
-                    }
-                    else {
-                        game.registerPlayer(createAPlayerForUser(userFromSession));
-                        message = "User " + userFromSession.name + " has entered the game " + roomName +" successfully";
-                    }
-                }
-            }
-
-
-        }
-
-        r.error = isError;
-        r.message = message;
-        ResponseUtils.writeOutJsonObject(response,r);
+        ResponseUtils.writeOutJsonObject(response,new Object());
     }
 
     private Player createAPlayerForUser(User userFromSession) {

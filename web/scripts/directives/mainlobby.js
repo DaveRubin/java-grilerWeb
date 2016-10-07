@@ -7,7 +7,7 @@
  * # mainLobby
  */
 angular.module('gridlerWebClientApp')
-    .directive('mainLobby', ["$interval","$rootScope",function ($interval,$rootScope) {
+    .directive('mainLobby', ["$interval", "$rootScope", function ($interval, $rootScope) {
         return {
             templateUrl: 'views/mainlobby.html',
             restrict: 'E',
@@ -25,7 +25,7 @@ angular.module('gridlerWebClientApp')
                     scope.rooms = data.games;
                     scope.users = data.users;
 
-                    if (scope.selectedIndex >=0) {
+                    if (scope.selectedIndex >= 0) {
                         scope.selectedRoom = scope.rooms[scope.selectedIndex];
                     }
                 }
@@ -59,10 +59,6 @@ angular.module('gridlerWebClientApp')
                     scope.lobbyService.joinRoom(room).then(onRoomJoinSuccessfull, onRoomJoinFail);
                 };
 
-                scope.selectFile = function () {
-
-                };
-
                 scope.isSelected = function (index) {
                     return index == scope.selectedIndex;
                 };
@@ -75,7 +71,7 @@ angular.module('gridlerWebClientApp')
                     scope.lobbyService.uploadFile(file);
                 };
                 //scope.getData();
-                serviceInterval = $interval(scope.getData,100);
+                serviceInterval = $interval(scope.getData, 100);
             }
         };
     }]);
