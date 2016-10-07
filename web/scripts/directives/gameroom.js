@@ -130,7 +130,7 @@ angular.module('gridlerWebClientApp')
                  * @returns {boolean}
                  */
                 scope.isGameFull = function(){
-                    return scope.gamePlayers.length >= scope.gameSettings.size;
+                    return scope.gamePlayers.length >= scope.gameSettings.totalPlayers;
                 };
 
 
@@ -139,6 +139,7 @@ angular.module('gridlerWebClientApp')
                  * @param gameSettings
                  */
                 function onGameSettingsFetched(gameSettings) {
+                    console.log(gameSettings);
                     scope.gameSettingsLoaded = true;
                     scope.gameSettings = gameSettings;
                     scope.grid = CreateGrid(scope.gameSettings);
@@ -169,9 +170,9 @@ angular.module('gridlerWebClientApp')
                 function CreateGrid(settings) {
                     var resultGrid = [];
 
-                    for (var y = 0; y < settings.dimensions[1]; y++) {
+                    for (var y = 0; y < settings.dimensions.y; y++) {
                         var row = [];
-                        for (var x = 0; x < settings.dimensions[0]; x++) {
+                        for (var x = 0; x < settings.dimensions.x; x++) {
                             var cell = new Cell(x, y);
                             row.push(cell);
                         }

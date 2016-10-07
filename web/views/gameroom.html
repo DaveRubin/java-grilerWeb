@@ -14,8 +14,8 @@
 
     <div class="row room details">
         <div class="col-xs-12 text-center">
-            <p>room name : {{gameSettings.gameTitle}}</p>
-            <p>{{gamePlayers.length}}/{{gameSettings.size}}</p>
+            <p>room name : {{gameSettings.gametitle}}</p>
+            <p>{{gamePlayers.length}}/{{gameSettings.totalPlayers}}</p>
             <p>Current turn : {{currentPlayer}}</p>
         </div>
     </div>
@@ -24,7 +24,7 @@
 
         <!--Players panel-->
         <div class="col-xs-4 players">
-            <div ng-repeat="i in getTimes(gameSettings.size) track by $index">
+            <div ng-repeat="i in getTimes(gameSettings.totalPlayers) track by $index">
 
                 <!-- For logged in players -->
                 <div ng-class="gamePlayers[$index].name == currentPlayer ? 'currently-playing':'waiting'"

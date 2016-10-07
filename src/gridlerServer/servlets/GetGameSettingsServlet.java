@@ -5,6 +5,7 @@ import core.controllers.Game;
 import core.controllers.player.ComputerPlayer;
 import core.controllers.player.HumanPlayer;
 import core.controllers.player.Player;
+import core.model.GameSettings;
 import gridlerServer.Constants;
 import gridlerServer.logic.GameManager;
 import gridlerServer.models.SimpleResponse;
@@ -25,39 +26,24 @@ import java.util.Objects;
 /**
  * Should get a RoomDescription object in "room"
  */
-@WebServlet(name = "JoinRoomServlet", urlPatterns = {"/joinRoom"})
+@WebServlet(name = "GetGameSettingsServlet", urlPatterns = {"/getGameSettings"})
 public class GetGameSettingsServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ResponseUtils.writeOutJsonObject(response,new Object());
-    }
+        GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
 
-    private Player createAPlayerForUser(User userFromSession) {
-        if (Objects.equals(userFromSession.type, Constants.HUMAN_TYPE)) {
-            return new HumanPlayer(userFromSession.name);
-        }
-        else {
-            return new ComputerPlayer(userFromSession.name);
-        }
-    }
+        String roomName = request.getParameter(Constants.ROOM_NAME);
+        String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
+        GameSettings settings = new GameSettings();
 
-    /**
-     * Check if a given user is playing a given game
-     * @param userFromSession
-     * @param game
-     * @return
-     */
-    private boolean userIsInGame(User userFromSession, Game game) {
-        boolean inGame = false;
-        for (Player player : game.getPlayers()) {
-            if (Objects.equals(player.name, userFromSession.name)) {
-                inGame = true;
-                break;
-            }
+        if (roomName != null && roomCreatedBy != null) {
+            Game game = gameManager.getGame(roomName,roomCreatedBy);
+            settings = game.getSettings();
         }
-        return inGame;
+
+        ResponseUtils.writeOutJsonObject(response,settings);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
