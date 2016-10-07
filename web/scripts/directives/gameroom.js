@@ -7,26 +7,26 @@
  * # gameRoom
  */
 angular.module('gridlerWebClientApp')
-    .directive('gameRoom', ['GameService',function (GameService) {
+    .directive('gameRoom', ['GameService','$interval',function (GameService,$interval) {
         return {
             templateUrl: 'views/gameroom.html',
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
 
+                var updateInterval;
+                var INTERVAL_DURATION = 500;
+                var index = 0;
+
                 scope.gameStateLoaded = false;
                 scope.gameSettingsLoaded = false;
-                scope.loggedInUser = new Player("P2","Human");
+                scope.loggedInUser = new Player("P1","Human");
 
                 GameService.setCurrentGame(scope.joinedRoom);
                 GameService.getGameSettings().then(onGameSettingsFetched, onFail);
 
                 scope.onCellClicked = function (cell) {
-                    console.log(cell);
                     cell.selected = !cell.selected;
                 };
-
-                //TODO  - remove this var
-                var index = 0;
 
                 /**
                  * Toggle all of the selected grid row according to its first item
@@ -58,14 +58,38 @@ angular.module('gridlerWebClientApp')
                  * @constructor
                  */
                 scope.ColorSelection = function (color) {
-                    scope.grid.forEach(function (row) {
-                        row.forEach(function (cell) {
+
+                    var positions = [];
+
+                    for (var y = 0; y < scope.grid.length; y++) {
+                        var row = scope.grid[y];
+
+                        for (var x = 0; x < row.length; x++) {
+
+                            var cell = row[x];
+
                             if (cell.selected) {
-                                cell.color = color;
+                                positions.push([x,y]);
+                                //cell.color = color;
                                 cell.selected = false;
                             }
-                        });
+                        }
+                    }
+
+                    var action = new PlayerAction(positions,color);
+
+                    //TODO - replace with actual server call
+                    //after sending the move get the new board and update it all
+                    GameService.sendMove(action).then(function(newBoard){
+
+                        for (var i = 0; i < positions.length; i++) {
+                            var position = positions[i];
+                            var x = position[0];
+                            var y = position[1];
+                            scope.grid[y][x].color = color;
+                        }
                     });
+                    console.log(action);
                 };
 
                 scope.getTimes = function (n) {
@@ -107,7 +131,10 @@ angular.module('gridlerWebClientApp')
                 };
 
 
-
+                /**
+                 * When getting game settings, set the interval to update board
+                 * @param gameSettings
+                 */
                 function onGameSettingsFetched(gameSettings) {
                     scope.gameSettingsLoaded = true;
                     scope.gameSettings = gameSettings;
@@ -117,11 +144,15 @@ angular.module('gridlerWebClientApp')
                     scope.currentPlayer = null;
                     
                     //start interval for general game state
+                    updateInterval = $interval(GetGameState,INTERVAL_DURATION);
+                }
+
+                function GetGameState() {
+
                     GameService.getGeneralGameState().then(onGeneralGameStateFetched);
                 }
 
                 function onGeneralGameStateFetched(generalGameState) {
-                    console.log(generalGameState);
                     scope.gameStateLoaded = true;
                     scope.gamePlayers = generalGameState.players;
                     scope.currentPlayer = generalGameState.currentPlayer;

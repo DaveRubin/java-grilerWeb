@@ -21,7 +21,7 @@ angular.module('gridlerWebClientApp')
             if (false) {
 
                 $http({
-                    url: "/joinRoom",
+                    url: "/getGameSettings",
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {
@@ -49,16 +49,53 @@ angular.module('gridlerWebClientApp')
         };
 
         /**
-         * Will return an object containing players list and current player name
-         * @returns {GeneralGameState}
+         * send a move and get back a fullGameState
+         * @param playerMove
+         * @returns {Function}
          */
-        this.getGeneralGameState = function () {
-            var result = new GeneralGameState();
+        this.sendMove = function(playerMove) {
             var deferred = $q.defer();
             if (false) {
 
                 $http({
-                    url: "/joinRoom",
+                    url: "/sendMove",
+                    header: "Access-Control-Allow-Origin",
+                    method: "POST",
+                    params: {
+                        positions: playerMove.positions,
+                        color: playerMove.color
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    var data = response.data;
+                    if (data.error) {
+                        deferred.reject(data);
+                    }
+                    else {
+                        deferred.resolve(data);
+                    }
+                });
+            }
+            else {
+                setTimeout(function () {
+
+                    deferred.resolve(null);
+                }, 500);
+            }
+
+            return deferred.promise;
+        };
+
+        /**
+         * Will return an object containing players list and current player name
+         * @returns {GeneralGameState}
+         */
+        this.getGeneralGameState = function () {
+            var deferred = $q.defer();
+            if (false) {
+
+                $http({
+                    url: "/getGeneralGameState",
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {
@@ -86,8 +123,6 @@ angular.module('gridlerWebClientApp')
             }
 
             return deferred.promise;
-
-            return result;
         };
 
         /**
