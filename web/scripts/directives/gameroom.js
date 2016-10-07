@@ -39,7 +39,7 @@ angular.module('gridlerWebClientApp')
                  */
                 scope.selectRow = function (rowIndex) {
                     var targetToToggleFrom = this.grid[rowIndex][0].selected;
-                    for (var i = 0; i < GameData.dimensions[1]; i++) {
+                    for (var i = 0; i < scope.gameSettings.dimensions.x; i++) {
                         this.grid[rowIndex][i].selected = !targetToToggleFrom;
                     }
                     console.log("row selected", rowIndex);
@@ -51,7 +51,7 @@ angular.module('gridlerWebClientApp')
                  */
                 scope.selectColumn = function (columnIndex) {
                     var targetToToggleFrom = this.grid[0][columnIndex].selected;
-                    for (var i = 0; i < GameData.dimensions[0]; i++) {
+                    for (var i = 0; i < scope.gameSettings.dimensions.y; i++) {
                         this.grid[i][columnIndex].selected = !targetToToggleFrom;
                     }
                     console.log("column selected", columnIndex);
@@ -132,7 +132,6 @@ angular.module('gridlerWebClientApp')
                  * @returns {boolean}
                  */
                 scope.isGameFull = function(){
-                    console.log(scope.gamePlayers);
                     return scope.gamePlayers.length >= scope.gameSettings.totalPlayers;
                 };
 
@@ -158,7 +157,6 @@ angular.module('gridlerWebClientApp')
 
                 function onGeneralGameStateFetched(generalGameState) {
                     scope.gameStateLoaded = true;
-                    console.log(generalGameState);
                     scope.gamePlayers = generalGameState.gamePlayers;
                     scope.currentPlayer = generalGameState.currentPlayer;
                 }
@@ -166,7 +164,6 @@ angular.module('gridlerWebClientApp')
                 function onFail() {
 
                 }
-
 
                 function CreateGrid(settings) {
                     var resultGrid = [];
