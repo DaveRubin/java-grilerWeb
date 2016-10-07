@@ -7,7 +7,7 @@
  * # gameRoom
  */
 angular.module('gridlerWebClientApp')
-    .directive('gameRoom', ['GameService','$interval','$rootScope',function (GameService,$interval,$rootScope) {
+    .directive('gameRoom', ['GameService', '$interval', '$rootScope', function (GameService, $interval, $rootScope) {
         return {
             templateUrl: 'views/gameroom.html',
             restrict: 'E',
@@ -74,23 +74,23 @@ angular.module('gridlerWebClientApp')
                             var cell = row[x];
 
                             if (cell.selected) {
-                                positions.push([x,y]);
+                                positions.push({x: x, y: y});
                                 //cell.color = color;
                                 cell.selected = false;
                             }
                         }
                     }
 
-                    var action = new PlayerAction(positions,color);
+                    var action = new PlayerAction(color, positions);
 
                     //TODO - replace with actual server call
                     //after sending the move get the new board and update it all
-                    GameService.sendMove(action).then(function(newBoard){
-
+                    GameService.sendMove(action).then(function (newBoard) {
+                        console.log(newBoard);
                         for (var i = 0; i < positions.length; i++) {
                             var position = positions[i];
-                            var x = position[0];
-                            var y = position[1];
+                            var x = position.x;
+                            var y = position.y;
                             scope.grid[y][x].color = color;
                         }
                     });
@@ -131,7 +131,7 @@ angular.module('gridlerWebClientApp')
                  * return true if game is full
                  * @returns {boolean}
                  */
-                scope.isGameFull = function(){
+                scope.isGameFull = function () {
                     return scope.gamePlayers.length >= scope.gameSettings.totalPlayers;
                 };
 
@@ -145,11 +145,15 @@ angular.module('gridlerWebClientApp')
                     scope.gameSettingsLoaded = true;
                     scope.gameSettings = gameSettings;
                     scope.grid = CreateGrid(scope.gameSettings);
-                    
+
                     //start interval for general game state
-                    updateInterval = $interval(GetGameState,INTERVAL_DURATION);
+                    updateInterval = $interval(GetGameState, INTERVAL_DURATION);
                 }
 
+                /**
+                 * Called eac interval to update players scores/ current player playing
+                 * @constructor
+                 */
                 function GetGameState() {
 
                     GameService.getGeneralGameState().then(onGeneralGameStateFetched);

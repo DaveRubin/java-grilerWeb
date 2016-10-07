@@ -54,17 +54,18 @@ angular.module('gridlerWebClientApp')
          * @param playerMove
          * @returns {Function}
          */
-        this.sendMove = function(playerMove) {
+        this.sendMove = function (playerMove) {
             var deferred = $q.defer();
-            if (false) {
+            if (true) {
 
                 $http({
-                    url: "/sendMove",
-                    header: "Access-Control-Allow-Origin",
+                    url: "/submitMove",
+                    header: {'Content-Type': 'application/json'},
                     method: "POST",
                     params: {
-                        positions: playerMove.positions,
-                        color: playerMove.color
+                        roomName: currentGame.name,
+                        roomCreatedBy: currentGame.createdBy,
+                        playerMove: JSON.stringify(playerMove)
                     }
                 }).then(function (response) {
                     console.log(response);

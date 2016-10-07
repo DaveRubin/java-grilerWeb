@@ -15,4 +15,7 @@ public class Constants {
 
     public static final String HUMAN_TYPE = "Human";
     public static final String AI_TYPE = "AI";
+
+    public static final String MOVE_COLOR = "color";
+    public static final String MOVE_POSITIONS = "positions";
 }
