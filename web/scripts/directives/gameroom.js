@@ -85,14 +85,24 @@ angular.module('gridlerWebClientApp')
 
                     //TODO - replace with actual server call
                     //after sending the move get the new board and update it all
-                    GameService.sendMove(action).then(function (newBoard) {
-                        console.log(newBoard);
-                        for (var i = 0; i < positions.length; i++) {
-                            var position = positions[i];
-                            var x = position.x;
-                            var y = position.y;
-                            scope.grid[y][x].color = color;
+                    GameService.sendMove(action).then(function (response) {
+
+                        var cells = response.cells;
+                        console.log(response);
+                        for (var x = 0; x < cells.length; x++) {
+                            var column = cells[x];
+                            for (var y = 0; y < column.length; y++) {
+                                var cell = column[y];
+                                scope.grid[y][x].color = cell.color.toLowerCase();
+                            }
+
                         }
+                        // for (var i = 0; i < positions.length; i++) {
+                        //     var position = positions[i];
+                        //     var x = position.x;
+                        //     var y = position.y;
+                        //     scope.grid[y][x].color = color;
+                        // }
                     });
                     console.log(action);
                 };

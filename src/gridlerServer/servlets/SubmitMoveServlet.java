@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import core.controllers.Game;
 import core.controllers.player.Player;
 import core.model.GameSettings;
+import core.model.GridCell;
 import core.model.enums.CellColor;
 import gridlerServer.Constants;
 import gridlerServer.logic.GameManager;
@@ -33,13 +34,14 @@ public class SubmitMoveServlet extends HttpServlet {
             throws ServletException, IOException {
 
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
-        YourClass obj = new Gson().fromJson(request.getReader(), YourClass.class);
 
         String roomName =  request.getParameter(Constants.ROOM_NAME);
         String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
         Object actionObject = request.getParameter("playerMove");
         Gson g = new Gson();
         PlayerAction playerAction =   g.fromJson((String) actionObject,PlayerAction.class);
+
+        Response responseObject = new Response();
 
         if (roomName != null && roomCreatedBy != null) {
 
@@ -54,20 +56,15 @@ public class SubmitMoveServlet extends HttpServlet {
             currentPlayer.setSelection(playerAction.positions);
 
             currentPlayer.play();
-            ResponseUtils.writeOutJsonObject(response,currentPlayer.getGrid().cells);
-        }
-        else {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Error");
+
+            responseObject.cells = currentPlayer.getGrid().cells;
         }
 
-
-
+        ResponseUtils.writeOutJsonObject(response,responseObject);
     }
 
-    private class YourClass {
-        public String roomName;
-        public String roomCreatedBy;
-        public PlayerAction playerMove;
+    private class Response {
+        GridCell[][] cells;
     }
 
     private class PlayerAction {
