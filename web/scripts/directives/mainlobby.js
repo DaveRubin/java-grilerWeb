@@ -7,7 +7,7 @@
  * # mainLobby
  */
 angular.module('gridlerWebClientApp')
-    .directive('mainLobby', ["$interval",function ($interval) {
+    .directive('mainLobby', ["$interval","$rootScope",function ($interval,$rootScope) {
         return {
             templateUrl: 'views/mainlobby.html',
             restrict: 'E',
@@ -45,7 +45,9 @@ angular.module('gridlerWebClientApp')
 
                 function onRoomJoinSuccessfull(room) {
                     serviceInterval = null;
-                    scope.joinedRoom = room;
+                    console.log("joined room");
+                    console.log(room);
+                    $rootScope.joinedRoom = room;
                 }
 
                 function onRoomJoinFail() {

@@ -7,7 +7,7 @@
  * # gameRoom
  */
 angular.module('gridlerWebClientApp')
-    .directive('gameRoom', ['GameService','$interval',function (GameService,$interval) {
+    .directive('gameRoom', ['GameService','$interval','$rootScope',function (GameService,$interval,$rootScope) {
         return {
             templateUrl: 'views/gameroom.html',
             restrict: 'E',
@@ -17,9 +17,12 @@ angular.module('gridlerWebClientApp')
                 var INTERVAL_DURATION = 500;
                 var index = 0;
 
+                console.log($rootScope.joinedRoom);
+                console.log($rootScope.loggedInUser);
+
                 scope.gameStateLoaded = false;
                 scope.gameSettingsLoaded = false;
-                scope.loggedInUser = new Player("P1","Human");
+                //scope.loggedInUser = new Player("P1","Human");
 
                 GameService.setCurrentGame(scope.joinedRoom);
                 GameService.getGameSettings().then(onGameSettingsFetched, onFail);

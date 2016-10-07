@@ -7,7 +7,7 @@
  * # loginScreen
  */
 angular.module('gridlerWebClientApp')
-  .directive('loginScreen', ['LobbyService',function (LobbyService) {
+  .directive('loginScreen', ['LobbyService','$rootScope',function (LobbyService,$rootScope) {
     return {
       templateUrl: 'views/loginscreen.html',
       restrict: 'E',
@@ -22,7 +22,7 @@ angular.module('gridlerWebClientApp')
 
         function onSuccess(response) {
           console.log(response.text);
-          scope.loggedInUser = response.user;
+          $rootScope.loggedInUser = response.user;
         }
 
         function onFail(response) {

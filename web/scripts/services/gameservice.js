@@ -13,20 +13,21 @@ angular.module('gridlerWebClientApp')
         var currentGame = null;
 
         this.setCurrentGame = function (game) {
+            console.log("setting current game to " + game);
             currentGame = game;
         };
 
         this.getGameSettings = function () {
             var deferred = $q.defer();
-            if (false) {
+            if (true) {
 
                 $http({
                     url: "/getGameSettings",
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {
-                        roomName: room.name,
-                        roomCreatedBy: room.createdBy
+                        roomName: currentGame.name,
+                        roomCreatedBy: currentGame.createdBy
                     }
                 }).then(function (response) {
                     console.log(response);
