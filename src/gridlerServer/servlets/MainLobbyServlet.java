@@ -2,22 +2,16 @@ package gridlerServer.servlets;
 
 import gridlerServer.logic.GameManager;
 import gridlerServer.logic.UserManager;
-import gridlerServer.models.GameLobbyItem;
 import gridlerServer.models.MainLobbyResponse;
-import gridlerServer.models.PlayerDefinition;
 import gridlerServer.utils.ResponseUtils;
 import gridlerServer.utils.ServletUtils;
-import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
 @WebServlet(name = "MainLobbyServlet", urlPatterns = {"/getLobbyData"})
 public class MainLobbyServlet extends HttpServlet {

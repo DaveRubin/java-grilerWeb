@@ -51,13 +51,15 @@ public class GameManager {
                 String type = player instanceof ComputerPlayer ? AI_TYPE : HUMAN_TYPE;
                 def.add(new PlayerDefinition(player.name, type));
             }
+            GameLobbyItem item = new GameLobbyItem();
 
-            String title = settings.gametitle;
-            int totalPlayers = settings.totalPlayers;
-            Point dimensions = settings.dimensions;
-            String createdBy = game.createdBy;
+            item.name = settings.gametitle;
+            item.size = settings.totalPlayers;
+            item.boardSize = settings.dimensions;
+            item.createdBy = game.createdBy;
+            item.id = integerGameEntry.getKey();
 
-            gameLobbyItems.add(new GameLobbyItem(title, totalPlayers, def, createdBy, dimensions,integerGameEntry.getKey()));
+            gameLobbyItems.add(item);
 
         }
 
