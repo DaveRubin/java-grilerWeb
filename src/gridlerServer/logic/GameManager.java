@@ -9,9 +9,8 @@ import gridlerServer.models.PlayerDefinition;
 import gridlerServer.servlets.UploadGameFile;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,29 +22,27 @@ import static gridlerServer.Constants.HUMAN_TYPE;
  * @author blecherl
  */
 public class GameManager {
-    private final List<Game> games;
+    private final HashMap<Integer,Game> gameHashMap;
 
     public final Lock addingLock = new ReentrantLock();
+    private static int id = 0;
 
     public GameManager() {
-        games = new ArrayList<>();
+        gameHashMap = new HashMap<>();
     }
 
     public void addGame(Game gameToAdd) {
         addingLock.lock();
-        games.add(gameToAdd);
+        gameHashMap.put(id,gameToAdd);
+        id++;
         addingLock.unlock();
-    }
-
-    public List<Game> getGames() {
-        return games;
     }
 
     public ArrayList<GameLobbyItem> getGameItemRooms() throws InterruptedException {
         ArrayList<GameLobbyItem> gameLobbyItems = new ArrayList<>();
 
-        for (Game game : games) {
-
+        for (Map.Entry<Integer, Game> integerGameEntry : gameHashMap.entrySet()) {
+            Game game = integerGameEntry.getValue();
             GameSettings settings = game.getSettings();
             ArrayList<PlayerDefinition> def = new ArrayList<>();
 
@@ -59,19 +56,31 @@ public class GameManager {
             Point dimensions = settings.dimensions;
             String createdBy = game.createdBy;
 
-            gameLobbyItems.add(new GameLobbyItem(title, totalPlayers, def, createdBy, dimensions));
+            gameLobbyItems.add(new GameLobbyItem(title, totalPlayers, def, createdBy, dimensions,integerGameEntry.getKey()));
 
         }
+
+//        for (Game game : games) {
+//
+//        }
         return gameLobbyItems;
     }
 
+    /**
+     * TODO - should be changed to get game by id
+     * @param roomName
+     * @param roomCreatedBy
+     * @return
+     */
     public Game getGame(String roomName, String roomCreatedBy) {
-        for (Game game : games) {
+        for (Map.Entry<Integer, Game> integerGameEntry : gameHashMap.entrySet()) {
+            Game game = integerGameEntry.getValue();
             GameSettings settings = game.getSettings();
             if (Objects.equals(game.createdBy, roomCreatedBy) &&
                     Objects.equals(settings.gametitle, roomName)) {
                 return game;
             }
+
         }
 
         return null;
