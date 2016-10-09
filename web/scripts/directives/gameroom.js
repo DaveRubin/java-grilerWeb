@@ -54,6 +54,12 @@ angular.module('gridlerWebClientApp')
                     console.log("column selected", columnIndex);
                 };
 
+                scope.EndTurn = function() {
+                    GameService.endTurn().then(function(response) {
+                        console.log(response);
+                    })
+                };
+
                 /**
                  *  Color all of the selected cells with 'color' param
                  * @param color
@@ -162,6 +168,8 @@ angular.module('gridlerWebClientApp')
                     scope.gameStateLoaded = true;
                     scope.gamePlayers = generalGameState.gamePlayers;
                     scope.currentPlayer = generalGameState.currentPlayer;
+                    scope.maxMoves = generalGameState.maxMoves;
+                    scope.currentMove = generalGameState.currentMove;
                 }
 
                 function onFail() {

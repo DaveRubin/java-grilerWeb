@@ -4,4 +4,6 @@
 var GeneralGameState = function () {
     this.currentPlayer;
     this.players = [];
+    this.maxMoves = 0;
+    this.currentMove = 0;
 };

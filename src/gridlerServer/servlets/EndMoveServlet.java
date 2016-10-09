@@ -1,16 +1,13 @@
 package gridlerServer.servlets;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import core.controllers.Game;
 import core.controllers.player.Player;
-import core.model.GameSettings;
 import core.model.GridCell;
 import core.model.enums.CellColor;
 import gridlerServer.Constants;
 import gridlerServer.logic.GameManager;
+import gridlerServer.models.SimpleResponse;
 import gridlerServer.utils.ResponseUtils;
 import gridlerServer.utils.ServletUtils;
 
@@ -27,8 +24,8 @@ import java.util.Objects;
 /**
  * Should get a RoomDescription object in "room"
  */
-@WebServlet(name = "SubmitMoveServlet", urlPatterns = {"/submitMove"})
-public class SubmitMoveServlet extends HttpServlet {
+@WebServlet(name = "EndMoveServlet", urlPatterns = {"/endMove"})
+public class EndMoveServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,34 +34,27 @@ public class SubmitMoveServlet extends HttpServlet {
 
         String roomName =  request.getParameter(Constants.ROOM_NAME);
         String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
-        Object actionObject = request.getParameter("playerMove");
-        Gson g = new Gson();
-        PlayerAction playerAction =   g.fromJson((String) actionObject,PlayerAction.class);
 
-        Response responseObject = new Response();
+        SimpleResponse simpleResponse = new SimpleResponse();
 
         if (roomName != null && roomCreatedBy != null) {
-
             Game game = gameManager.getGame(roomName,roomCreatedBy);
-
-            CellColor selectedColor = CellColor.Undefined;
-            if (Objects.equals(playerAction.color, "black")) selectedColor = CellColor.Black;
-            if (Objects.equals(playerAction.color, "white")) selectedColor = CellColor.White;
-
-            Player currentPlayer = game.currentPlayer();
-            currentPlayer.selectionColor = selectedColor;
-            currentPlayer.setSelection(playerAction.positions);
-
-            currentPlayer.play();
-
-            responseObject.cells = currentPlayer.getGrid().cells;
+            if (game != null) {
+                simpleResponse.error = false;
+                simpleResponse.message = "Ended " + game.currentPlayer().name + "'s turn";
+                game.endCurrentPlayerTurn();
+            }
+            else {
+                simpleResponse.error = true;
+                simpleResponse.message = "No game was found";
+            }
+        }
+        else {
+            simpleResponse.error = true;
+            simpleResponse.message = "invalid parameters";
         }
 
-        ResponseUtils.writeOutJsonObject(response,responseObject);
-    }
-
-    private class Response {
-        GridCell[][] cells;
+        ResponseUtils.writeOutJsonObject(response,simpleResponse );
     }
 
     private class PlayerAction {

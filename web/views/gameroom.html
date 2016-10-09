@@ -17,6 +17,9 @@
             <p>room name : {{gameSettings.gametitle}}</p>
             <p>{{gamePlayers.length}}/{{gameSettings.totalPlayers}}</p>
             <p>Current turn : {{currentPlayer}}</p>
+
+            <!--personal game params-->
+            <p>Moves: {{currentMove}}/{{maxMoves}}</p>
         </div>
     </div>
 
@@ -61,10 +64,12 @@
             </div>
 
             <div class="actions">
-                <button ng-click="ColorSelection('black')">Black</button>
-                <button ng-click="ColorSelection('white')">White</button>
-                <button ng-click="ColorSelection('')">None</button>
+                <button ng-if="currentMove <= maxMoves" ng-click="ColorSelection('black')">Black</button>
+                <button ng-if="currentMove <= maxMoves" ng-click="ColorSelection('white')">White</button>
+                <button ng-if="currentMove <= maxMoves" ng-click="ColorSelection('')">None</button>
+                <button ng-if="currentMove > maxMoves" ng-click="EndTurn()" >EndTurn</button>
             </div>
+
             <table class="gridTable">
 
                 <tr>

@@ -56,34 +56,49 @@ angular.module('gridlerWebClientApp')
          */
         this.sendMove = function (playerMove) {
             var deferred = $q.defer();
-            if (true) {
+            $http({
+                url: "/submitMove",
+                header: {'Content-Type': 'application/json'},
+                method: "POST",
+                params: {
+                    roomName: currentGame.name,
+                    roomCreatedBy: currentGame.createdBy,
+                    playerMove: JSON.stringify(playerMove)
+                }
+            }).then(function (response) {
+                console.log(response);
+                var data = response.data;
+                if (data.error) {
+                    deferred.reject(data);
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            });
 
-                $http({
-                    url: "/submitMove",
-                    header: {'Content-Type': 'application/json'},
-                    method: "POST",
-                    params: {
-                        roomName: currentGame.name,
-                        roomCreatedBy: currentGame.createdBy,
-                        playerMove: JSON.stringify(playerMove)
-                    }
-                }).then(function (response) {
-                    console.log(response);
-                    var data = response.data;
-                    if (data.error) {
-                        deferred.reject(data);
-                    }
-                    else {
-                        deferred.resolve(data);
-                    }
-                });
-            }
-            else {
-                setTimeout(function () {
+            return deferred.promise;
+        };
 
-                    deferred.resolve(null);
-                }, 500);
-            }
+        this.endTurn = function () {
+            var deferred = $q.defer();
+            $http({
+                url: "/endMove",
+                header: {'Content-Type': 'application/json'},
+                method: "POST",
+                params: {
+                    roomName: currentGame.name,
+                    roomCreatedBy: currentGame.createdBy
+                }
+            }).then(function (response) {
+                console.log(response);
+                var data = response.data;
+                if (data.error) {
+                    deferred.reject(data);
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            });
 
             return deferred.promise;
         };
@@ -95,34 +110,23 @@ angular.module('gridlerWebClientApp')
         this.getGeneralGameState = function () {
             var deferred = $q.defer();
 
-            if (true) {
-
-                $http({
-                    url: "/getGeneralGameState",
-                    header: "Access-Control-Allow-Origin",
-                    method: "GET",
-                    params: {
-                        roomName: currentGame.name,
-                        roomCreatedBy: currentGame.createdBy
-                    }
-                }).then(function (response) {
-                    var data = response.data;
-                    if (data.error) {
-                        deferred.reject(data);
-                    }
-                    else {
-                        deferred.resolve(data);
-                    }
-                });
-            }
-            else {
-                setTimeout(function () {
-                    var result = new GeneralGameState();
-                    result.players = [new Player("P1", "Human"), new Player("P2", "Human"), new Player("P3", "AI")];
-                    result.currentPlayer = result.players[0].name;
-                    deferred.resolve(result);
-                }, 500);
-            }
+            $http({
+                url: "/getGeneralGameState",
+                header: "Access-Control-Allow-Origin",
+                method: "GET",
+                params: {
+                    roomName: currentGame.name,
+                    roomCreatedBy: currentGame.createdBy
+                }
+            }).then(function (response) {
+                var data = response.data;
+                if (data.error) {
+                    deferred.reject(data);
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            });
 
             return deferred.promise;
         };
