@@ -35,17 +35,16 @@ public class SubmitMoveServlet extends HttpServlet {
 
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
 
-        String roomName =  request.getParameter(Constants.ROOM_NAME);
-        String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
+        String roomID =  request.getParameter(Constants.ROOM_ID);
         Object actionObject = request.getParameter("playerMove");
         Gson g = new Gson();
         PlayerAction playerAction =   g.fromJson((String) actionObject,PlayerAction.class);
 
         Response responseObject = new Response();
 
-        if (roomName != null && roomCreatedBy != null) {
+        if (roomID != null ) {
 
-            Game game = gameManager.getGame(roomName,roomCreatedBy);
+            Game game = gameManager.getGame(roomID);
 
             CellColor selectedColor = CellColor.Undefined;
             if (Objects.equals(playerAction.color, "black")) selectedColor = CellColor.Black;

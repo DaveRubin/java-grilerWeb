@@ -39,21 +39,20 @@ public class JoinRoomServlet extends HttpServlet {
         //returning JSON objects, not HTML
         response.setContentType("application/json");
 
-        String roomName = request.getParameter(Constants.ROOM_NAME);
-        String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
+        String roomID = request.getParameter(Constants.ROOM_ID);
 
-        if (roomName == null || roomCreatedBy == null) {
+        if (roomID == null ) {
             isError = true;
             message =  "missing one or more of the parameters ('roomName'/'roomCreatedBy')";
         }
         else {
             //first find room
             GameManager gamesManager = ServletUtils.getGamesManager(getServletContext());
-            Game game = gamesManager.getGame(roomName,roomCreatedBy);
+            Game game = gamesManager.getGame(roomID);
 
             if (game == null) {
                 isError = true;
-                message = "Room "+ roomName+ " wan't found";
+                message = "Room #"+ roomID+ " wan't found";
             }
             else {
                 //if room found check if user can enter the room
@@ -69,7 +68,7 @@ public class JoinRoomServlet extends HttpServlet {
                     }
                     else {
                         game.registerPlayer(createAPlayerForUser(userFromSession));
-                        message = "User " + userFromSession.name + " has entered the game " + roomName +" successfully";
+                        message = "User " + userFromSession.name + " has entered the game " + roomID +" successfully";
                     }
                 }
             }

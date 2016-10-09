@@ -104,8 +104,7 @@ angular.module('gridlerWebClientApp')
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {
-                        roomName: room.name,
-                        roomCreatedBy: room.createdBy
+                        id: room.id
                     }
                 }).then(function (response) {
                     console.log(response);

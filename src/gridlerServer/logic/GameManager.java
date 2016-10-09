@@ -22,6 +22,7 @@ import static gridlerServer.Constants.HUMAN_TYPE;
  * @author blecherl
  */
 public class GameManager {
+
     private final HashMap<Integer,Game> gameHashMap;
 
     public final Lock addingLock = new ReentrantLock();
@@ -67,22 +68,20 @@ public class GameManager {
     }
 
     /**
-     * TODO - should be changed to get game by id
-     * @param roomName
-     * @param roomCreatedBy
+     * Get game by its id
+     * @param id
      * @return
      */
-    public Game getGame(String roomName, String roomCreatedBy) {
-        for (Map.Entry<Integer, Game> integerGameEntry : gameHashMap.entrySet()) {
-            Game game = integerGameEntry.getValue();
-            GameSettings settings = game.getSettings();
-            if (Objects.equals(game.createdBy, roomCreatedBy) &&
-                    Objects.equals(settings.gametitle, roomName)) {
-                return game;
-            }
+    public Game getGame(int id) {
+        return gameHashMap.getOrDefault(id,null);
+    }
 
-        }
-
-        return null;
+    /**
+     *  get game from a room id
+     * @param roomId
+     * @return
+     */
+    public Game getGame(String roomId) {
+        return getGame(Integer.parseInt(roomId));
     }
 }

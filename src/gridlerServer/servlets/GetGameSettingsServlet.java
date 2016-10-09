@@ -34,12 +34,11 @@ public class GetGameSettingsServlet extends HttpServlet {
 
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
 
-        String roomName = request.getParameter(Constants.ROOM_NAME);
-        String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
+        String roomId = request.getParameter(Constants.ROOM_ID);
         GameSettings settings = new GameSettings();
 
-        if (roomName != null && roomCreatedBy != null) {
-            Game game = gameManager.getGame(roomName,roomCreatedBy);
+        if (roomId != null) {
+            Game game = gameManager.getGame(roomId);
             settings = game.getSettings();
         }
 

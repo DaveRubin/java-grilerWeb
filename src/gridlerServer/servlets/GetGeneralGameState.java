@@ -27,11 +27,10 @@ public class GetGeneralGameState extends HttpServlet {
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
         GeneralGameState ggs = new GeneralGameState();
 
-        String roomName = request.getParameter(Constants.ROOM_NAME);
-        String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
+        String roomID = request.getParameter(Constants.ROOM_ID);
 
-        if (roomName != null && roomCreatedBy != null) {
-            Game game = gameManager.getGame(roomName,roomCreatedBy);
+        if (roomID != null ) {
+            Game game = gameManager.getGame(roomID);
             ggs = GeneralGameState.createFromGame(game);
         }
 

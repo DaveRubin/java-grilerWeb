@@ -32,13 +32,12 @@ public class EndMoveServlet extends HttpServlet {
 
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
 
-        String roomName =  request.getParameter(Constants.ROOM_NAME);
-        String roomCreatedBy = request.getParameter(Constants.ROOM_CREATED_BY);
+        String roomID =  request.getParameter(Constants.ROOM_ID);
 
         SimpleResponse simpleResponse = new SimpleResponse();
 
-        if (roomName != null && roomCreatedBy != null) {
-            Game game = gameManager.getGame(roomName,roomCreatedBy);
+        if (roomID != null ) {
+            Game game = gameManager.getGame(roomID);
             if (game != null) {
                 simpleResponse.error = false;
                 simpleResponse.message = "Ended " + game.currentPlayer().name + "'s turn";
