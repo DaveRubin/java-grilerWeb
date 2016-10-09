@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class MainLobbyServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, InterruptedException {
 
         //returning JSON objects, not HTML
         response.setContentType("application/json");
@@ -51,7 +51,11 @@ public class MainLobbyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -65,7 +69,11 @@ public class MainLobbyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

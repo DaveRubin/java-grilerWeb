@@ -58,6 +58,7 @@ public class SubmitMoveServlet extends HttpServlet {
             currentPlayer.play();
 
             responseObject.cells = currentPlayer.getGrid().cells;
+            game.endCurrentPlayerTurn();
         }
 
         ResponseUtils.writeOutJsonObject(response,responseObject);

@@ -17,9 +17,6 @@ angular.module('gridlerWebClientApp')
                 var INTERVAL_DURATION = 500;
                 var index = 0;
 
-                console.log($rootScope.joinedRoom);
-                console.log($rootScope.loggedInUser);
-
                 scope.gameStateLoaded = false;
                 scope.gameSettingsLoaded = false;
                 scope.gamePlayers = [];
@@ -83,7 +80,6 @@ angular.module('gridlerWebClientApp')
 
                     var action = new PlayerAction(color, positions);
 
-                    //TODO - replace with actual server call
                     //after sending the move get the new board and update it all
                     GameService.sendMove(action).then(function (response) {
 
@@ -97,14 +93,7 @@ angular.module('gridlerWebClientApp')
                             }
 
                         }
-                        // for (var i = 0; i < positions.length; i++) {
-                        //     var position = positions[i];
-                        //     var x = position.x;
-                        //     var y = position.y;
-                        //     scope.grid[y][x].color = color;
-                        // }
                     });
-                    console.log(action);
                 };
 
                 scope.getTimes = function (n) {

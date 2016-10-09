@@ -16,14 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @WebServlet(name = "UploadGameFileServlet", urlPatterns = {"/uploadGameFile"})
 @MultipartConfig
 public class UploadGameFile extends HttpServlet {
 
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">OutputStream out = null;
 
         OutputStream outputStream = null;
@@ -53,7 +55,12 @@ public class UploadGameFile extends HttpServlet {
 
             Game game = new Game(createdBy);
             GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
-            gameManager.addGame(game);
+
+            game.onGameLoaded.addListener(() -> {
+                gameManager.addGame(game);
+                System.out.println("---Game loaded---");
+            });
+
             game.loadGame(tmp);
             message = "Game loaded successfully by " + createdBy;
 
@@ -65,6 +72,7 @@ public class UploadGameFile extends HttpServlet {
         }
         finally {
 
+
             GameUploadResponse gur = new GameUploadResponse(message,hasError);
 
             ResponseUtils.writeOutJsonObject(response,gur);
@@ -75,6 +83,7 @@ public class UploadGameFile extends HttpServlet {
             if (filecontent != null) {
                 filecontent.close();
             }
+
         }
 
     }

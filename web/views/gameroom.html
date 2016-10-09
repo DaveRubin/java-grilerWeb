@@ -31,9 +31,14 @@
                      ng-if="$index < gamePlayers.length">
 
                     {{gamePlayers[$index].name}}
+
+                    <span>
+                    {{gamePlayers[$index].score}}/100
+                    </span>
                 <span ng-if="currentPlayerIsMe($index)">
                 (ME!!!)
                 </span>
+
                 </div>
 
                 <!-- For empty player slot-->
