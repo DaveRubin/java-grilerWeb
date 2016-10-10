@@ -5909,4 +5909,12 @@ button.close {
     .blocker .inner-content i {
       font-size: 40px; }
 
+.modal {
+  background: rgba(0, 0, 0, 0.2);
+  text-align: center; }
+  .modal .modal-header {
+    background: lightblue;
+    color: white;
+    font-weight: bold; }
+
 /*# sourceMappingURL=main.css.map */

@@ -19,12 +19,14 @@ angular.module('gridlerWebClientApp')
 
                 scope.gameStateLoaded = false;
                 scope.gameSettingsLoaded = false;
-                scope.gamePlayers = [];
-                scope.currentPlayer = null;
+                scope.state = {};
+                scope.gameResult = {};
+                scope.state.gamePlayers = [];
+                scope.state.currentPlayer = null;
                 //scope.loggedInUser = new Player("P1","Human");
 
                 GameService.setCurrentGame(scope.joinedRoom);
-                GameService.getGameSettings().then(onGameSettingsFetched, onFail);
+                //GameService.getGameSettings().then(onGameSettingsFetched, onFail);
 
                 scope.onCellClicked = function (cell) {
                     cell.selected = !cell.selected;
@@ -97,9 +99,17 @@ angular.module('gridlerWebClientApp')
                                 var cell = column[y];
                                 scope.grid[y][x].color = cell.color.toLowerCase();
                             }
-
                         }
                     });
+                };
+
+                scope.showWinner = function() {
+                    scope.gameResult.gameEnded = true;
+                    scope.gameResult.winnerName = "Some player"
+                };
+
+                scope.goBackToLobby = function() {
+                    scope.gameResult = {};
                 };
 
                 scope.getTimes = function (n) {
@@ -107,13 +117,13 @@ angular.module('gridlerWebClientApp')
                 };
 
                 scope.addPlayer = function () {
-                    scope.gamePlayers.push(new Player("New Player", "AI"));
+                    scope.state.gamePlayers.push(new Player("New Player", "AI"));
                 };
 
                 scope.nextPlayerTurn = function () {
                     index++;
-                    index = index % scope.gamePlayers.length;
-                    scope.currentPlayer = scope.gamePlayers[index].name;
+                    index = index % scope.state.gamePlayers.length;
+                    scope.state.currentPlayer = scope.state.gamePlayers[index].name;
                 };
 
                 /**
@@ -121,15 +131,15 @@ angular.module('gridlerWebClientApp')
                  * @param i
                  * @returns {boolean}
                  */
-                scope.currentPlayerIsMe = function (i) {
-                    return scope.gamePlayers[i].name == scope.loggedInUser.name
+                scope.state.currentPlayerIsMe = function (i) {
+                    return scope.state.gamePlayers[i].name == scope.loggedInUser.name
                 };
 
                 /**
                  * Return true if current player is logged in
                  */
                 scope.isMyTurn = function () {
-                    return scope.currentPlayer == scope.loggedInUser.name;
+                    return scope.state.currentPlayer == scope.loggedInUser.name;
                 };
 
                 /**
@@ -137,7 +147,7 @@ angular.module('gridlerWebClientApp')
                  * @returns {boolean}
                  */
                 scope.isGameFull = function () {
-                    return scope.gamePlayers.length >= scope.gameSettings.totalPlayers;
+                    return scope.state.gamePlayers.length >= scope.gameSettings.totalPlayers;
                 };
 
 
@@ -166,10 +176,11 @@ angular.module('gridlerWebClientApp')
 
                 function onGeneralGameStateFetched(generalGameState) {
                     scope.gameStateLoaded = true;
-                    scope.gamePlayers = generalGameState.gamePlayers;
-                    scope.currentPlayer = generalGameState.currentPlayer;
-                    scope.maxMoves = generalGameState.maxMoves;
-                    scope.currentMove = generalGameState.currentMove;
+                    scope.state = generalGameState;
+                    // scope.state.gamePlayers = generalGameState.gamePlayers;
+                    // scope.state.currentPlayer = generalGameState.currentPlayer;
+                    // scope.maxMoves = generalGameState.maxMoves;
+                    // scope.currentMove = generalGameState.currentMove;
                 }
 
                 function onFail() {

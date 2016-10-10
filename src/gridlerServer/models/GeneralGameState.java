@@ -15,15 +15,19 @@ public class GeneralGameState {
     public String currentPlayer;
     public int maxMoves;
     public int currentMove;
+    public int currentRound;
 
     public static GeneralGameState createFromGame(Game game) {
         GeneralGameState state = new GeneralGameState();
+
         for (Player player : game.getPlayers()) {
             state.gamePlayers.add(BasicPlayerInfo.fromPlayer(player));
         }
+
         state.maxMoves = game.MAX_MOVES_PER_TURN;
         state.currentMove = game.currentPlayer().move;
         state.currentPlayer = game.currentPlayer().name;
+        state.currentRound = game.currentRound;
         return state;
     }
 

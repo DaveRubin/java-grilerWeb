@@ -1,7 +1,27 @@
+<div ng-class="gameResult.gameEnded ? 'show': ''"
+        class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Game ended</h2>
+            </div>
+            <div class="modal-body">
+                <h3>The winner is {{gameResult.winnerName}}</h3>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="goBackToLobby()" class="btn btn-primary">
+                    Back to lobby
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div ng-if="gameSettings == null">
     loading settings
 </div>
 <div ng-if="gameSettings != null">
+
     <!--DEBUG ACTIONS-->
     <div>
         <button ng-click="addPlayer()" class="btn btn-danger">
@@ -15,11 +35,11 @@
     <div class="row room details">
         <div class="col-xs-12 text-center">
             <p>room name : {{gameSettings.gametitle}}</p>
-            <p>{{gamePlayers.length}}/{{gameSettings.totalPlayers}}</p>
-            <p>Current turn : {{currentPlayer}}</p>
+            <p>{{state.gamePlayers.length}}/{{gameSettings.totalPlayers}}</p>
+            <p>Current turn : {{state.currentPlayer}}</p>
 
             <!--personal game params-->
-            <p>Moves: {{currentMove}}/{{maxMoves}}</p>
+            <p>Moves: {{state.currentMove}}/{{state.maxMoves }}</p>
         </div>
     </div>
 
@@ -30,22 +50,22 @@
             <div ng-repeat="i in getTimes(gameSettings.totalPlayers) track by $index">
 
                 <!-- For logged in players -->
-                <div ng-class="gamePlayers[$index].name == currentPlayer ? 'currently-playing':'waiting'"
-                     ng-if="$index < gamePlayers.length">
+                <div ng-class="state.gamePlayers[$index].name == state.currentPlayer ? 'currently-playing':'waiting'"
+                     ng-if="$index < state.gamePlayers.length">
 
-                    {{gamePlayers[$index].name}}
+                    {{state.gamePlayers[$index].name}}
 
                     <span>
-                    {{gamePlayers[$index].score}}/100
+                    {{state.gamePlayers[$index].score}}/100
                     </span>
-                <span ng-if="currentPlayerIsMe($index)">
+                <span ng-if="state.currentPlayerIsMe($index)">
                 (ME!!!)
                 </span>
 
                 </div>
 
                 <!-- For empty player slot-->
-                <div ng-if="$index >= gamePlayers.length">
+                <div ng-if="$index >= state.gamePlayers.length">
                     ((Empty))
                 </div>
             </div>
@@ -64,10 +84,10 @@
             </div>
 
             <div class="actions">
-                <button ng-if="currentMove <= maxMoves" ng-click="ColorSelection('black')">Black</button>
-                <button ng-if="currentMove <= maxMoves" ng-click="ColorSelection('white')">White</button>
-                <button ng-if="currentMove <= maxMoves" ng-click="ColorSelection('')">None</button>
-                <button ng-if="currentMove > maxMoves" ng-click="EndTurn()" >EndTurn</button>
+                <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('black')">Black</button>
+                <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('white')">White</button>
+                <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('')">None</button>
+                <button ng-if="state.currentMove > state.maxMoves " ng-click="EndTurn()" >EndTurn</button>
             </div>
 
             <table class="gridTable">

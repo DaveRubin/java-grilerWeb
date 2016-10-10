@@ -106,3 +106,13 @@ $wrapper-inner-size : 20px;
     }
   }
 }
+
+.modal {
+  background: rgba(0,0,0,0.2);
+  text-align: center;
+  .modal-header {
+    background: lightblue;
+    color: white;
+    font-weight: bold;
+  }
+}
