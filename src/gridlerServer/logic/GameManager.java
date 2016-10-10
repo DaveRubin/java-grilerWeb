@@ -45,11 +45,11 @@ public class GameManager {
         for (Map.Entry<Integer, Game> integerGameEntry : gameHashMap.entrySet()) {
             Game game = integerGameEntry.getValue();
             GameSettings settings = game.getSettings();
-            ArrayList<PlayerDefinition> def = new ArrayList<>();
+            ArrayList<PlayerDefinition> players = new ArrayList<>();
 
             for (Player player : game.getPlayers()) {
                 String type = player instanceof ComputerPlayer ? AI_TYPE : HUMAN_TYPE;
-                def.add(new PlayerDefinition(player.name, type));
+                players.add(new PlayerDefinition(player.name, type));
             }
             GameLobbyItem item = new GameLobbyItem();
 
@@ -58,6 +58,7 @@ public class GameManager {
             item.boardSize = settings.dimensions;
             item.createdBy = game.createdBy;
             item.id = integerGameEntry.getKey();
+            item.players = players;
 
             gameLobbyItems.add(item);
 
