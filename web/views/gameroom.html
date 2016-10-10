@@ -5,8 +5,11 @@
             <div class="modal-header">
                 <h2>Game ended</h2>
             </div>
-            <div class="modal-body">
-                <h3>The winner is {{gameResult.winnerName}}</h3>
+            <div class="modal-body" ng-if="!gameResult.tie">
+                <h3>The winner is {{gameResult.winnerName}} !!!</h3>
+            </div>
+            <div class="modal-body" ng-if="gameResult.tie">
+                <h3>Its a TIE ! ! ! </h3>
             </div>
             <div class="modal-footer">
                 <button ng-click="goBackToLobby()" class="btn btn-primary">
@@ -84,10 +87,10 @@
             </div>
 
             <div class="actions">
+                <button ng-click="EndTurn()" >EndTurn</button>
                 <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('black')">Black</button>
                 <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('white')">White</button>
                 <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('')">None</button>
-                <button ng-if="state.currentMove > state.maxMoves " ng-click="EndTurn()" >EndTurn</button>
             </div>
 
             <table class="gridTable">

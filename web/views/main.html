@@ -1,10 +1,4 @@
-<div>
-  <button ng-click="next()">next</button>
-  <h1>Grid Panel</h1>
-</div>
-
 <login-screen ng-if="currentPhase() == 'loginScreen'"></login-screen>
 <main-lobby ng-if="currentPhase() == 'mainLobby'"></main-lobby>
-<game-lobby ng-if="currentPhase() == 'gameLobby'"></game-lobby>
 <game-room ng-if="currentPhase() == 'gameRoom'"></game-room>
 

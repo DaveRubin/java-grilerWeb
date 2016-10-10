@@ -26,7 +26,7 @@ angular.module('gridlerWebClientApp')
                 //scope.loggedInUser = new Player("P1","Human");
 
                 GameService.setCurrentGame(scope.joinedRoom);
-                //GameService.getGameSettings().then(onGameSettingsFetched, onFail);
+                GameService.getGameSettings().then(onGameSettingsFetched, onFail);
 
                 scope.onCellClicked = function (cell) {
                     cell.selected = !cell.selected;
@@ -56,8 +56,8 @@ angular.module('gridlerWebClientApp')
                     console.log("column selected", columnIndex);
                 };
 
-                scope.EndTurn = function() {
-                    GameService.endTurn().then(function(response) {
+                scope.EndTurn = function () {
+                    GameService.endTurn().then(function (response) {
                         console.log(response);
                     })
                 };
@@ -103,12 +103,12 @@ angular.module('gridlerWebClientApp')
                     });
                 };
 
-                scope.showWinner = function() {
+                scope.showWinner = function () {
                     scope.gameResult.gameEnded = true;
                     scope.gameResult.winnerName = "Some player"
                 };
 
-                scope.goBackToLobby = function() {
+                scope.goBackToLobby = function () {
                     scope.gameResult = {};
                 };
 
@@ -174,13 +174,61 @@ angular.module('gridlerWebClientApp')
                     GameService.getGeneralGameState().then(onGeneralGameStateFetched);
                 }
 
+                /**
+                 * Iterate all players , if ones score hit 100, end game
+                 * @returns {boolean}
+                 */
+                function checkIfAnyoneReached100() {
+                    for (var i = 0; i < scope.state.gamePlayers.length; i++) {
+                        var player = scope.state.gamePlayers[i];
+                        if (player.score == 100) {
+                            scope.gameResult.gameEnded = true;
+                            scope.gameResult.winnerName = player.name;
+                            return true;
+                        }
+                    }
+                    return false
+                }
+
+                function checkForTurnsEnd() {
+
+                    if (scope.state.currentRound > scope.gameSettings.totalmoves) {
+
+                        scope.gameResult.gameEnded = true;
+                        //get the best
+                        var bestScore = scope.state.gamePlayers[0].score;
+                        scope.gameResult.tie = true;
+
+                        for (var i = 0; i < scope.state.gamePlayers.length; i++) {
+                            var player = scope.state.gamePlayers[i];
+                            if (bestScore < player.score) {
+                                bestScore = player.score;
+                                scope.gameResult.tie = false;
+                                scope.gameResult.winnerName = player.name;
+                            }
+                        }
+
+                        return true;
+                    }
+                    return false
+                }
+
                 function onGeneralGameStateFetched(generalGameState) {
                     scope.gameStateLoaded = true;
                     scope.state = generalGameState;
-                    // scope.state.gamePlayers = generalGameState.gamePlayers;
-                    // scope.state.currentPlayer = generalGameState.currentPlayer;
-                    // scope.maxMoves = generalGameState.maxMoves;
-                    // scope.currentMove = generalGameState.currentMove;
+                    checkIfAnyoneReached100();
+                    if (!scope.gameResult.gameEnded) {
+                        checkForTurnsEnd();
+                    }
+
+                    if (scope.gameResult.gameEnded) {
+                        console.log('game ended');
+
+                        if (angular.isDefined(updateInterval)) {
+                            $interval.cancel(updateInterval);
+                            updateInterval = null;
+                        }
+                    }
                 }
 
                 function onFail() {
