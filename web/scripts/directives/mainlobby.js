@@ -71,7 +71,7 @@ angular.module('gridlerWebClientApp')
                     scope.lobbyService.uploadFile(file);
                 };
                 //scope.getData();
-                serviceInterval = $interval(scope.getData, 100);
+                serviceInterval = $interval(scope.getData, 500);
             }
         };
     }]);

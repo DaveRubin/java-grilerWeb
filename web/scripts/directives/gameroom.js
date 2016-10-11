@@ -1,5 +1,8 @@
 'use strict';
 
+//TODO - game started message
+//TODO - leave game flow
+
 /**
  * @ngdoc directive
  * @name gridlerWebClientApp.directive:gameRoom
@@ -114,16 +117,6 @@ angular.module('gridlerWebClientApp')
 
                 scope.getTimes = function (n) {
                     return new Array(n);
-                };
-
-                scope.addPlayer = function () {
-                    scope.state.gamePlayers.push(new Player("New Player", "AI"));
-                };
-
-                scope.nextPlayerTurn = function () {
-                    index++;
-                    index = index % scope.state.gamePlayers.length;
-                    scope.state.currentPlayer = scope.state.gamePlayers[index].name;
                 };
 
                 /**
