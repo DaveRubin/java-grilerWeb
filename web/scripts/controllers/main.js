@@ -17,18 +17,12 @@ angular.module('gridlerWebClientApp')
     $scope.gameLogbbyData.room =
       new Room('Room a', 3, [new Player('john', 'human'), new Player('david', 'ai')]);
 
-    $scope.user = "David";
-
 
     $rootScope.$on($scope.lobbyService.EVENT_ON_LOGIN, function(){
-      console.log("login");
       phase = 1;
     });
 
     $rootScope.$on($scope.lobbyService.EVENT_JOIN_GAME, function (event, args) {
-      console.log("joined game" + args.room.name);
-        //TODO - remove gameLobbyData
-      $scope.gameLogbbyData.room = args.room;
       phase = 2;
     });
 
@@ -39,7 +33,6 @@ angular.module('gridlerWebClientApp')
     $scope.goToGameLobby = function(room) {
       console.log(room);
       phase = 2;
-      //$scope.$digest();
     };
 
     $scope.next = function () {
