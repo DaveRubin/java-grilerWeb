@@ -11,39 +11,59 @@ angular.module('gridlerWebClientApp')
     .service('GameService', function ($rootScope, $http, $q) {
         // AngularJS will instantiate a singleton by calling "new" on this function
         var currentGame = null;
+        var EVENT_ON_LOGIN = "on-login";
 
         this.setCurrentGame = function (game) {
             console.log("setting current game to " + game);
             currentGame = game;
         };
 
+        this.leaveGame = function () {
+            var deferred = $q.defer();
+
+            $http({
+                url: "/leaveGame",
+                header: "Access-Control-Allow-Origin",
+                method: "GET",
+                params: {
+                    id: currentGame.id
+                }
+            }).then(function (response) {
+                console.log(response);
+                var data = response.data;
+                if (data.error) {
+                    deferred.reject(data);
+                }
+                else {
+                    deferred.resolve(data);
+                    $rootScope.$emit(EVENT_ON_LOGIN);
+                }
+            });
+
+            return deferred.promise;
+        };
+
         this.getGameSettings = function () {
             var deferred = $q.defer();
-            if (true) {
 
-                $http({
-                    url: "/getGameSettings",
-                    header: "Access-Control-Allow-Origin",
-                    method: "GET",
-                    params: {
-                        id: currentGame.id
-                    }
-                }).then(function (response) {
-                    console.log(response);
-                    var data = response.data;
-                    if (data.error) {
-                        deferred.reject(data);
-                    }
-                    else {
-                        deferred.resolve(data);
-                    }
-                });
-            }
-            else {
-                setTimeout(function () {
-                    deferred.resolve(new GameSettings());
-                }, 500);
-            }
+            $http({
+                url: "/getGameSettings",
+                header: "Access-Control-Allow-Origin",
+                method: "GET",
+                params: {
+                    id: currentGame.id
+                }
+            }).then(function (response) {
+                console.log(response);
+                var data = response.data;
+                if (data.error) {
+                    deferred.reject(data);
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            });
+
 
             return deferred.promise;
         };

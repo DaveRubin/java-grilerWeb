@@ -66,6 +66,7 @@
 
         <!-- Grid panel -->
         <div class="col-xs-8 grid">
+
             <div class="blocker" ng-if="!isGameFull() || isGameFull() &&!isMyTurn()">
                 <div class="inner-content">
                     <span ng-if="isGameFull()">Wait for your turn</span>
@@ -77,10 +78,11 @@
             </div>
 
             <div class="actions">
+                <button ng-click="leaveRoom()" >EndTurn</button>
                 <button ng-click="EndTurn()" >EndTurn</button>
-                <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('black')">Black</button>
-                <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('white')">White</button>
-                <button ng-if="state.currentMove <= state.maxMoves " ng-click="ColorSelection('')">None</button>
+                <button ng-disabled="state.currentMove > state.maxMoves " ng-click="ColorSelection('black')">Black</button>
+                <button ng-disabled="state.currentMove > state.maxMoves " ng-click="ColorSelection('white')">White</button>
+                <button ng-disabled="state.currentMove > state.maxMoves " ng-click="ColorSelection('')">None</button>
             </div>
 
             <table class="gridTable">

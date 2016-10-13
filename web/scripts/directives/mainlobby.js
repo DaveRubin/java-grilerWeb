@@ -44,7 +44,7 @@ angular.module('gridlerWebClientApp')
                 };
 
                 function onRoomJoinSuccessfull(room) {
-                    serviceInterval = null;
+                    cleanup();
                     console.log("joined room");
                     console.log(room);
                     $rootScope.joinedRoom = room;
@@ -70,7 +70,17 @@ angular.module('gridlerWebClientApp')
                     console.dir(file);
                     scope.lobbyService.uploadFile(file);
                 };
-                //scope.getData();
+
+                function cleanup() {
+                    console.log("------------------------");
+                    console.log("cleanup");
+                    console.log("------------------------");
+                    if (angular.isDefined(serviceInterval)) {
+                        $interval.cancel(serviceInterval);
+                        serviceInterval = null;
+                    }
+                }
+
                 serviceInterval = $interval(scope.getData, 500);
             }
         };

@@ -65,6 +65,14 @@ angular.module('gridlerWebClientApp')
                     })
                 };
 
+                scope.leaveRoom = function () {
+                    console.log("leacein")
+                    GameService.leaveGame().then(function (response) {
+                        closeRoom();
+                        console.log("room left...");
+                    })
+                };
+
                 /**
                  *  Color all of the selected cells with 'color' param
                  * @param color
@@ -167,6 +175,13 @@ angular.module('gridlerWebClientApp')
                     GameService.getGeneralGameState().then(onGeneralGameStateFetched);
                 }
 
+                function closeRoom() {
+                    if (angular.isDefined(updateInterval)) {
+                        $interval.cancel(updateInterval);
+                        updateInterval = null;
+                    }
+                }
+
                 /**
                  * Iterate all players , if ones score hit 100, end game
                  * @returns {boolean}
@@ -216,11 +231,7 @@ angular.module('gridlerWebClientApp')
 
                     if (scope.gameResult.gameEnded) {
                         console.log('game ended');
-
-                        if (angular.isDefined(updateInterval)) {
-                            $interval.cancel(updateInterval);
-                            updateInterval = null;
-                        }
+                        closeRoom();
                     }
                 }
 

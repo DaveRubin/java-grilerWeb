@@ -5,10 +5,9 @@ import core.controllers.Game;
 import core.controllers.player.ComputerPlayer;
 import core.controllers.player.HumanPlayer;
 import core.controllers.player.Player;
+import core.model.GameSettings;
 import gridlerServer.Constants;
 import gridlerServer.logic.GameManager;
-import gridlerServer.logic.UserManager;
-import gridlerServer.models.MainLobbyResponse;
 import gridlerServer.models.SimpleResponse;
 import gridlerServer.models.User;
 import gridlerServer.utils.ResponseUtils;
@@ -24,20 +23,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 
-/**
- * Should get a RoomDescription object in "room"
- */
-@WebServlet(name = "JoinRoomServlet", urlPatterns = {"/joinRoom"})
-public class JoinRoomServlet extends HttpServlet {
+@WebServlet(name = "LeaveGameServlet", urlPatterns = {"/leaveGame"})
+public class LeaveGameServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         SimpleResponse r = new SimpleResponse();
         boolean isError = false;
         String message = "";
-
-        //returning JSON objects, not HTML
-        response.setContentType("application/json");
 
         String roomID = request.getParameter(Constants.ROOM_ID);
 
@@ -62,13 +56,13 @@ public class JoinRoomServlet extends HttpServlet {
                     message = "You must be logged in in order to join a room";
                 }
                 else {
-                    if (userIsInGame(userFromSession,game)) {
-                        isError = true;
-                        message = "You are trying to enter twice to the same game";
+                    boolean success = game.unregisterPlayer(createAPlayerForUser(userFromSession));
+                    if (success) {
+                        message = "User " + userFromSession.name + " has entered the game " + roomID +" successfully";
                     }
                     else {
-                        game.registerPlayer(createAPlayerForUser(userFromSession));
-                        message = "User " + userFromSession.name + " has entered the game " + roomID +" successfully";
+                        isError = true;
+                        message = "User " + userFromSession.name + " wan't found in game " + roomID;
                     }
                 }
             }
@@ -79,6 +73,7 @@ public class JoinRoomServlet extends HttpServlet {
         ResponseUtils.writeOutJsonObject(response,r);
     }
 
+
     private Player createAPlayerForUser(User userFromSession) {
         if (Objects.equals(userFromSession.type, Constants.HUMAN_TYPE)) {
             return new HumanPlayer(userFromSession.name);
@@ -86,23 +81,6 @@ public class JoinRoomServlet extends HttpServlet {
         else {
             return new ComputerPlayer(userFromSession.name);
         }
-    }
-
-    /**
-     * Check if a given user is playing a given game
-     * @param userFromSession
-     * @param game
-     * @return
-     */
-    private boolean userIsInGame(User userFromSession, Game game) {
-        boolean inGame = false;
-        for (Player player : game.getPlayers()) {
-            if (Objects.equals(player.name, userFromSession.name)) {
-                inGame = true;
-                break;
-            }
-        }
-        return inGame;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
