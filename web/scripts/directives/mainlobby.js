@@ -43,11 +43,22 @@ angular.module('gridlerWebClientApp')
                     scope.selectedRoom = scope.rooms[scope.selectedIndex];
                 };
 
+                scope.logOut = function () {
+                    scope.lobbyService.logOut().then(function () {
+                            cleanup();
+                            $rootScope.logOut();
+                        },
+                        function (error) {
+                            console.log(error);
+                        })
+
+                };
+
                 function onRoomJoinSuccessfull(room) {
                     cleanup();
                     console.log("joined room");
                     console.log(room);
-                    $rootScope.joinedRoom = room;
+                    $rootScope.joinGame(room);
                 }
 
                 function onRoomJoinFail() {
@@ -76,7 +87,7 @@ angular.module('gridlerWebClientApp')
 
                     console.log('file is ');
                     console.dir(file);
-                    scope.lobbyService.uploadFile(file).then(onFileUploaded,onUploadError);
+                    scope.lobbyService.uploadFile(file).then(onFileUploaded, onUploadError);
                 };
 
                 function cleanup() {

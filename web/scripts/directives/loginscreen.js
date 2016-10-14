@@ -22,7 +22,7 @@ angular.module('gridlerWebClientApp')
 
         function onSuccess(response) {
           console.log(response.text);
-          $rootScope.loggedInUser = response.user;
+          $rootScope.loginAs(response.user);
         }
 
         function onFail(response) {

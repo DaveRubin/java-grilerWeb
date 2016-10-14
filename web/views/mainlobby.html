@@ -3,13 +3,15 @@
 
     <!--Upload file section-->
     <div class="row">
-        <div>
-
-        </div>
         <div class="col-xs-6">
             <input type="file" file-model="gameFile"/>
             <button class="btn btn-primary" ng-click="uploadFile()">upload</button>
             <p class="text-danger" ng-if="uploadeErrorMessage">{{uploadeErrorMessage}}</p>
+        </div>
+        <div class="col-xs-6">
+            <button ng-click="logOut()" class="pull-right">
+                Logout
+            </button>
         </div>
     </div>
 

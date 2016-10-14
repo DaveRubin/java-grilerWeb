@@ -37,19 +37,16 @@ public class SessionUtils {
         return user;
     }
 
-    public static User getUserFromSessionOnLogin(HttpServletRequest request) {
+    /**
+     * Remove user name and type from session (if exist)
+     * @param request
+     */
+    public static void removeUserFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        User user = null;
-        Object nameObject = session != null ? session.getAttribute(Constants.USER_NAME) : null;
-        Object typeObject = session != null ? session.getAttribute(Constants.USER_TYPE) : null;
-
-        if (typeObject != null && nameObject != null) {
-            user = new User();
-            user.name = nameObject.toString();
-            user.type = typeObject.toString();
+        if (session != null) {
+            session.removeAttribute(Constants.USER_NAME);
+            session.removeAttribute(Constants.USER_TYPE);
         }
-
-        return user;
     }
 
     /**

@@ -46,7 +46,27 @@ angular.module('gridlerWebClientApp')
                     }
                     else {
                         deferred.resolve(data);
-                        $rootScope.$emit(that.EVENT_ON_LOGIN);
+                    }
+                });
+
+                return deferred.promise;
+            };
+
+            /**
+             * log out as current user
+             */
+            this.logOut = function() {
+                var deferred = $q.defer();
+                that.loading = true;
+                $http.get("/logOut").then(function (response) {
+
+                    that.loading = false;
+                    var data = response.data;
+                    if (data.error) {
+                        deferred.reject(response.message);
+                    }
+                    else {
+                        deferred.resolve(response.message);
                     }
                 });
 
@@ -125,7 +145,6 @@ angular.module('gridlerWebClientApp')
                     }
                     else {
                         deferred.resolve(room);
-                        $rootScope.$emit(that.EVENT_JOIN_GAME, {room: room});
                     }
                 });
 
