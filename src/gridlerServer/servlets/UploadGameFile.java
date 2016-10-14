@@ -35,7 +35,7 @@ public class UploadGameFile extends HttpServlet {
         final PrintWriter writer = response.getWriter();
 
         try {
-            File tmp = File.createTempFile("file",".tmp");
+            File tmp = File.createTempFile("file", ".tmp");
             outputStream = new FileOutputStream(tmp);
             filecontent = filePart.getInputStream();
 
@@ -57,25 +57,26 @@ public class UploadGameFile extends HttpServlet {
             GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
 
             game.onGameLoaded.addListener(() -> {
-                gameManager.addGame(game);
-                System.out.println("---Game loaded---");
+                try {
+                    gameManager.addGame(game);
+                    writeResponse(response, "Game loaded successfully by " + game.createdBy, false);
+                }
+                catch (Exception e) {
+                    try {
+                        writeResponse(response, e.getMessage(), true);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
             });
 
             game.loadGame(tmp);
-            message = "Game loaded successfully by " + createdBy;
 
-        }
-        catch (Exception exception) {
-            hasError = true;
-            message = exception.getMessage();
+        } catch (Exception exception) {
+            writeResponse(response, exception.getMessage(), true);
 
-        }
-        finally {
+        } finally {
 
-
-            GameUploadResponse gur = new GameUploadResponse(message,hasError);
-
-            ResponseUtils.writeOutJsonObject(response,gur);
 
             if (outputStream != null) {
                 outputStream.close();
@@ -88,6 +89,12 @@ public class UploadGameFile extends HttpServlet {
 
     }
 
+    private void writeResponse(HttpServletResponse response, String message, boolean hasError) throws IOException {
+        GameUploadResponse gur = new GameUploadResponse(message, hasError);
+        ResponseUtils.writeOutJsonObject(response, gur);
+
+    }
+
     /**
      * Extracts file name from HTTP header content-disposition
      */
@@ -96,20 +103,21 @@ public class UploadGameFile extends HttpServlet {
         String[] items = contentDisp.split(";");
         for (String s : items) {
             if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length()-1);
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
             }
         }
         return "";
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -120,10 +128,10 @@ public class UploadGameFile extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

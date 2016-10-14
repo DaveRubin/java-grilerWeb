@@ -64,11 +64,11 @@ angular.module('gridlerWebClientApp')
                 };
 
                 function onFileUploaded(data) {
-                    
+                    scope.uploadeErrorMessage = null;
                 }
 
                 function onUploadError(error) {
-                    
+                    scope.uploadeErrorMessage = error;
                 }
 
                 scope.uploadFile = function () {

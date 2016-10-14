@@ -86,7 +86,12 @@ angular.module('gridlerWebClientApp')
                     headers: {'Content-Type': undefined}
                 }).success(function (response) {
                     console.log(response);
-                    deferred.resolve(response);
+                    if (response.error) {
+                        deferred.reject(response.message);
+                    }
+                    else {
+                        deferred.resolve(response.message);
+                    }
                 })
                 .error(function (response) {
                     console.log(response);

@@ -31,7 +31,11 @@ public class GameManager {
         gameHashMap = new HashMap<>();
     }
 
-    public void addGame(Game gameToAdd) {
+    public void addGame(Game gameToAdd) throws Exception {
+        String gameName = gameToAdd.getSettings().gametitle;
+        if (gameHashMap.containsKey(gameName))
+            throw new Exception("Game named " + gameName + " already exists.");
+
         addingLock.lock();
         gameHashMap.put(gameToAdd.getSettings().gametitle,gameToAdd);
         addingLock.unlock();
