@@ -31,7 +31,7 @@ angular.module('gridlerWebClientApp')
         }
 
         scope.logIn = function() {
-          scope.lobbyService.login(scope.login.name).then(onSuccess,onFail);
+          scope.lobbyService.login(scope.login).then(onSuccess,onFail);
         };
       }
     };

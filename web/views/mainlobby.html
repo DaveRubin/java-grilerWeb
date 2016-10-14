@@ -17,8 +17,8 @@
         <!--Users-->
         <div class="col-xs-3">
             <div class="user-item" ng-repeat="user in users">
-                <i ng-if="users.type == 'Human'" class="fa fa-user"></i>
-                <i ng-if="users.type != 'Human'" class="fa fa-tv"></i>
+                <i ng-if="user.type == 'Human'" class="fa fa-user"></i>
+                <i ng-if="user.type != 'Human'" class="fa fa-tv"></i>
                 {{user.name}}
             </div>
         </div>

@@ -26,7 +26,7 @@ angular.module('gridlerWebClientApp')
              * @param name
              * @returns {Function}
              */
-            this.login = function (name) {
+            this.login = function (login) {
                 var deferred = $q.defer();
                 that.loading = true;
                 $http({
@@ -34,8 +34,8 @@ angular.module('gridlerWebClientApp')
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {
-                        userName: name,
-                        userType: "Human"
+                        userName: login.name,
+                        userType: login.type
                     }
                 }).then(function (response) {
                     console.log(response);
