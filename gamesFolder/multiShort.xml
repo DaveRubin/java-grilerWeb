@@ -120,5 +120,5 @@
 			<!--</player>-->
 		<!--</Players>-->
 	<!--</MultiPlayers>-->
-	<DynamicMultiPlayers gametitle="simple game" totalmoves="1" totalPlayers="2"/>
+	<DynamicMultiPlayers gametitle="Very short game" totalmoves="1" totalPlayers="2"/>
 </GameDescriptor>
