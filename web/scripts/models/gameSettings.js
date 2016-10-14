@@ -2,7 +2,6 @@
  * Created by david on 06/10/2016.
  */
 /**
- * TODO - should get its data from web response
  * @constructor
  */
 var GameSettings = function () {

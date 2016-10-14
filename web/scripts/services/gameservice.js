@@ -36,7 +36,6 @@ angular.module('gridlerWebClientApp')
                 }
                 else {
                     deferred.resolve(data);
-                    $rootScope.$emit(EVENT_ON_LOGIN);
                 }
             });
 

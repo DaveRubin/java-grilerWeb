@@ -30,15 +30,8 @@ angular.module('gridlerWebClientApp')
       return phases[phase];
     };
 
-    $scope.goToGameLobby = function(room) {
+    $rootScope.goToGameLobby = function(room) {
       console.log(room);
-      phase = 2;
+      phase = 1;
     };
-
-    $scope.next = function () {
-      phase++;
-      if (phase >= phases.length) {
-        phase = 0;
-      }
-    }
   });

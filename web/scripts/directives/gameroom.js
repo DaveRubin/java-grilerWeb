@@ -1,7 +1,6 @@
 'use strict';
 
 //TODO - game started message
-//TODO - leave game flow
 
 /**
  * @ngdoc directive
@@ -66,9 +65,9 @@ angular.module('gridlerWebClientApp')
                 };
 
                 scope.leaveRoom = function () {
-                    console.log("leacein")
+                    console.log("leacein");
                     GameService.leaveGame().then(function (response) {
-                        closeRoom();
+                        stopPollingAndGoBackToGameLobby();
                         console.log("room left...");
                     })
                 };
@@ -120,7 +119,9 @@ angular.module('gridlerWebClientApp')
                 };
 
                 scope.goBackToLobby = function () {
+                    console.log("back to lobby!!!");
                     scope.gameResult = {};
+                    $rootScope.goToGameLobby();
                 };
 
                 scope.getTimes = function (n) {
@@ -175,7 +176,7 @@ angular.module('gridlerWebClientApp')
                     GameService.getGeneralGameState().then(onGeneralGameStateFetched);
                 }
 
-                function closeRoom() {
+                function stopPolling() {
                     if (angular.isDefined(updateInterval)) {
                         $interval.cancel(updateInterval);
                         updateInterval = null;
@@ -231,7 +232,7 @@ angular.module('gridlerWebClientApp')
 
                     if (scope.gameResult.gameEnded) {
                         console.log('game ended');
-                        closeRoom();
+                        stopPolling();
                     }
                 }
 
@@ -253,6 +254,13 @@ angular.module('gridlerWebClientApp')
 
                     return resultGrid;
                 }
+
+                function stopPollingAndGoBackToGameLobby() {
+                    stopPolling();
+                    $rootScope.goToGameLobby();
+                }
+
+
             }
         };
     }]);
