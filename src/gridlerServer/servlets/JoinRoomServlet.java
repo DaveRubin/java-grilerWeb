@@ -39,7 +39,7 @@ public class JoinRoomServlet extends HttpServlet {
         //returning JSON objects, not HTML
         response.setContentType("application/json");
 
-        String roomID = request.getParameter(Constants.ROOM_ID);
+        String roomID = request.getParameter(Constants.ROOM_NAME);
 
         if (roomID == null ) {
             isError = true;

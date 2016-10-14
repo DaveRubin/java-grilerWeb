@@ -34,7 +34,7 @@ public class GetGameSettingsServlet extends HttpServlet {
 
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
 
-        String roomId = request.getParameter(Constants.ROOM_ID);
+        String roomId = request.getParameter(Constants.ROOM_NAME);
         GameSettings settings = new GameSettings();
 
         if (roomId != null) {

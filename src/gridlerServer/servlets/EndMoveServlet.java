@@ -32,7 +32,7 @@ public class EndMoveServlet extends HttpServlet {
 
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
 
-        String roomID =  request.getParameter(Constants.ROOM_ID);
+        String roomID =  request.getParameter(Constants.ROOM_NAME);
 
         SimpleResponse simpleResponse = new SimpleResponse();
 

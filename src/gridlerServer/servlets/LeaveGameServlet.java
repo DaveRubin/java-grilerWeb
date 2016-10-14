@@ -33,7 +33,7 @@ public class LeaveGameServlet extends HttpServlet {
         boolean isError = false;
         String message = "";
 
-        String roomID = request.getParameter(Constants.ROOM_ID);
+        String roomID = request.getParameter(Constants.ROOM_NAME);
 
         if (roomID == null ) {
             isError = true;

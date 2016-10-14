@@ -27,7 +27,7 @@ public class GetGeneralGameState extends HttpServlet {
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
         GeneralGameState ggs = new GeneralGameState();
 
-        String roomID = request.getParameter(Constants.ROOM_ID);
+        String roomID = request.getParameter(Constants.ROOM_NAME);
 
         if (roomID != null ) {
             Game game = gameManager.getGame(roomID);

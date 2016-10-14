@@ -35,7 +35,7 @@ public class SubmitMoveServlet extends HttpServlet {
 
         GameManager gameManager = ServletUtils.getGamesManager(getServletContext());
 
-        String roomID =  request.getParameter(Constants.ROOM_ID);
+        String roomID =  request.getParameter(Constants.ROOM_NAME);
         Object actionObject = request.getParameter("playerMove");
         Gson g = new Gson();
         PlayerAction playerAction =   g.fromJson((String) actionObject,PlayerAction.class);

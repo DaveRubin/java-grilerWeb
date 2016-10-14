@@ -76,6 +76,7 @@ angular.module('gridlerWebClientApp')
             };
 
             this.uploadFile = function (file) {
+                var deferred = $q.defer();
 
                 var fd = new FormData();
                 fd.append('file', file);
@@ -85,10 +86,14 @@ angular.module('gridlerWebClientApp')
                     headers: {'Content-Type': undefined}
                 }).success(function (response) {
                     console.log(response);
+                    deferred.resolve(response);
                 })
                 .error(function (response) {
                     console.log(response);
+                    deferred.reject(response);
                 });
+
+                return deferred.promise;
             };
 
             /**
@@ -104,7 +109,7 @@ angular.module('gridlerWebClientApp')
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {
-                        id: room.id
+                        roomName: room.name
                     }
                 }).then(function (response) {
                     console.log(response);

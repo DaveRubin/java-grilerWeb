@@ -23,10 +23,9 @@ import static gridlerServer.Constants.HUMAN_TYPE;
  */
 public class GameManager {
 
-    private final HashMap<Integer,Game> gameHashMap;
+    private final HashMap<String,Game> gameHashMap;
 
     public final Lock addingLock = new ReentrantLock();
-    private static int id = 0;
 
     public GameManager() {
         gameHashMap = new HashMap<>();
@@ -34,15 +33,14 @@ public class GameManager {
 
     public void addGame(Game gameToAdd) {
         addingLock.lock();
-        gameHashMap.put(id,gameToAdd);
-        id++;
+        gameHashMap.put(gameToAdd.getSettings().gametitle,gameToAdd);
         addingLock.unlock();
     }
 
     public ArrayList<GameLobbyItem> getGameItemRooms() throws InterruptedException {
         ArrayList<GameLobbyItem> gameLobbyItems = new ArrayList<>();
 
-        for (Map.Entry<Integer, Game> integerGameEntry : gameHashMap.entrySet()) {
+        for (Map.Entry<String, Game> integerGameEntry : gameHashMap.entrySet()) {
             Game game = integerGameEntry.getValue();
             GameSettings settings = game.getSettings();
             ArrayList<PlayerDefinition> players = new ArrayList<>();
@@ -57,34 +55,20 @@ public class GameManager {
             item.size = settings.totalPlayers;
             item.boardSize = settings.dimensions;
             item.createdBy = game.createdBy;
-            item.id = integerGameEntry.getKey();
             item.players = players;
 
             gameLobbyItems.add(item);
 
         }
-
-//        for (Game game : games) {
-//
-//        }
         return gameLobbyItems;
     }
 
     /**
-     * Get game by its id
-     * @param id
-     * @return
-     */
-    public Game getGame(int id) {
-        return gameHashMap.getOrDefault(id,null);
-    }
-
-    /**
      *  get game from a room id
-     * @param roomId
+     * @param roomName
      * @return
      */
-    public Game getGame(String roomId) {
-        return getGame(Integer.parseInt(roomId));
+    public Game getGame(String roomName) {
+        return gameHashMap.getOrDefault(roomName,null);
     }
 }

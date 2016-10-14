@@ -63,12 +63,20 @@ angular.module('gridlerWebClientApp')
                     return index == scope.selectedIndex;
                 };
 
+                function onFileUploaded(data) {
+                    
+                }
+
+                function onUploadError(error) {
+                    
+                }
+
                 scope.uploadFile = function () {
                     var file = scope.gameFile;
 
                     console.log('file is ');
                     console.dir(file);
-                    scope.lobbyService.uploadFile(file);
+                    scope.lobbyService.uploadFile(file).then(onFileUploaded,onUploadError);
                 };
 
                 function cleanup() {

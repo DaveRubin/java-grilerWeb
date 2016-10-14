@@ -26,7 +26,7 @@ angular.module('gridlerWebClientApp')
                 header: "Access-Control-Allow-Origin",
                 method: "GET",
                 params: {
-                    id: currentGame.id
+                    roomName: currentGame.name
                 }
             }).then(function (response) {
                 console.log(response);
@@ -50,7 +50,7 @@ angular.module('gridlerWebClientApp')
                 header: "Access-Control-Allow-Origin",
                 method: "GET",
                 params: {
-                    id: currentGame.id
+                    roomName: currentGame.name
                 }
             }).then(function (response) {
                 console.log(response);
@@ -79,7 +79,7 @@ angular.module('gridlerWebClientApp')
                 header: {'Content-Type': 'application/json'},
                 method: "POST",
                 params: {
-                    id: currentGame.id,
+                    roomName: currentGame.name,
                     playerMove: JSON.stringify(playerMove)
                 }
             }).then(function (response) {
@@ -103,7 +103,7 @@ angular.module('gridlerWebClientApp')
                 header: {'Content-Type': 'application/json'},
                 method: "POST",
                 params: {
-                    id: currentGame.id
+                    roomName: currentGame.name
                 }
             }).then(function (response) {
                 console.log(response);
@@ -131,7 +131,7 @@ angular.module('gridlerWebClientApp')
                 header: "Access-Control-Allow-Origin",
                 method: "GET",
                 params: {
-                    id: currentGame.id,
+                    roomName: currentGame.name,
                 }
             }).then(function (response) {
                 var data = response.data;
