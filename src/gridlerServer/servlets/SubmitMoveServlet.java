@@ -8,6 +8,7 @@ import core.controllers.Game;
 import core.controllers.player.Player;
 import core.model.GameSettings;
 import core.model.GridCell;
+import core.model.PlayerAction;
 import core.model.enums.CellColor;
 import gridlerServer.Constants;
 import gridlerServer.logic.GameManager;
@@ -57,6 +58,9 @@ public class SubmitMoveServlet extends HttpServlet {
             currentPlayer.play();
 
             responseObject.cells = currentPlayer.getGrid().cells;
+            responseObject.history = currentPlayer.GetMovesHistory();
+            responseObject.undoAvailable = currentPlayer.isUndoAvailable();
+            responseObject.redoAvailable = currentPlayer.isRedoAvailable();
         }
 
         ResponseUtils.writeOutJsonObject(response,responseObject);
@@ -64,6 +68,9 @@ public class SubmitMoveServlet extends HttpServlet {
 
     private class Response {
         GridCell[][] cells;
+        ArrayList<ArrayList<core.model.PlayerAction>> history;
+        boolean undoAvailable;
+        boolean redoAvailable;
     }
 
     private class PlayerAction {

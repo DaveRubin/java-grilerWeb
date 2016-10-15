@@ -1,5 +1,5 @@
 <div ng-class="gameResult.gameEnded ? 'show': ''"
-        class="modal">
+     class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -41,6 +41,7 @@
 
         <!--Players panel-->
         <div class="col-xs-4 players">
+            <h3>Players:</h3>
             <div ng-repeat="i in getTimes(gameSettings.totalPlayers) track by $index">
 
                 <!-- For logged in players -->
@@ -63,6 +64,21 @@
                     ((Empty))
                 </div>
             </div>
+            <div>
+                <h3>History:</h3>
+                <ui>
+                    <li ng-repeat="historyItem in playerHistory">
+                        <span ng-repeat="move in historyItem">
+                            <span ng-if="$first">
+                                <i class="{{move.from |mapColorToFA}}"></i>
+                                <i class=" fa fa-arrow-right" aria-hidden="true"></i>
+                                <i class="{{move.to |mapColorToFA}}" aria-hidden="true"></i>
+                            </span>
+                        ({{move.position.x}},{{move.position.y}})
+                        </span>
+                    </li>
+                </ui>
+            </div>
         </div>
 
         <!-- Grid panel -->
@@ -79,11 +95,23 @@
             </div>
 
             <div class="actions">
-                <button ng-click="leaveRoom()" >EndTurn</button>
-                <button ng-click="EndTurn()" >EndTurn</button>
-                <button ng-disabled="state.currentMove > state.maxMoves " ng-click="ColorSelection('black')">Black</button>
-                <button ng-disabled="state.currentMove > state.maxMoves " ng-click="ColorSelection('white')">White</button>
-                <button ng-disabled="state.currentMove > state.maxMoves " ng-click="ColorSelection('')">None</button>
+                <button class="btn btn-default" ng-click="leaveRoom()">leave</button>
+                <button class="btn btn-default" ng-click="EndTurn()">EndTurn</button>
+
+                <button class="btn btn-default" ng-disabled="!undoAvailable"
+                        ng-click="EndTurn()">Undo</button>
+                <button class="btn btn-default" ng-disabled="!redoAvailable"
+                        ng-click="EndTurn()">Redo</button>
+
+                <button class="btn btn-default" ng-disabled="state.currentMove > state.maxMoves "
+                        ng-click="ColorSelection('black')">Black
+                </button>
+                <button class="btn btn-default" ng-disabled="state.currentMove > state.maxMoves "
+                        ng-click="ColorSelection('white')">White
+                </button>
+                <button class="btn btn-default" ng-disabled="state.currentMove > state.maxMoves "
+                        ng-click="ColorSelection('')">None
+                </button>
             </div>
 
             <table class="gridTable">

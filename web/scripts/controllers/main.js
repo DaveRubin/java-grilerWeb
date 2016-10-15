@@ -22,12 +22,12 @@ angular.module('gridlerWebClientApp')
             phase = 1;
         });
 
-        $rootScope.loginAs = function(user) {
+        $rootScope.loginAs = function (user) {
             $rootScope.loggedInUser = user;
             phase = 1;
         };
 
-        $rootScope.logOut = function() {
+        $rootScope.logOut = function () {
             $rootScope.loggedInUser = null;
             phase = 0;
         };

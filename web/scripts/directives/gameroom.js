@@ -101,6 +101,10 @@ angular.module('gridlerWebClientApp')
                     //after sending the move get the new board and update it all
                     GameService.sendMove(action).then(function (response) {
 
+                        scope.playerHistory = response.history;
+                        scope.undoAvailable = response.undoAvailable;
+                        scope.redoAvailable = response.redoAvailable;
+
                         var cells = response.cells;
                         console.log(response);
                         for (var x = 0; x < cells.length; x++) {
