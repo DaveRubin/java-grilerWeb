@@ -99,9 +99,9 @@
                 <button class="btn btn-default" ng-click="EndTurn()">EndTurn</button>
 
                 <button class="btn btn-default" ng-disabled="!undoAvailable"
-                        ng-click="EndTurn()">Undo</button>
+                        ng-click="Undo()">Undo</button>
                 <button class="btn btn-default" ng-disabled="!redoAvailable"
-                        ng-click="EndTurn()">Redo</button>
+                        ng-click="Redo()">Redo</button>
 
                 <button class="btn btn-default" ng-disabled="state.currentMove > state.maxMoves "
                         ng-click="ColorSelection('black')">Black

@@ -19,8 +19,9 @@ angular.module('gridlerWebClientApp')
         };
 
         this.leaveGame = function () {
-            var deferred = $q.defer();
-
+            return simplePost("/leaveGame");
+            /*
+             var deferred = $q.defer();
             $http({
                 url: "/leaveGame",
                 header: "Access-Control-Allow-Origin",
@@ -40,9 +41,12 @@ angular.module('gridlerWebClientApp')
             });
 
             return deferred.promise;
+             */
         };
 
         this.getGameSettings = function () {
+            return simplePost("/getGameSettings")
+            /*
             var deferred = $q.defer();
 
             $http({
@@ -65,6 +69,7 @@ angular.module('gridlerWebClientApp')
 
 
             return deferred.promise;
+             */
         };
 
         /**
@@ -96,7 +101,17 @@ angular.module('gridlerWebClientApp')
             return deferred.promise;
         };
 
+        this.undo = function() {
+            return simplePost("/undo");
+        };
+
+        this.redo = function() {
+            return simplePost("/redo");
+        };
+
         this.endTurn = function () {
+            return simplePost("/endMove");
+            /*
             var deferred = $q.defer();
             $http({
                 url: "/endMove",
@@ -117,6 +132,7 @@ angular.module('gridlerWebClientApp')
             });
 
             return deferred.promise;
+             */
         };
 
         /**
@@ -124,6 +140,8 @@ angular.module('gridlerWebClientApp')
          * @returns {GeneralGameState}
          */
         this.getGeneralGameState = function () {
+            return simplePost("/getGeneralGameState");
+            /*
             var deferred = $q.defer();
 
             $http({
@@ -144,15 +162,30 @@ angular.module('gridlerWebClientApp')
             });
 
             return deferred.promise;
+             */
         };
 
-        /**
-         * Get full game state for a player
-         * @returns {FullGameState}
-         */
-        this.getFullGameState = function () {
-            var result = new FullGameState();
-            return result;
+
+        function simplePost(url) {
+            var deferred = $q.defer();
+            $http({
+                url: url,
+                header: {'Content-Type': 'application/json'},
+                method: "POST",
+                params: {
+                    roomName: currentGame.name
+                }
+            }).then(function (response) {
+                var data = response.data;
+                if (data.error) {
+                    deferred.reject(data);
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            });
+
+            return deferred.promise;
         }
 
     });

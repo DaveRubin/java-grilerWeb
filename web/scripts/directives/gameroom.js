@@ -72,6 +72,18 @@ angular.module('gridlerWebClientApp')
                     })
                 };
 
+                scope.Undo = function() {
+                    GameService.undo().then(function(response) {
+                        processMoveResponse(response);
+                    });
+                };
+
+                scope.Redo = function() {
+                    GameService.redo().then(function(response) {
+                        processMoveResponse(response);
+                    });
+                };
+
                 /**
                  *  Color all of the selected cells with 'color' param
                  * @param color
@@ -98,22 +110,11 @@ angular.module('gridlerWebClientApp')
 
                     var action = new PlayerAction(color, positions);
 
+
                     //after sending the move get the new board and update it all
                     GameService.sendMove(action).then(function (response) {
 
-                        scope.playerHistory = response.history;
-                        scope.undoAvailable = response.undoAvailable;
-                        scope.redoAvailable = response.redoAvailable;
-
-                        var cells = response.cells;
-                        console.log(response);
-                        for (var x = 0; x < cells.length; x++) {
-                            var column = cells[x];
-                            for (var y = 0; y < column.length; y++) {
-                                var cell = column[y];
-                                scope.grid[y][x].color = cell.color.toLowerCase();
-                            }
-                        }
+                        processMoveResponse(response);
                     });
                 };
 
@@ -184,6 +185,27 @@ angular.module('gridlerWebClientApp')
                     if (angular.isDefined(updateInterval)) {
                         $interval.cancel(updateInterval);
                         updateInterval = null;
+                    }
+                }
+
+                /**
+                 * When move response (submit/undo/redo) actions are made, process new state
+                 * @param response
+                 */
+                function processMoveResponse(response) {
+                    console.log(response);
+                    
+                    scope.playerHistory = response.history;
+                    scope.undoAvailable = response.undoAvailable;
+                    scope.redoAvailable = response.redoAvailable;
+
+                    var cells = response.cells;
+                    for (var x = 0; x < cells.length; x++) {
+                        var column = cells[x];
+                        for (var y = 0; y < column.length; y++) {
+                            var cell = column[y];
+                            scope.grid[y][x].color = cell.color.toLowerCase();
+                        }
                     }
                 }
 
