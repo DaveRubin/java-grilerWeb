@@ -15,6 +15,8 @@ angular.module('gridlerWebClientApp')
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
 
+                var debug = true;
+
                 var updateInterval;
                 var INTERVAL_DURATION = 500;
                 var index = 0;
@@ -27,8 +29,13 @@ angular.module('gridlerWebClientApp')
                 scope.state.currentPlayer = null;
                 //scope.loggedInUser = new Player("P1","Human");
 
-                GameService.setCurrentGame(scope.joinedRoom);
-                GameService.getGameSettings().then(onGameSettingsFetched, onFail);
+                if (debug) {
+                    debugInit();
+                }
+                else {
+                    GameService.setCurrentGame(scope.joinedRoom);
+                    GameService.getGameSettings().then(onGameSettingsFetched, onFail);
+                }
 
                 scope.onCellClicked = function (cell) {
                     cell.selected = !cell.selected;
@@ -55,7 +62,6 @@ angular.module('gridlerWebClientApp')
                     for (var i = 0; i < scope.gameSettings.dimensions.y; i++) {
                         this.grid[i][columnIndex].selected = !targetToToggleFrom;
                     }
-                    console.log("column selected", columnIndex);
                 };
 
                 scope.EndTurn = function () {
@@ -72,14 +78,14 @@ angular.module('gridlerWebClientApp')
                     })
                 };
 
-                scope.Undo = function() {
-                    GameService.undo().then(function(response) {
+                scope.Undo = function () {
+                    GameService.undo().then(function (response) {
                         processMoveResponse(response);
                     });
                 };
 
-                scope.Redo = function() {
-                    GameService.redo().then(function(response) {
+                scope.Redo = function () {
+                    GameService.redo().then(function (response) {
                         processMoveResponse(response);
                     });
                 };
@@ -91,31 +97,47 @@ angular.module('gridlerWebClientApp')
                  */
                 scope.ColorSelection = function (color) {
 
-                    var positions = [];
+                    if (debug) {
+                        for (var y = 0; y < scope.grid.length; y++) {
+                            var row = scope.grid[y];
 
-                    for (var y = 0; y < scope.grid.length; y++) {
-                        var row = scope.grid[y];
+                            for (var x = 0; x < row.length; x++) {
 
-                        for (var x = 0; x < row.length; x++) {
+                                var cell = row[x];
 
-                            var cell = row[x];
-
-                            if (cell.selected) {
-                                positions.push({x: x, y: y});
-                                //cell.color = color;
-                                cell.selected = false;
+                                if (cell.selected) {
+                                    cell.color = color;
+                                    cell.selected = false;
+                                }
                             }
                         }
                     }
+                    else {
+                        var positions = [];
 
-                    var action = new PlayerAction(color, positions);
+                        for (var y = 0; y < scope.grid.length; y++) {
+                            var row = scope.grid[y];
 
+                            for (var x = 0; x < row.length; x++) {
 
-                    //after sending the move get the new board and update it all
-                    GameService.sendMove(action).then(function (response) {
+                                var cell = row[x];
 
-                        processMoveResponse(response);
-                    });
+                                if (cell.selected) {
+                                    positions.push({x: x, y: y});
+                                    //cell.color = color;
+                                    cell.selected = false;
+                                }
+                            }
+                        }
+
+                        var action = new PlayerAction(color, positions);
+
+                        //after sending the move get the new board and update it all
+                        GameService.sendMove(action).then(function (response) {
+
+                            processMoveResponse(response);
+                        });
+                    }
                 };
 
                 scope.showWinner = function () {
@@ -146,7 +168,12 @@ angular.module('gridlerWebClientApp')
                  * Return true if current player is logged in
                  */
                 scope.isMyTurn = function () {
-                    return scope.state.currentPlayer == scope.loggedInUser.name;
+                    if (debug) {
+                        return true;
+                    }
+                    else {
+                        return scope.state.currentPlayer == scope.loggedInUser.name;
+                    }
                 };
 
                 /**
@@ -154,7 +181,12 @@ angular.module('gridlerWebClientApp')
                  * @returns {boolean}
                  */
                 scope.isGameFull = function () {
-                    return scope.state.gamePlayers.length >= scope.gameSettings.totalPlayers;
+                    if (debug) {
+                        return true;
+                    }
+                    else {
+                        return scope.state.gamePlayers.length >= scope.gameSettings.totalPlayers;
+                    }
                 };
 
 
@@ -170,6 +202,13 @@ angular.module('gridlerWebClientApp')
 
                     //start interval for general game state
                     updateInterval = $interval(GetGameState, INTERVAL_DURATION);
+                }
+
+                function debugInit() {
+                    var gameSettings = getDummySettings();
+                    scope.gameSettingsLoaded = true;
+                    scope.gameSettings = gameSettings;
+                    scope.grid = CreateGrid(scope.gameSettings);
                 }
 
                 /**
@@ -193,8 +232,9 @@ angular.module('gridlerWebClientApp')
                  * @param response
                  */
                 function processMoveResponse(response) {
+
                     console.log(response);
-                    
+
                     scope.playerHistory = response.history;
                     scope.undoAvailable = response.undoAvailable;
                     scope.redoAvailable = response.redoAvailable;
@@ -286,7 +326,37 @@ angular.module('gridlerWebClientApp')
                     $rootScope.goToGameLobby();
                 }
 
-
+                function getDummySettings() {
+                    return {
+                        "solution": [{"x": 3, "y": 1}, {"x": 8, "y": 1}, {"x": 2, "y": 2}, {
+                            "x": 4,
+                            "y": 2
+                        }, {"x": 8, "y": 2}, {"x": 1, "y": 3}, {"x": 2, "y": 3}, {"x": 3, "y": 3}, {
+                            "x": 4,
+                            "y": 3
+                        }, {"x": 5, "y": 3}, {"x": 8, "y": 3}, {"x": 3, "y": 4}, {"x": 8, "y": 4}, {
+                            "x": 3,
+                            "y": 5
+                        }, {"x": 8, "y": 5}, {"x": 3, "y": 6}, {"x": 8, "y": 6}, {"x": 3, "y": 7}, {
+                            "x": 8,
+                            "y": 7
+                        }, {"x": 3, "y": 8}, {"x": 6, "y": 8}, {"x": 7, "y": 8}, {"x": 8, "y": 8}, {
+                            "x": 9,
+                            "y": 8
+                        }, {"x": 10, "y": 8}, {"x": 3, "y": 9}, {"x": 7, "y": 9}, {"x": 9, "y": 9}, {
+                            "x": 3,
+                            "y": 10
+                        }, {"x": 8, "y": 10}],
+                        "gametype": "DynamicMultiPlayer",
+                        "dimensions": {"x": 10, "y": 10},
+                        "maxGameMoves": 15,
+                        "totalmoves": 15,
+                        "totalPlayers": 1,
+                        "gametitle": "Game for one",
+                        "columnSlices": [[1], [2], [1, 8], [2], [1], [1], [2], [8, 1], [2], [1]],
+                        "rowSlices": [[1, 1], [1, 1, 1], [5, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 5], [1, 1, 1], [1, 1]]
+                    }
+                }
             }
         };
     }]);
