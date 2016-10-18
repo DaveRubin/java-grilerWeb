@@ -5873,6 +5873,9 @@ button.close {
     background: #ffcccc; }
   .cell.selected {
     box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.8); }
+  .cell.preview {
+    width: 10px;
+    height: 10px; }
 
 .wrapper {
   cursor: pointer;
@@ -5885,6 +5888,11 @@ button.close {
     height: 20px;
     text-align: center;
     margin: auto; }
+    .wrapper .wrapper-inner-content.preview {
+      width: 10px;
+      height: 10px;
+      font-size: 10px;
+      line-height: 10px; }
     .wrapper .wrapper-inner-content.completed {
       color: black;
       background: white; }
@@ -5892,8 +5900,13 @@ button.close {
     display: inline-block;
     float: left;
     height: 30px; }
+    .wrapper.left-wrapper .wrapper-inner-content.preview {
+      height: 10px; }
   .wrapper.top-wrapper .wrapper-inner-content {
     width: 30px; }
+    .wrapper.top-wrapper .wrapper-inner-content.preview {
+      width: 10px;
+      line-height: 10px; }
 
 .gridTable {
   background: black;

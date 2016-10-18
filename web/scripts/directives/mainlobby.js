@@ -13,6 +13,8 @@ angular.module('gridlerWebClientApp')
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
 
+                var debug = GamePrefs.DEBUG;
+
                 scope.selectedIndex = -1;
                 scope.rooms = [];
                 scope.users = [];
@@ -22,6 +24,7 @@ angular.module('gridlerWebClientApp')
                 var serviceInterval;
 
                 function onDataFetched(data) {
+                    console.log(data);
                     scope.rooms = data.games;
                     scope.users = data.users;
 
@@ -35,7 +38,8 @@ angular.module('gridlerWebClientApp')
 
                 scope.getData = function () {
                     //scope.loadMessage = "Fetching data";
-                    scope.lobbyService.getData().then(onDataFetched, onError)
+                    scope.lobbyService.getData().then(onDataFetched, onError);
+
                 };
 
                 scope.roomSelected = function (index) {
@@ -100,7 +104,12 @@ angular.module('gridlerWebClientApp')
                     }
                 }
 
-                serviceInterval = $interval(scope.getData, 500);
+                if (debug) {
+                    onDataFetched(GamePrefs.DUMMY_LOBBY_DATA);
+                }
+                else {
+                    serviceInterval = $interval(scope.getData, 500);
+                }
             }
         };
     }]);

@@ -9,7 +9,7 @@
  * # gameRoom
  */
 angular.module('gridlerWebClientApp')
-    .directive('gameRoom', ['GameService', '$interval', '$rootScope','CompletedBlocksService', function (GameService, $interval, $rootScope,CompletedBlocksService) {
+    .directive('gameRoom', ['GameService', '$interval', '$rootScope', 'CompletedBlocksService', function (GameService, $interval, $rootScope, CompletedBlocksService) {
         return {
             templateUrl: 'views/gameroom.html',
             restrict: 'E',
@@ -195,16 +195,16 @@ angular.module('gridlerWebClientApp')
                 function createCompletedBlocks() {
                     scope.columnSlicesCompletedBlocks = [];
                     scope.rowSlicesCompletedBlocks = [];
-                    scope.gameSettings.columnSlices.forEach(function(slice) {
+                    scope.gameSettings.columnSlices.forEach(function (slice) {
                         var temp = [];
-                        slice.forEach(function(){
-                           temp.push(false);
+                        slice.forEach(function () {
+                            temp.push(false);
                         });
                         scope.columnSlicesCompletedBlocks.push(temp);
                     });
-                    scope.gameSettings.rowSlices.forEach(function(slice) {
+                    scope.gameSettings.rowSlices.forEach(function (slice) {
                         var temp = [];
-                        slice.forEach(function(){
+                        slice.forEach(function () {
                             temp.push(false);
                         });
                         scope.rowSlicesCompletedBlocks.push(temp);
@@ -252,11 +252,11 @@ angular.module('gridlerWebClientApp')
 
                 function calculateCompleteBlocks() {
                     for (var x = 0; x < scope.gameSettings.dimensions.x; x++) {
-                        scope.columnSlicesCompletedBlocks[x] = getCompletedColumnSlices(scope.gameSettings.columnSlices[x],x);
+                        scope.columnSlicesCompletedBlocks[x] = getCompletedColumnSlices(scope.gameSettings.columnSlices[x], x);
                     }
 
                     for (var y = 0; y < scope.gameSettings.dimensions.y; y++) {
-                        scope.rowSlicesCompletedBlocks[y] = getCompletedRowSlices(scope.gameSettings.rowSlices[y],y);
+                        scope.rowSlicesCompletedBlocks[y] = getCompletedRowSlices(scope.gameSettings.rowSlices[y], y);
                     }
                 }
 
@@ -283,16 +283,16 @@ angular.module('gridlerWebClientApp')
                     calculateCompleteBlocks();
                 }
 
-                function getCompletedColumnSlices(columnSlice,index) {
+                function getCompletedColumnSlices(columnSlice, index) {
                     var column = getColumn(index);
 
-                    return CompletedBlocksService.getCompletedBlocks(columnSlice,column);
+                    return CompletedBlocksService.getCompletedBlocks(columnSlice, column);
                 }
 
-                function getCompletedRowSlices(rowSlice,index) {
+                function getCompletedRowSlices(rowSlice, index) {
                     var row = getRow(index);
 
-                    return CompletedBlocksService.getCompletedBlocks(rowSlice,row);
+                    return CompletedBlocksService.getCompletedBlocks(rowSlice, row);
                 }
 
                 /**

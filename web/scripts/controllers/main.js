@@ -10,13 +10,12 @@
 angular.module('gridlerWebClientApp')
     .controller('MainCtrl', function ($scope, $rootScope, LobbyService) {
         var debug = GamePrefs.DEBUG;
-        var phase = debug? 2:0;
+        var phase = debug? 1:0;
         var phases = ['loginScreen', 'mainLobby', 'gameRoom'];
         $scope.lobbyService = LobbyService;
         $scope.gameLogbbyData = {};
         $scope.gameLogbbyData.room =
             new Room('Room a', 3, [new Player('john', 'human'), new Player('david', 'ai')]);
-
 
         $rootScope.$on($scope.lobbyService.EVENT_ON_LOGIN, function () {
             phase = 1;
