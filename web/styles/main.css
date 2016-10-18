@@ -5885,6 +5885,9 @@ button.close {
     height: 20px;
     text-align: center;
     margin: auto; }
+    .wrapper .wrapper-inner-content.completed {
+      color: black;
+      background: white; }
   .wrapper.left-wrapper .wrapper-inner-content {
     display: inline-block;
     float: left;

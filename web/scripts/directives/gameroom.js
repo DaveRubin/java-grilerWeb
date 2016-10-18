@@ -9,7 +9,7 @@
  * # gameRoom
  */
 angular.module('gridlerWebClientApp')
-    .directive('gameRoom', ['GameService', '$interval', '$rootScope', function (GameService, $interval, $rootScope) {
+    .directive('gameRoom', ['GameService', '$interval', '$rootScope','CompletedBlocksService', function (GameService, $interval, $rootScope,CompletedBlocksService) {
         return {
             templateUrl: 'views/gameroom.html',
             restrict: 'E',
@@ -111,6 +111,8 @@ angular.module('gridlerWebClientApp')
                                 }
                             }
                         }
+                        
+                        calculateCompleteBlocks();
                     }
                     else {
                         var positions = [];
@@ -190,6 +192,25 @@ angular.module('gridlerWebClientApp')
                 };
 
 
+                function createCompletedBlocks() {
+                    scope.columnSlicesCompletedBlocks = [];
+                    scope.rowSlicesCompletedBlocks = [];
+                    scope.gameSettings.columnSlices.forEach(function(slice) {
+                        var temp = [];
+                        slice.forEach(function(){
+                           temp.push(false);
+                        });
+                        scope.columnSlicesCompletedBlocks.push(temp);
+                    });
+                    scope.gameSettings.rowSlices.forEach(function(slice) {
+                        var temp = [];
+                        slice.forEach(function(){
+                            temp.push(false);
+                        });
+                        scope.rowSlicesCompletedBlocks.push(temp);
+                    });
+                }
+
                 /**
                  * When getting game settings, set the interval to update board
                  * @param gameSettings
@@ -199,6 +220,7 @@ angular.module('gridlerWebClientApp')
                     scope.gameSettingsLoaded = true;
                     scope.gameSettings = gameSettings;
                     scope.grid = CreateGrid(scope.gameSettings);
+                    createCompletedBlocks();
 
                     //start interval for general game state
                     updateInterval = $interval(GetGameState, INTERVAL_DURATION);
@@ -209,6 +231,7 @@ angular.module('gridlerWebClientApp')
                     scope.gameSettingsLoaded = true;
                     scope.gameSettings = gameSettings;
                     scope.grid = CreateGrid(scope.gameSettings);
+                    createCompletedBlocks();
                 }
 
                 /**
@@ -224,6 +247,16 @@ angular.module('gridlerWebClientApp')
                     if (angular.isDefined(updateInterval)) {
                         $interval.cancel(updateInterval);
                         updateInterval = null;
+                    }
+                }
+
+                function calculateCompleteBlocks() {
+                    for (var x = 0; x < scope.gameSettings.dimensions.x; x++) {
+                        scope.columnSlicesCompletedBlocks[x] = getCompletedColumnSlices(scope.gameSettings.columnSlices[x],x);
+                    }
+
+                    for (var y = 0; y < scope.gameSettings.dimensions.y; y++) {
+                        scope.rowSlicesCompletedBlocks[y] = getCompletedRowSlices(scope.gameSettings.rowSlices[y],y);
                     }
                 }
 
@@ -247,6 +280,49 @@ angular.module('gridlerWebClientApp')
                             scope.grid[y][x].color = cell.color.toLowerCase();
                         }
                     }
+                    calculateCompleteBlocks();
+                }
+
+                function getCompletedColumnSlices(columnSlice,index) {
+                    var column = getColumn(index);
+
+                    return CompletedBlocksService.getCompletedBlocks(columnSlice,column);
+                }
+
+                function getCompletedRowSlices(rowSlice,index) {
+                    var row = getRow(index);
+
+                    return CompletedBlocksService.getCompletedBlocks(rowSlice,row);
+                }
+
+                /**
+                 * Get an array of colors representing a row giben index row index parameter
+                 * @param index
+                 * @returns {Array}
+                 */
+                function getRow(index) {
+                    var row = [];
+
+                    for (var x = 0; x < scope.gameSettings.dimensions.x; x++) {
+                        row.push(scope.grid[index][x].color);
+                    }
+
+                    return row;
+                }
+
+                /**
+                 * Get an array of colors representing a column given index column index parameter
+                 * @param index
+                 * @returns {Array}
+                 */
+                function getColumn(index) {
+                    var column = [];
+
+                    for (var y = 0; y < scope.gameSettings.dimensions.y; y++) {
+                        column.push(scope.grid[y][index].color);
+                    }
+
+                    return column;
                 }
 
                 /**

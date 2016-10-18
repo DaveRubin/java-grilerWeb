@@ -123,20 +123,25 @@
 
                     <th class="top-wrapper wrapper"
                         ng-repeat="columnSlice in gameSettings.columnSlices track by $index"
+                        ng-init="mainIndex = $index"
                         ng-click="selectColumn($index)">
 
                         <div class="wrapper-inner-content"
+                             ng-class="columnSlicesCompletedBlocks[mainIndex][$index]? 'completed':'' "
                              ng-repeat="slice in columnSlice track by $index">
                             {{slice}}
                         </div>
                     </th>
                 </tr>
 
-                <tr ng-repeat="row in grid  track by $index">
+                <tr ng-repeat="row in grid  track by $index"
+                    ng-init="mainIndex2 = $index">
 
-                    <th class="left-wrapper wrapper" ng-click="selectRow($index)">
+                    <th class="left-wrapper wrapper"
+                        ng-click="selectRow($index)">
 
                         <div class="wrapper-inner-content"
+                             ng-class="rowSlicesCompletedBlocks[mainIndex2][$index]? 'completed':'' "
                              ng-repeat="slice in gameSettings.rowSlices[$index] track by $index">
                             {{slice}}
                         </div>

@@ -64,6 +64,10 @@ $wrapper-inner-size : 20px;
     height: $wrapper-inner-size;
     text-align: center;
     margin: auto;
+    &.completed {
+      color:black;
+      background: white;
+    }
   }
 
   &.left-wrapper {
