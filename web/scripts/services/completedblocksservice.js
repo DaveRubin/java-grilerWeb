@@ -48,6 +48,7 @@ angular.module('gridlerWebClientApp')
                     found = false;
                 }
             }
+            
             //if valid black in the end
             if (found) {
                 possibleBlocks.push({length:colorsArray.length - startIndex,startIndex:startIndex});

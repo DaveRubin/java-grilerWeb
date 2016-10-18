@@ -15,7 +15,7 @@ angular.module('gridlerWebClientApp')
             restrict: 'E',
             link: function postLink(scope, element, attrs) {
 
-                var debug = true;
+                var debug = GamePrefs.DEBUG;
 
                 var updateInterval;
                 var INTERVAL_DURATION = 500;
@@ -111,7 +111,7 @@ angular.module('gridlerWebClientApp')
                                 }
                             }
                         }
-                        
+
                         calculateCompleteBlocks();
                     }
                     else {
