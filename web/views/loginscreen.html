@@ -1,18 +1,39 @@
-<h2>Login</h2>
 <div class="screen login-screen">
     <div class="jumbotron">
         <div class="inner-panel" ng-if="!lobbyService.loading">
             <h3>Login</h3>
-            <input placeholder="Enter your name" ng-model="login.name">
-            <div>
-                <label>
-                    <input type="radio" ng-model="login.type" value="AI">
-                    AI
-                </label>
-                <label>
-                    <input type="radio" ng-model="login.type" value="Human">
-                    Human
-                </label>
+            <div class="row">
+                <input placeholder="Enter your name" ng-model="login.name">
+            </div>
+
+            <hr>
+            <div class="divider">
+
+            <div class="row">
+                <!--Human-->
+                <div class="col-xs-2 col-xs-offset-4">
+                    <label>
+                        <input type="radio" ng-model="login.type" value="AI">
+                        AI
+                    </label>
+
+                    <div class="row" ng-class="login.type != 'AI'? 'text-muted': ''">
+                        <h1><i class="fa fa-tv"></i></h1>
+                    </div>
+                </div>
+                <!--AI-->
+                <div class="col-xs-2">
+                    <div class="row">
+                        <label>
+                            <input type="radio" ng-model="login.type" value="Human">
+                            Human
+                        </label>
+                    </div>
+                    <div class="row" ng-class="login.type != 'Human'? 'text-muted': ''">
+                        <h1><i class="fa fa-user"></i></h1>
+                    </div>
+
+                </div>
             </div>
             <button class="btn btn-info"
                     ng-disabled="!login.name || !login.type" ng-click="logIn()">login

@@ -2,7 +2,7 @@
  * Created by david on 23/09/2016.
  */
 var GamePrefs = {
-    DEBUG: false,
+    DEBUG: true,
     DUMMY_LOBBY_DATA: {
         "users": [{"name": "koko", "type": "Human", "$$hashKey": "object:379"}],
         "games": [{

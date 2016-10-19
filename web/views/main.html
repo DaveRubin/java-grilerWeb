@@ -1,4 +1,19 @@
-<login-screen ng-if="currentPhase() == 'loginScreen'"></login-screen>
-<main-lobby ng-if="currentPhase() == 'mainLobby'"></main-lobby>
-<game-room ng-if="currentPhase() == 'gameRoom'"></game-room>
+<div class="header">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">Gridler exercise #3</a>
+            </div>
+            <div class="navbar-header pull-right">
+                <a class="navbar-brand" href="#/">Not logged in</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <login-screen ng-if="currentPhase() == 'loginScreen'"></login-screen>
+    <main-lobby ng-if="currentPhase() == 'mainLobby'"></main-lobby>
+    <game-room ng-if="currentPhase() == 'gameRoom'"></game-room>
+</div>
 
