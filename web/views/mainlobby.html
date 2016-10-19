@@ -1,4 +1,4 @@
-<h4>Main Lobby</h4>
+<h2>Main Lobby</h2>
 <div class="container">
 
     <!--Upload file section-->
@@ -49,12 +49,12 @@
     <!--Selected room info-->
     <div class="row" ng-if="selectedRoom != null">
         <div class="col-xs-12 selected-room">
-            <h1 class="text-center text-danger">Room info</h1>
+            <h3 class="text-center text-danger">Room info</h3>
             <div class="row">
 
-                <h3 class="text-center">{{selectedRoom.settings.gametitle}}
-                    <span class="small">(created by :{{selectedRoom.createdBy}})</span>
-                </h3>
+                <h4 class="text-center">{{selectedRoom.settings.gametitle}}
+                    <span class="small">({{selectedRoom.settings.maxGameMoves}} moves, Created by :{{selectedRoom.createdBy}})</span>
+                </h4>
                 <div class="col-xs-6">
                     <h4>Active players:</h4>
 

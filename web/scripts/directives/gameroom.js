@@ -368,7 +368,6 @@ angular.module('gridlerWebClientApp')
                  * Check if only one player is left and other players are inactive
                  */
                 function checkIfEverybodyLeftTheGame() {
-                    console.log(scope.state.gamePlayers);
                     if (scope.state.gamePlayers.length > 1 ) {
                         var activePlayers = 0;
                         var lastActivePlayer = null;

@@ -60,6 +60,7 @@ public class GameManager {
             item.boardSize = settings.dimensions;
             item.createdBy = game.createdBy;
             item.players = players;
+            item.settings = game.getSettings();
 
             gameLobbyItems.add(item);
 

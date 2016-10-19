@@ -1,5 +1,7 @@
 package gridlerServer.models;
 
+import core.model.GameSettings;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -13,4 +15,5 @@ public class GameLobbyItem {
     public String createdBy;
     public Point boardSize;
     public int id;
+    public GameSettings settings;
 }
