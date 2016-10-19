@@ -4,7 +4,19 @@
 var GamePrefs = {
     DEBUG: true,
     DUMMY_LOBBY_DATA: {
-        "users": [{"name": "koko", "type": "Human", "$$hashKey": "object:379"}],
+        "users": [
+            {
+                "name": "koko",
+                "type": "Human"
+            },
+            {
+                "name": "yoko",
+                "type": "Ai",
+            },
+            {
+                "name": "shoko",
+                "type": "Human",
+            }],
         "games": [{
             "name": "Game for one",
             "size": 1,

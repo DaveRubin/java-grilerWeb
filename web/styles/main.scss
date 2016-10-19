@@ -17,6 +17,12 @@ $wrapper-inner-size : 20px;
 $preview-wrapper-inner-size : 10px;
 $preview-cell-size :10px;
 
+.header {
+  .loggedIn{
+    padding-top:7px;
+  }
+}
+
 .no-animate {
   -webkit-transition: none !important;
   transition: none !important;

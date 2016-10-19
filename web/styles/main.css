@@ -5851,6 +5851,9 @@ button.close {
     color: lightgray; }
   100% {
     color: grey; } }
+.header .loggedIn {
+  padding-top: 7px; }
+
 .no-animate {
   -webkit-transition: none !important;
   transition: none !important; }
