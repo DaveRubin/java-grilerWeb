@@ -1,4 +1,3 @@
-<h2>Game</h2>
 <div ng-class="gameResult.gameEnded ? 'show': ''" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -25,22 +24,53 @@
     loading settings
 </div>
 <div ng-if="gameSettings != null">
-
     <div class="row room details">
-        <div class="col-xs-12 text-center">
-            <p>room name : {{gameSettings.gametitle}}</p>
-            <p>{{state.gamePlayers.length}}/{{gameSettings.totalPlayers}}</p>
-            <p>Current turn : {{state.currentPlayer}}</p>
-
-            <!--personal game params-->
-            <p>Moves: {{state.currentMove}}/{{state.maxMoves }}</p>
+        <div class="col-xs-12 ">
+            <button class="btn btn-danger pull-right" ng-click="leaveRoom()">leave</button>
         </div>
     </div>
+    <h2>{{gameSettings.gametitle}}</h2>
 
     <div class="row main">
 
         <!--Players panel-->
         <div class="col-xs-4 players">
+            <div class="info">
+                <!--personal game params-->
+                <p>Moves: {{state.currentMove}}/{{state.maxMoves }}</p>
+                <p>Score: {{getSelf().score}}/100</p>
+
+                <div class="actions">
+                    <div>
+                        <button ng-disabled="!isSomethingSelected()"
+                                class="btn btn-default btn-black" ng-disabled="state.currentMove > state.maxMoves "
+                                ng-click="ColorSelection('black')">Black
+                        </button>
+                        <button ng-disabled="!isSomethingSelected()"
+                                class="btn btn-default btn-white" ng-disabled="state.currentMove > state.maxMoves "
+                                ng-click="ColorSelection('white')">White
+                        </button>
+                        <button ng-disabled="!isSomethingSelected()"
+                                class="btn btn-default btn-none" ng-disabled="state.currentMove > state.maxMoves "
+                                ng-click="ColorSelection('')">None
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-default" ng-disabled="!undoAvailable"
+                                ng-click="Undo()"><i class="fa fa-undo"></i> Undo
+                        </button>
+                        <button class="btn btn-default" ng-disabled="!redoAvailable"
+                                ng-click="Redo()">Redo <i class="fa fa-undo fa-flip-horizontal"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button ng-disabled="!isMyTurn()" class="btn btn-primary"
+                                ng-click="EndTurn()">EndTurn</button>
+                    </div>
+
+                </div>
+
+            </div>
             <h3>Players:</h3>
             <div ng-repeat="i in getTimes(gameSettings.totalPlayers) track by $index">
 
@@ -89,6 +119,7 @@
         <!-- Grid panel -->
         <div class="col-xs-8 grid">
 
+            <p>Currently playing : {{state.currentPlayer}}</p>
             <div class="blocker" ng-if="!isGameFull() || isGameFull() &&!isMyTurn()">
                 <div class="inner-content">
                     <span ng-if="isGameFull()">Wait for your turn</span>
@@ -98,29 +129,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="actions">
-                <button class="btn btn-default" ng-click="leaveRoom()">leave</button>
-                <button class="btn btn-default" ng-click="EndTurn()">EndTurn</button>
-
-                <button class="btn btn-default" ng-disabled="!undoAvailable"
-                        ng-click="Undo()">Undo
-                </button>
-                <button class="btn btn-default" ng-disabled="!redoAvailable"
-                        ng-click="Redo()">Redo
-                </button>
-
-                <button class="btn btn-default" ng-disabled="state.currentMove > state.maxMoves "
-                        ng-click="ColorSelection('black')">Black
-                </button>
-                <button class="btn btn-default" ng-disabled="state.currentMove > state.maxMoves "
-                        ng-click="ColorSelection('white')">White
-                </button>
-                <button class="btn btn-default" ng-disabled="state.currentMove > state.maxMoves "
-                        ng-click="ColorSelection('')">None
-                </button>
-            </div>
-
             <table class="gridTable">
 
                 <tr>

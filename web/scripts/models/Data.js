@@ -2,7 +2,7 @@
  * Created by david on 23/09/2016.
  */
 var GamePrefs = {
-    DEBUG: true,
+    DEBUG: false,
     DUMMY_LOBBY_DATA: {
         "users": [
             {

@@ -5854,6 +5854,14 @@ button.close {
 .header .loggedIn {
   padding-top: 7px; }
 
+.btn-none {
+  background-color: grey;
+  color: black; }
+
+.btn-black {
+  background-color: black;
+  color: white; }
+
 .no-animate {
   -webkit-transition: none !important;
   transition: none !important; }

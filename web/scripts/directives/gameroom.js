@@ -53,11 +53,23 @@ angular.module('gridlerWebClientApp')
                     console.log("row selected", rowIndex);
                 };
 
+                scope.isSomethingSelected = function () {
+                    for (var i = 0; i < this.grid.length; i++) {
+                        var row = this.grid[i];
+                        for (var j = 0; j < row.length; j++) {
+                            var cell = row[j];
+                            if (cell.selected) return true;
+                        }
+                    }
+                    return false;
+                };
+
                 /**
                  * Toggle selection of all the selected column according to its first itme
                  * @param columnIndex
                  */
                 scope.selectColumn = function (columnIndex) {
+
                     var targetToToggleFrom = this.grid[0][columnIndex].selected;
                     for (var i = 0; i < scope.gameSettings.dimensions.y; i++) {
                         this.grid[i][columnIndex].selected = !targetToToggleFrom;
@@ -164,6 +176,18 @@ angular.module('gridlerWebClientApp')
                  */
                 scope.currentPlayerIsMe = function (i) {
                     return scope.state.gamePlayers[i].name == scope.loggedInUser.name
+                };
+
+                scope.getSelf = function() {
+
+                    for (var i = 0; i < scope.state.gamePlayers.length; i++) {
+                        var player = scope.state.gamePlayers[i];
+                        if (player.name == scope.loggedInUser.name) {
+                            return player;
+                        }
+                    }
+
+                    return null;
                 };
 
                 /**

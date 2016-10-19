@@ -22,6 +22,17 @@ $preview-cell-size :10px;
     padding-top:7px;
   }
 }
+.btn-none{
+  background-color: grey;
+  color: black;
+}
+.btn-white{
+
+}
+.btn-black{
+  background-color: black;
+  color: white;
+}
 
 .no-animate {
   -webkit-transition: none !important;
