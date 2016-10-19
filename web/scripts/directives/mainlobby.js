@@ -73,6 +73,21 @@ angular.module('gridlerWebClientApp')
                     scope.lobbyService.joinRoom(room).then(onRoomJoinSuccessfull, onRoomJoinFail);
                 };
 
+                /**
+                 * prevent a player from joining twice to a game
+                 * @returns {boolean}
+                 */
+                scope.playerInSelectedRoom = function() {
+                    for (var i = 0; i < scope.selectedRoom.players.length; i++) {
+                        var player = scope.selectedRoom.players[i];
+                        if (player.name == scope.loggedInUser.name) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                };
+
                 scope.isSelected = function (index) {
                     return index == scope.selectedIndex;
                 };

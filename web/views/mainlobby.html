@@ -108,7 +108,9 @@
                 <hr>
             </div>
             <div class="row text-center">
-                <button ng-disabled="selectedRoom.players.length >= selectedRoom.size"
+                <button ng-disabled="
+                playerInSelectedRoom() ||
+                selectedRoom.players.length >= selectedRoom.size"
                         ng-click="joinRoom(selectedRoom)"
                         class="btn btn-primary">Join room
                 </button>

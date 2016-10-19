@@ -37,7 +37,15 @@
         <div class="col-xs-4 players">
             <div class="info">
                 <!--personal game params-->
-                <p>Moves: {{state.currentMove}}/{{state.maxMoves }}</p>
+                <p>Round: {{state.currentRound}}/{{gameSettings.totalmoves}}</p>
+                <p>Move:
+                    <span ng-if="state.currentMove <= state.maxMoves">
+                    {{state.currentMove}}/{{state.maxMoves }}
+                    </span>
+                    <span ng-if="state.currentMove > state.maxMoves">
+                    No more moves
+                    </span>
+                </p>
                 <p>Score: {{getSelf().score}}/100</p>
 
                 <div class="actions">
@@ -64,7 +72,7 @@
                         </button>
                     </div>
                     <div>
-                        <button ng-disabled="!isMyTurn()" class="btn btn-primary"
+                        <button ng-disabled="!isMyTurn() || !isGameFull()" class="btn btn-primary"
                                 ng-click="EndTurn()">EndTurn</button>
                     </div>
 

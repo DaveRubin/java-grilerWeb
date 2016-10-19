@@ -1,52 +1,70 @@
 <div class="screen login-screen">
     <div class="jumbotron">
         <div class="inner-panel" ng-if="!lobbyService.loading">
-            <h3>Login</h3>
-            <div class="row">
-                <input placeholder="Enter your name" ng-model="login.name">
+            <div ng-if="loggedInUser">
+                <h3>Welcome back</h3>
+                <p>You are already logged in as {{loggedInUser.name}} <span
+                        class="small text-muted">{{loggedInUser.type}}</span></p>
+                <hr>
+                <button class="btn btn-info"
+                        ng-click="continue()">Continue
+                </button>
+
+                <button class="btn btn-danger"
+                        ng-click="logOutCurrentUser()">Log out
+                </button>
             </div>
 
-            <hr>
-            <div class="divider">
+            <div ng-if="!loggedInUser">
 
-            <div class="row">
-                <!--Human-->
-                <div class="col-xs-2 col-xs-offset-4">
-                    <label>
-                        <input type="radio" ng-model="login.type" value="AI">
-                        AI
-                    </label>
-
-                    <div class="row" ng-class="login.type != 'AI'? 'text-muted': ''">
-                        <h1><i class="fa fa-tv"></i></h1>
-                    </div>
+                <h3>Login</h3>
+                <div class="row">
+                    <input placeholder="Enter your name" ng-model="login.name">
                 </div>
-                <!--AI-->
-                <div class="col-xs-2">
+
+                <hr>
+                <div class="divider">
+
                     <div class="row">
-                        <label>
-                            <input type="radio" ng-model="login.type" value="Human">
-                            Human
-                        </label>
-                    </div>
-                    <div class="row" ng-class="login.type != 'Human'? 'text-muted': ''">
-                        <h1><i class="fa fa-user"></i></h1>
-                    </div>
+                        <!--Human-->
+                        <div class="col-xs-2 col-xs-offset-4">
+                            <label>
+                                <input type="radio" ng-model="login.type" value="AI">
+                                AI
+                            </label>
 
+                            <div class="row" ng-class="login.type != 'AI'? 'text-muted': ''">
+                                <h1><i class="fa fa-tv"></i></h1>
+                            </div>
+                        </div>
+                        <!--AI-->
+                        <div class="col-xs-2">
+                            <div class="row">
+                                <label>
+                                    <input type="radio" ng-model="login.type" value="Human">
+                                    Human
+                                </label>
+                            </div>
+                            <div class="row" ng-class="login.type != 'Human'? 'text-muted': ''">
+                                <h1><i class="fa fa-user"></i></h1>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-info"
+                        ng-disabled="!login.name || !login.type" ng-click="logIn()">login
+                </button>
+                <p ng-if="login.fail" class="text-danger">{{login.failMessage}}</p>
+            </div>
+
+            <div class="loading-panel" ng-if="lobbyService.loading">
+                Logging in...
+                <div>
+                    <i class="fa fa-spinner fa-spin"></i>
                 </div>
             </div>
-            <button class="btn btn-info"
-                    ng-disabled="!login.name || !login.type" ng-click="logIn()">login
-            </button>
-            <p ng-if="login.fail" class="text-danger">{{login.failMessage}}</p>
-        </div>
 
-        <div class="loading-panel" ng-if="lobbyService.loading">
-            Logging in...
-            <div>
-                <i class="fa fa-spinner fa-spin"></i>
-            </div>
         </div>
-
     </div>
-</div>

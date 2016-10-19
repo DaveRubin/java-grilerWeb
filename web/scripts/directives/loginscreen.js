@@ -16,6 +16,11 @@ angular.module('gridlerWebClientApp')
             link: function postLink(scope, element, attrs) {
                 scope.loggedInUser = null;
 
+                scope.lobbyService.login().then(function (response) {
+                    console.log(response);
+                    scope.loggedInUser = response.user;
+                });
+
                 scope.login = {
                     name: "",
                     fail: false,
@@ -32,9 +37,23 @@ angular.module('gridlerWebClientApp')
                     scope.login.failMessage = response.text;
                 }
 
+                scope.continue = function() {
+                    $rootScope.loginAs(scope.loggedInUser);
+                };
+
                 scope.logIn = function () {
                     scope.lobbyService.login(scope.login).then(onSuccess, onFail);
                 };
+                
+                scope.logOutCurrentUser = function () {
+                    scope.lobbyService.logOut().then(function () {
+                            scope.loggedInUser = null;
+                            $rootScope.logOut();
+                        },
+                        function (error) {
+                            console.log(error);
+                        })
+                }
             }
         };
     }]);

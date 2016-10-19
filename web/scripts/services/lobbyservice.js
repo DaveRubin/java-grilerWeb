@@ -27,16 +27,18 @@ angular.module('gridlerWebClientApp')
              * @returns {Function}
              */
             this.login = function (login) {
+
+                var postObject = login == null ? {} : {
+                    userName: login.name,
+                    userType: login.type
+                };
                 var deferred = $q.defer();
                 that.loading = true;
                 $http({
                     url: "/login",
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
-                    params: {
-                        userName: login.name,
-                        userType: login.type
-                    }
+                    params: postObject
                 }).then(function (response) {
                     console.log(response);
                     that.loading = false;
@@ -52,10 +54,11 @@ angular.module('gridlerWebClientApp')
                 return deferred.promise;
             };
 
+
             /**
              * log out as current user
              */
-            this.logOut = function() {
+            this.logOut = function () {
                 var deferred = $q.defer();
                 that.loading = true;
                 $http.get("/logOut").then(function (response) {
@@ -113,10 +116,10 @@ angular.module('gridlerWebClientApp')
                         deferred.resolve(response.message);
                     }
                 })
-                .error(function (response) {
-                    console.log(response);
-                    deferred.reject(response);
-                });
+                    .error(function (response) {
+                        console.log(response);
+                        deferred.reject(response);
+                    });
 
                 return deferred.promise;
             };
