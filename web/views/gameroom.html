@@ -85,17 +85,19 @@
                 <!-- For logged in players -->
                 <div ng-class="state.gamePlayers[$index].name == state.currentPlayer ? 'currently-playing':'waiting'"
                      ng-if="$index < state.gamePlayers.length">
-
+                    <!--icon-->
+                    <i ng-class="state.gamePlayers[$index].type == 'Human'? 'fa-user':'fa-tv'" class="fa "></i>
+                    <!--name-->
                     {{state.gamePlayers[$index].name}}
-
+                    <!--score-->
                     <span>
                     {{state.gamePlayers[$index].score}}/100
                     </span>
-
+                    <!--self identifier-->
                     <span ng-if="currentPlayerIsMe($index)">
                     (ME!!!)
                     </span>
-
+                    <!--if player is no longer present-->
                     <span ng-if="!state.gamePlayers[$index].isActive" class="text-muted">
                     (left)
                     </span>
