@@ -20,7 +20,14 @@ var GamePrefs = {
         "games": [{
             "name": "Game for one",
             "size": 1,
-            "players": [],
+            "players": [{
+                "name": "koko",
+                "type": "Human"
+            },
+                {
+                    "name": "yoko",
+                    "type": "Ai",
+                }],
             "createdBy": "koko",
             "boardSize": {"x": 10, "y": 10},
             "settings": {

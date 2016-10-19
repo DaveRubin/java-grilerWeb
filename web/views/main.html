@@ -1,21 +1,23 @@
 <div class="header">
     <div class="navbar navbar-default" role="navigation">
         <div class="container">
-            <div class="navbar-header">
+            <div class="navbar-header" style="width: 100%;">
                 <a class="navbar-brand" href="#/">Gridler exercise #3</a>
-            </div>
-            <div class="navbar-header pull-right">
-                <a ng-if="!loggedInUser"
-                        class="navbar-brand" href="#/">Not logged in</a>
-                <a ng-if="loggedInUser"
-                        class="navbar-brand loggedIn" href="#/">{{loggedInUser.name}}
+
+                <div class="pull-right">
+                    <a ng-if="!loggedInUser"
+                       class="navbar-brand" href="#/">Not logged in</a>
+                    <a ng-if="loggedInUser"
+                       class="navbar-brand loggedIn" href="#/">
+                        {{loggedInUser.name}}
                     <span class="fa-stack">
                       <i class="fa fa-circle fa-stack-2x"></i>
                       <i ng-class="loggedInUser.type=='Human'? 'fa-user':'fa-tv'"
-                              class="fa fa-inverse fa-stack-1x"></i>
+                         class="fa fa-inverse fa-stack-1x"></i>
                     </span>
 
-                </a>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
