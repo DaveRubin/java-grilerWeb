@@ -53,9 +53,14 @@
                     <span>
                     {{state.gamePlayers[$index].score}}/100
                     </span>
-                <span ng-if="state.currentPlayerIsMe($index)">
-                (ME!!!)
-                </span>
+
+                    <span ng-if="currentPlayerIsMe($index)">
+                    (ME!!!)
+                    </span>
+
+                    <span ng-if="!state.gamePlayers[$index].isActive" class="text-muted">
+                    (left)
+                    </span>
 
                 </div>
 
@@ -99,9 +104,11 @@
                 <button class="btn btn-default" ng-click="EndTurn()">EndTurn</button>
 
                 <button class="btn btn-default" ng-disabled="!undoAvailable"
-                        ng-click="Undo()">Undo</button>
+                        ng-click="Undo()">Undo
+                </button>
                 <button class="btn btn-default" ng-disabled="!redoAvailable"
-                        ng-click="Redo()">Redo</button>
+                        ng-click="Redo()">Redo
+                </button>
 
                 <button class="btn btn-default" ng-disabled="state.currentMove > state.maxMoves "
                         ng-click="ColorSelection('black')">Black

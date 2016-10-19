@@ -6,4 +6,5 @@ var Player = function (name, type,score) {
   this.name = name;
   this.type = type == null ? "human" : type; //black\white
   this.score = score;
+  this.isActive = false;
 };

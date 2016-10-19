@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 
+/**
+ * We need to first check if game has started,
+ * if so, then kill player and not unregister him
+ */
 @WebServlet(name = "LeaveGameServlet", urlPatterns = {"/leaveGame"})
 public class LeaveGameServlet extends HttpServlet {
 
@@ -56,14 +60,23 @@ public class LeaveGameServlet extends HttpServlet {
                     message = "You must be logged in in order to join a room";
                 }
                 else {
-                    boolean success = game.unregisterPlayer(createAPlayerForUser(userFromSession));
-                    if (success) {
-                        message = "User " + userFromSession.name + " has entered the game " + roomID +" successfully";
+                    boolean success;
+                    Player player = createAPlayerForUser(userFromSession);
+
+                    if (game.currentRound >= 0) {
+                        success = game.killPlayer(player);
+                        message = "User " + userFromSession.name + " stopped playing in " + roomID;
                     }
                     else {
+                        success= game.unregisterPlayer(player);
+                        message = "User " + userFromSession.name + " has left the game " + roomID +" successfully";
+                    }
+
+                    if (!success) {
                         isError = true;
                         message = "User " + userFromSession.name + " wan't found in game " + roomID;
                     }
+
                 }
             }
         }

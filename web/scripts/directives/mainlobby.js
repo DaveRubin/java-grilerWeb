@@ -24,7 +24,6 @@ angular.module('gridlerWebClientApp')
                 var serviceInterval;
 
                 function onDataFetched(data) {
-                    console.log(data);
                     scope.rooms = data.games;
                     scope.users = data.users;
 

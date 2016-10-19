@@ -71,7 +71,7 @@ angular.module('gridlerWebClientApp')
                 };
 
                 scope.leaveRoom = function () {
-                    console.log("leacein");
+                    console.log("leaving");
                     GameService.leaveGame().then(function (response) {
                         stopPollingAndGoBackToGameLobby();
                         console.log("room left...");
@@ -162,7 +162,7 @@ angular.module('gridlerWebClientApp')
                  * @param i
                  * @returns {boolean}
                  */
-                scope.state.currentPlayerIsMe = function (i) {
+                scope.currentPlayerIsMe = function (i) {
                     return scope.state.gamePlayers[i].name == scope.loggedInUser.name
                 };
 
@@ -364,12 +364,41 @@ angular.module('gridlerWebClientApp')
                     return false
                 }
 
+                /**
+                 * Check if only one player is left and other players are inactive
+                 */
+                function checkIfEverybodyLeftTheGame() {
+                    console.log(scope.state.gamePlayers);
+                    if (scope.state.gamePlayers.length > 1 ) {
+                        var activePlayers = 0;
+                        var lastActivePlayer = null;
+
+                        for (var i = 0; i < scope.state.gamePlayers.length; i++) {
+                            var player = scope.state.gamePlayers[i];
+                            if (player.isActive == true) {
+                                activePlayers++;
+                                lastActivePlayer = player;
+                            }
+                        }
+
+                        if (activePlayers == 1) {
+                            scope.gameResult.gameEnded = true;
+                            scope.gameResult.winnerName = lastActivePlayer.name;
+                            return true;
+                        }
+                    }
+                    return false
+                }
+
                 function onGeneralGameStateFetched(generalGameState) {
                     scope.gameStateLoaded = true;
                     scope.state = generalGameState;
                     checkIfAnyoneReached100();
                     if (!scope.gameResult.gameEnded) {
                         checkForTurnsEnd();
+                    }
+                    if (!scope.gameResult.gameEnded) {
+                        checkIfEverybodyLeftTheGame();
                     }
 
                     if (scope.gameResult.gameEnded) {

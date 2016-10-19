@@ -35,10 +35,12 @@ public class GeneralGameState {
         public String name;
         public String type;
         public int score;
+        private boolean isActive;
 
         public static BasicPlayerInfo fromPlayer(Player player) {
             BasicPlayerInfo info = new BasicPlayerInfo();
             info.name = player.name;
+            info.isActive = player.isActive();
             info.type = player instanceof ComputerPlayer ? Constants.AI_TYPE : Constants.HUMAN_TYPE;
             info.score = player.getStatistics().score;
             return info;
