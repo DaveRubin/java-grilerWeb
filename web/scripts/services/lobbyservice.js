@@ -11,6 +11,8 @@ angular.module('gridlerWebClientApp')
     .service('LobbyService', function ($rootScope, $http, $q) {
 
         var timoutDuration = 200;
+        var path = window.location.pathname;
+        console.log("get path - "  + path);
 
         var serviceObject = function () {
 
@@ -35,7 +37,7 @@ angular.module('gridlerWebClientApp')
                 var deferred = $q.defer();
                 that.loading = true;
                 $http({
-                    url: "/login",
+                    url: path + "login",
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: postObject
@@ -61,7 +63,7 @@ angular.module('gridlerWebClientApp')
             this.logOut = function () {
                 var deferred = $q.defer();
                 that.loading = true;
-                $http.get("/logOut").then(function (response) {
+                $http.get(path + "logOut").then(function (response) {
 
                     that.loading = false;
                     var data = response.data;
@@ -83,7 +85,7 @@ angular.module('gridlerWebClientApp')
             this.getData = function () {
                 var deferred = $q.defer();
                 that.loading = true;
-                $http.get("/getLobbyData").then(function (response) {
+                $http.get(path + "getLobbyData").then(function (response) {
 
                     that.loading = false;
                     var data = response.data;
@@ -104,7 +106,7 @@ angular.module('gridlerWebClientApp')
                 var fd = new FormData();
                 fd.append('file', file);
 
-                $http.post("/uploadGameFile", fd, {
+                $http.post(path + "uploadGameFile", fd, {
                     transformRequest: angular.identity,
                     headers: {'Content-Type': undefined}
                 }).success(function (response) {
@@ -133,7 +135,7 @@ angular.module('gridlerWebClientApp')
                 var deferred = $q.defer();
                 that.loading = true;
                 $http({
-                    url: "/joinRoom",
+                    url: path + "joinRoom",
                     header: "Access-Control-Allow-Origin",
                     method: "GET",
                     params: {

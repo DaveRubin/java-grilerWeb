@@ -12,6 +12,7 @@ angular.module('gridlerWebClientApp')
         // AngularJS will instantiate a singleton by calling "new" on this function
         var currentGame = null;
         var EVENT_ON_LOGIN = "on-login";
+        var path = window.location.pathname;
 
         this.setCurrentGame = function (game) {
             console.log("setting current game to " + game);
@@ -19,11 +20,11 @@ angular.module('gridlerWebClientApp')
         };
 
         this.leaveGame = function () {
-            return simplePost("/leaveGame");
+            return simplePost(path + "leaveGame");
             /*
              var deferred = $q.defer();
             $http({
-                url: "/leaveGame",
+                url: path + "leaveGame",
                 header: "Access-Control-Allow-Origin",
                 method: "GET",
                 params: {
@@ -45,12 +46,12 @@ angular.module('gridlerWebClientApp')
         };
 
         this.getGameSettings = function () {
-            return simplePost("/getGameSettings")
+            return simplePost(path + "getGameSettings")
             /*
             var deferred = $q.defer();
 
             $http({
-                url: "/getGameSettings",
+                url: path + "getGameSettings",
                 header: "Access-Control-Allow-Origin",
                 method: "GET",
                 params: {
@@ -80,7 +81,7 @@ angular.module('gridlerWebClientApp')
         this.sendMove = function (playerMove) {
             var deferred = $q.defer();
             $http({
-                url: "/submitMove",
+                url: path + "submitMove",
                 header: {'Content-Type': 'application/json'},
                 method: "POST",
                 params: {
@@ -102,19 +103,19 @@ angular.module('gridlerWebClientApp')
         };
 
         this.undo = function() {
-            return simplePost("/undo");
+            return simplePost(path + "undo");
         };
 
         this.redo = function() {
-            return simplePost("/redo");
+            return simplePost(path + "redo");
         };
 
         this.endTurn = function () {
-            return simplePost("/endMove");
+            return simplePost(path + "endMove");
             /*
             var deferred = $q.defer();
             $http({
-                url: "/endMove",
+                url: path + "endMove",
                 header: {'Content-Type': 'application/json'},
                 method: "POST",
                 params: {
@@ -140,12 +141,12 @@ angular.module('gridlerWebClientApp')
          * @returns {GeneralGameState}
          */
         this.getGeneralGameState = function () {
-            return simplePost("/getGeneralGameState");
+            return simplePost(path + "getGeneralGameState");
             /*
             var deferred = $q.defer();
 
             $http({
-                url: "/getGeneralGameState",
+                url: path + "getGeneralGameState",
                 header: "Access-Control-Allow-Origin",
                 method: "GET",
                 params: {
